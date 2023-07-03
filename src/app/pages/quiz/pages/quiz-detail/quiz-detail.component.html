@@ -1,0 +1,20 @@
+<ng-container *ngIf="(quiz$ | async) as quiz">
+  {{quiz.title}}
+
+  <nz-steps [nzCurrent]="currentStep" (nzIndexChange)="onIndexChange($event)">
+    <nz-step *ngFor="let question of quiz.questions" nzTitle="{{question.title}}"
+      nzDescription="This is a description."></nz-step>
+  </nz-steps>
+
+  <div class="steps-action">
+    <button nz-button nzType="default" (click)="pre()" *ngIf="currentStep > 0">
+      <span>Previous</span>
+    </button>
+    <button nz-button nzType="default" (click)="next()" *ngIf="currentStep < quiz.questions.length - 1">
+      <span>Next</span>
+    </button>
+    <button nz-button nzType="primary" (click)="done()" *ngIf="currentStep === (quiz.questions.length - 1)">
+      <span>Done</span>
+    </button>
+  </div>
+</ng-container>

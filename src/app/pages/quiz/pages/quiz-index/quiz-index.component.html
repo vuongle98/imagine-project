@@ -1,0 +1,20 @@
+<div>
+  Chọn Quiz
+</div>
+
+<div>
+  <div nz-row [nzGutter]="8">
+    <div *ngFor="let item of quiz$ | async" nz-col [nzSpan]="8">
+      <nz-card nzHoverable [nzCover]="coverTemplate" [nzActions]="[goDetail]">
+        <nz-card-meta nzTitle="{{item.title}}" nzDescription="{{item.description | slice:0:20}}"></nz-card-meta>
+      </nz-card>
+      <ng-template #goDetail>
+        <a nz-icon nzType="play-circle" routerLink="{{item.id}}" nzTheme="outline"></a>
+      </ng-template>
+    </div>
+
+  </div>
+</div>
+<ng-template #coverTemplate>
+  <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />
+</ng-template>
