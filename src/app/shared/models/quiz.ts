@@ -19,6 +19,8 @@ export type Question = {
   difficultlyLevel: number;
   createdBy: User;
   createdAt: Date;
+  checkValue: string;
+  type: string;
 };
 
 export type Answer = {
@@ -31,3 +33,8 @@ export enum QuestionType {
   MULTIPLE,
   TEXT_BOX,
 }
+
+export type CheckAnswer = {
+  questionId: string;
+  answerIds: string[];
+};

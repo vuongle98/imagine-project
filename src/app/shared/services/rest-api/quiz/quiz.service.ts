@@ -3,7 +3,7 @@ import { AbstractService } from '../abstract-service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Quiz } from 'src/app/shared/models/quiz';
+import { CheckAnswer, Quiz } from 'src/app/shared/models/quiz';
 import { Pageable } from 'src/app/shared/models/utils';
 
 @Injectable({
@@ -27,6 +27,13 @@ export class QuizService extends AbstractService {
   }
 
   getQuiz(id: string): Observable<Quiz> {
-    return this.get<Quiz>(this.apiEndpoint.quizWithId, {pathParams: {id}})
+    return this.get<Quiz>(this.apiEndpoint.quizWithId, { pathParams: { id } });
+  }
+
+  checkAnswer(id: string, userAnswer: CheckAnswer[]) {
+    return this.post(this.apiEndpoint.quizWithId +"/answer", {
+      pathParams: { id },
+      requestBody: { data: userAnswer, type: 'application/json' },
+    });
   }
 }

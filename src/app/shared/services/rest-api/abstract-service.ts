@@ -22,7 +22,6 @@ export interface RequestParamsConfig {
   requestBody?: {
     type: 'application/json' | 'multipart/form-data';
     data?: any;
-    arrData?: any;
   };
   ocrBody?: FormData;
   headers?: {
@@ -78,9 +77,9 @@ export abstract class AbstractService {
     const url = this.buildApiUrl(endpoint, params.pathParams);
 
     const requestBody = this.buildRequestBody(params.requestBody);
-    const qParams = this.buildQueryParam(params.queryParams)
+    const qParams = this.buildQueryParam(params.queryParams);
 
-    let options = { params: qParams, responseType: params.responseType }
+    let options = { params: qParams, responseType: params.responseType };
 
     return this.http.post<T>(url, requestBody, options);
   }
@@ -117,21 +116,21 @@ export abstract class AbstractService {
     if (requestBody.type === 'application/json') {
       const result: { [key: string]: any } = {};
 
-      if (requestBody.arrData) {
-        return requestBody.arrData;
-      }
-
-      for (const property in requestBody.data) {
-        if (requestBody.data.hasOwnProperty(property)) {
-          if (requestBody.data[property] === null) {
-            result[property] = null;
-          } else if (
-            requestBody.data[property] !== null &&
-            requestBody.data[property] !== undefined
-          ) {
-            result[property] = requestBody.data[property];
-          } else {
-            result[property] = '';
+      if (Array.isArray(requestBody.data)) {
+        return requestBody.data;
+      } else {
+        for (const property in requestBody.data) {
+          if (requestBody.data.hasOwnProperty(property)) {
+            if (requestBody.data[property] === null) {
+              result[property] = null;
+            } else if (
+              requestBody.data[property] !== null &&
+              requestBody.data[property] !== undefined
+            ) {
+              result[property] = requestBody.data[property];
+            } else {
+              result[property] = '';
+            }
           }
         }
       }

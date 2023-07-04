@@ -33,7 +33,7 @@ registerLocaleData(en);
     FormsModule,
     IconsProviderModule,
     NzLayoutModule,
-    NzMenuModule
+    NzMenuModule,
   ],
   providers: [
     LoadingService,
