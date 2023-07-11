@@ -2,21 +2,15 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/welcome' },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.ModulesModule),
+  },
   {
     path: 'welcome',
     loadChildren: () =>
       import('./pages/welcome/welcome.module').then((m) => m.WelcomeModule),
-  },
-  {
-    path: 'quiz',
-    loadChildren: () =>
-      import('./pages/quiz/quiz.module').then((m) => m.QuizModule),
-  },
-  {
-    path: 'chat',
-    loadChildren: () =>
-      import('./pages/chat/chat.module').then((m) => m.ChatModule),
   },
 ];
 

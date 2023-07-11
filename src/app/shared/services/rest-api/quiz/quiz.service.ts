@@ -3,7 +3,12 @@ import { AbstractService } from '../abstract-service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { CheckAnswer, Quiz } from 'src/app/shared/models/quiz';
+import {
+  CheckAnswer,
+  CheckAnswerResponse,
+  Quiz,
+  QuizQueryParam,
+} from 'src/app/shared/models/quiz';
 import { Pageable } from 'src/app/shared/models/utils';
 
 @Injectable({
@@ -19,8 +24,10 @@ export class QuizService extends AbstractService {
     super(httpClient);
   }
 
-  findQuizs(): Observable<Quiz[]> {
-    return this.get<Pageable<Quiz[]>>(this.apiEndpoint.quiz, {}).pipe(
+  findQuizs(params: QuizQueryParam): Observable<Quiz[]> {
+    return this.get<Pageable<Quiz[]>>(this.apiEndpoint.quiz, {
+      queryParams: params,
+    }).pipe(
       map((res) => res.content),
       shareReplay()
     );
@@ -30,8 +37,11 @@ export class QuizService extends AbstractService {
     return this.get<Quiz>(this.apiEndpoint.quizWithId, { pathParams: { id } });
   }
 
-  checkAnswer(id: string, userAnswer: CheckAnswer[]) {
-    return this.post(this.apiEndpoint.quizWithId +"/answer", {
+  checkAnswer(
+    id: string,
+    userAnswer: CheckAnswer[]
+  ): Observable<CheckAnswerResponse> {
+    return this.post(this.apiEndpoint.quizWithId + '/answer', {
       pathParams: { id },
       requestBody: { data: userAnswer, type: 'application/json' },
     });

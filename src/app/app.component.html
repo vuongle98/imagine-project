@@ -1,33 +1,12 @@
 <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <h1>LOGO</h1>
-    </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Welcome</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/quiz">Quiz</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/chat">Chat</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nz-sider>
   <nz-layout>
     <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
-        </span>
-
+      <div class="logo" routerLink="/">
       </div>
+      <ul nz-menu nzTheme="dark" nzMode="horizontal">
+        <li nz-menu-item routerLink="/quiz">Quiz</li>
+        <li nz-menu-item routerLink="/chat">Chat</li>
+      </ul>
     </nz-header>
     <nz-content>
       <nz-breadcrumb>
@@ -39,6 +18,6 @@
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-    <nz-footer>Footer info</nz-footer>
+    <!-- <nz-footer>Footer info</nz-footer> -->
   </nz-layout>
 </nz-layout>

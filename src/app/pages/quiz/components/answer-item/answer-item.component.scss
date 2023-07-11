@@ -1,0 +1,33 @@
+.answer-item label {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 20px;
+  font-family: sans-serif, Arial;
+  border: 1px solid var(--second-color);
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.answer-item input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.answer-item input[type="radio"]:checked + label {
+  background-color: var(--second-color);
+}
+
+.answer-item input[type="radio"]:hover + label {
+  cursor: pointer;
+}
+
+.index {
+  margin-right: 10px;
+  border-radius: 50%;
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+}

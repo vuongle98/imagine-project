@@ -1,0 +1,18 @@
+<nz-table nzShowPagination nzShowSizeChanger [nzData]="listQuestion" [nzFrontPagination]="false"
+  [nzLoading]="questionAdminDatasource.loading$ | async" (nzQueryParams)="onQueryParamsChange($event)" [nzTotal]="total"
+  [nzPageSize]="pageSize" [nzPageIndex]="pageIndex">
+  <thead>
+    <tr>
+      <th nzColumnKey="title">Nội dung</th>
+      <th nzColumnKey="type">Loại</th>
+      <th nzColumnKey="category">Nhóm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of listQuestion">
+      <td>{{item.title}}</td>
+      <td>{{item.type}}</td>
+      <td>{{item.category}}</td>
+    </tr>
+  </tbody>
+</nz-table>

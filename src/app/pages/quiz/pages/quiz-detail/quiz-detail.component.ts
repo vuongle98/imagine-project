@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, startWith } from 'rxjs';
+import { Observable, startWith, tap } from 'rxjs';
 import { CheckAnswer, Question, Quiz } from 'src/app/shared/models/quiz';
 import { QuizService } from 'src/app/shared/services/rest-api/quiz/quiz.service';
 import { QuestionItemComponent } from '../../components/question-item/question-item.component';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-quiz-detail',
@@ -23,11 +24,12 @@ export class QuizDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private quizService: QuizService,
-    private modal: NzModalService
+    private nzMessageService: NzMessageService
   ) {}
 
   ngOnInit(): void {
     this.quizId = this.route.snapshot.paramMap.get('id') as string;
+    // this.route.paramMap.pipe(tap((param) => param.get('id')));
 
     this.quiz$ = this.quizService.getQuiz(this.quizId);
   }
@@ -41,8 +43,7 @@ export class QuizDetailComponent implements OnInit {
   }
 
   done(questions: Question[]) {
-    questions.filter((item) => !item.checkValue).length > 0 &&
-      this.showConfirm(questions);
+    this.commit(questions).subscribe();
   }
 
   commit(questions: Question[]): Observable<any> {
@@ -51,14 +52,12 @@ export class QuizDetailComponent implements OnInit {
       return { questionId: question.id, answerIds };
     });
 
-    return this.quizService.checkAnswer(this.quizId, body);
+    return this.quizService.checkAnswer(this.quizId, body).pipe(
+      tap((res) => {
+        this.nzMessageService.info('Số câu đúng: ' + res.correctAnswers + "/" + res.totalAnswers);
+      })
+    );
   }
 
-  showConfirm(questions: Question[]): void {
-    this.confirmModal = this.modal.confirm({
-      nzTitle: 'Xác nhận nộp bài làm',
-      nzContent: 'Bài làm chưa hoàn thành, Xác nhận nộp sẽ không thể làm lại được nữa',
-      nzOnOk: () => this.commit(questions).subscribe(),
-    });
-  }
+  cancel() {}
 }

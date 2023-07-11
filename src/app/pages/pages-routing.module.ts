@@ -4,17 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'quiz',
-    loadChildren: () =>
-      import('./quiz/quiz.module').then(
-        (m) => m.QuizModule
-      ),
+    loadChildren: () => import('./quiz/quiz.module').then((m) => m.QuizModule),
   },
   {
     path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then((m) => m.ChatModule),
+  },
+  {
+    path: 'admin',
     loadChildren: () =>
-      import('./chat/chat.module').then(
-        (m) => m.ChatModule
-      ),
+      import('./admin/admin.module').then((m) => m.AdminModule),
   },
 ];
 

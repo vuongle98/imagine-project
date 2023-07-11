@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CustomHttpParamEncoder } from './custom-http-param-encoder';
+import { Pageable } from '../../models/utils';
 
 export interface QueryParams {
   [key: string]:
@@ -73,7 +74,7 @@ export abstract class AbstractService {
   protected post<T>(
     endpoint: string,
     params: RequestParamsConfig = {}
-  ): Observable<T | ArrayBuffer> {
+  ): Observable<T> {
     const url = this.buildApiUrl(endpoint, params.pathParams);
 
     const requestBody = this.buildRequestBody(params.requestBody);

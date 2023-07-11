@@ -13,6 +13,14 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 
 @NgModule({
@@ -30,7 +38,15 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzDividerModule,
     NzRadioModule,
     NzCheckboxModule,
-    NzModalModule
-  ]
+    NzModalModule,
+    NzPopconfirmModule,
+    NzMessageModule,
+    NzPaginationModule,
+    NzTableModule,
+    NzStatisticModule,
+    NzFormModule,
+    NzInputModule,
+    NzSelectModule
+  ],
 })
-export class NzImportModule { }
+export class NzImportModule {}

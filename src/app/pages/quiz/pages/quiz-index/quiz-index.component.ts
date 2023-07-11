@@ -13,6 +13,7 @@ import { QuizStore } from 'src/app/shared/services/rest-api/quiz/quiz.store';
 export class QuizIndexComponent {
 
   quiz$!: Observable<Quiz[]>;
+  currentPage = 0;
 
   constructor(
     private quizStore: QuizStore,
@@ -27,6 +28,12 @@ export class QuizIndexComponent {
 
   reloadQuizs() {
     this.quiz$ = this.quizStore.filter();
+  }
+
+  loadMore() {
+    console.log("loading");
+    this.currentPage += 1;
+    this.quizStore.findQuizs({page: this.currentPage, size: 10});
   }
 
 }

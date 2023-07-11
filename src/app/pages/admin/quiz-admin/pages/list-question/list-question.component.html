@@ -1,0 +1,36 @@
+<app-admin-search-question></app-admin-search-question>
+<button nz-button (click)="openCreate()">Create</button>
+<app-question-admin-table [questionAdminDatasource]="questionAdminDatasource"></app-question-admin-table>
+
+<nz-modal [(nzVisible)]="isShowCreateModal" nzTitle="Vertically centered modal dialog" nzCentered
+  (nzOnCancel)="closeModal()" (nzOnOk)="handleOkMiddle()">
+  <ng-container *nzModalContent>
+
+    <form nz-form [formGroup]="createQuestionForm">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzFor="type" nzRequired>Question content:</nz-form-label>
+        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input question content!">
+          <nz-input-group> <!-- nzPrefixIcon="question"> -->
+            <input type="text" nz-input formControlName="title" placeholder="Question content" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzFor="type" nzRequired>Question type:</nz-form-label>
+        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select question type">
+          <nz-select id="type" formControlName="type">
+            <nz-option *ngFor="let type of listQuestionType" [nzLabel]="type.name" [nzValue]="type.value"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzFor="category" nzRequired>Question category:</nz-form-label>
+        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select question category">
+          <nz-select id="category" formControlName="category">
+            <nz-option *ngFor="let category of listQuestionCategory" [nzLabel]="category.name" [nzValue]="category.value"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-container>
+</nz-modal>

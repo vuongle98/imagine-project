@@ -1,0 +1,12 @@
+<div class="answer-item">
+  <input type="radio" id="{{answer.id}}" [value]="answer.id" [(ngModel)]="question.checkValue">
+  <label for="{{answer.id}}">
+    <div nz-row nzJustify="center" nzAlign="middle">
+      <span nz-col class="index">{{listAlphabet[index]}}</span>
+      <span nz-col nzSpan="20" class="noselect">
+        {{answer.answer}}
+      </span>
+
+    </div>
+  </label>
+</div>

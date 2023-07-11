@@ -1,14 +1,26 @@
 <ng-container *ngIf="(quiz$ | async) as quiz">
-  <div *ngFor="let question of quiz.questions; index as i" nz-row>
-    <app-question-item *ngIf="displayItemIndex === i" [index]="i+1" nzAlign="middle" nz-col nzSpan="12" nzOffset="6"
-      [question]="question"></app-question-item>
-  </div>
-  <div nz-row nzAlign="middle" nzJustify="center">
-    <div nz-col nzSpan="12" nzOffset="6" nz-space>
-      <button *nzSpaceItem nz-button [disabled]="displayItemIndex == 0" (click)="pre()">Pre</button>
-      <button *nzSpaceItem nz-button [disabled]="displayItemIndex == quiz.questions.length - 1"
-        (click)="next()">Next</button>
-      <button *nzSpaceItem nz-button (click)="done(quiz.questions)">Done</button>
+  <div nz-row nzAlign="middle" [nzGutter]="[16, 16]">
+
+    <div nz-col nzSpan="24">
+      <div *ngFor="let question of quiz.questions; index as i" nz-row nzJustify="center" nzAlign="middle">
+        <app-question-item-custom *ngIf="displayItemIndex === i" [index]="i+1" nz-col nzSpan="12" [nzXs]="{span: 24}"
+          [nzMd]="{span: 12}" [question]="question"></app-question-item-custom>
+      </div>
+    </div>
+
+    <div nz-col nzSpan="24">
+      <div nz-row nzJustify="center">
+        <div nz-space>
+          <button *nzSpaceItem nz-button [disabled]="displayItemIndex == 0" (click)="pre()">Pre</button>
+          <button *nzSpaceItem nz-button [disabled]="displayItemIndex == quiz.questions.length - 1"
+            (click)="next()">Next</button>
+          <button *nzSpaceItem nz-popconfirm nzPopconfirmTitle="Xác nhận nộp bài?" nzOkText="Xác nhận"
+            nzCancelText="Hủy bỏ" (nzOnConfirm)="done(quiz.questions)" (nzOnCancel)="cancel()" nz-button>
+            Done
+          </button>
+        </div>
+      </div>
     </div>
   </div>
+
 </ng-container>
