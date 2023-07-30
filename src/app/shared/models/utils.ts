@@ -13,3 +13,8 @@ export type BaseQueryParam = {
   page?: number;
   size?: number;
 }
+
+export type MessageResponse = {
+  title: string;
+  message: string;
+}

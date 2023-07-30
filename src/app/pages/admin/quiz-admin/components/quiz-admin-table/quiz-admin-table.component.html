@@ -1,1 +1,30 @@
-<p>quiz-admin-table works!</p>
+<nz-table class="table" nzShowPagination nzShowSizeChanger [nzData]="listQuiz" [nzFrontPagination]="false"
+  [nzLoading]="quizAdminDataSource.loading$ | async" (nzQueryParams)="onQueryParamsChange($event)" [nzTotal]="total"
+  [nzPageSize]="pageSize" [nzPageIndex]="pageIndex">
+  <thead>
+    <tr>
+      <th nzColumnKey="no">No</th>
+      <th nzColumnKey="title">Title</th>
+      <th nzColumnKey="description">Description</th>
+      <th nzColumnKey="category">Category</th>
+      <th nzColumnKey="questions">Question</th>
+      <th nzColumnKey="actions">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of listQuiz; index as i">
+      <td>{{ (currentPage * 10) + (i+1) }}</td>
+      <td>{{item.title}}</td>
+      <td>{{item.description}}</td>
+      <td>{{item.category}}</td>
+      <td>
+        <p *ngFor="let question of item.questions">{{question.title}}</p>
+        <!-- <a (click)="showAllQuestion()">View all</a> -->
+      </td>
+      <td>
+        <button vg-button color="primary" (click)="editQuiz(item)">Edit</button>
+        <button vg-button color="warning" (click)="deleteQuiz(item)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

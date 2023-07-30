@@ -17,13 +17,19 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { SharedModule } from './shared/shared.module';
 import { LoadingService } from './shared/components/loading/loading.service';
+import {
+  JWTInterceptorProvider,
+  JwtInterceptor,
+} from './core/intercepters/jwt-intercepter';
+import {
+  ErrorInterceptor,
+  ErrorInterceptorProvider,
+} from './core/intercepters/error-interceptor';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -39,10 +45,12 @@ registerLocaleData(en);
     LoadingService,
     {
       provide: RxStompService,
-      useFactory: rxStompServiceFactory
+      useFactory: rxStompServiceFactory,
     },
-    { provide: NZ_I18N, useValue: en_US }
+    { provide: NZ_I18N, useValue: en_US },
+    JWTInterceptorProvider,
+    ErrorInterceptorProvider,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

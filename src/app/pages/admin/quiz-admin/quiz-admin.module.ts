@@ -9,6 +9,7 @@ import { QuizAdminTableComponent } from './components/quiz-admin-table/quiz-admi
 import { QuestionAdminTableComponent } from './components/question-admin-table/question-admin-table.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminSearchQuestionComponent } from './components/admin-search-question/admin-search-question.component';
+import { AdminSearchQuizComponent } from './components/admin-search-quiz/admin-search-quiz.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AdminSearchQuestionComponent } from './components/admin-search-question
     ListQuizComponent,
     QuizAdminTableComponent,
     QuestionAdminTableComponent,
-    AdminSearchQuestionComponent
+    AdminSearchQuestionComponent,
+    AdminSearchQuizComponent
   ],
   imports: [
     CommonModule,

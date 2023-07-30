@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CustomHttpParamEncoder } from './custom-http-param-encoder';
 import { Pageable } from '../../models/utils';
+import { AuthStore } from './auth/auth.store';
 
 export interface QueryParams {
   [key: string]:
@@ -83,6 +84,42 @@ export abstract class AbstractService {
     let options = { params: qParams, responseType: params.responseType };
 
     return this.http.post<T>(url, requestBody, options);
+  }
+
+  /**
+   * Dùng để gọi PUT request
+   * @param endpoint API endpoint cần gọi PUT request
+   * @param params Danh sách params cần truyền vào request (nếu có), bao gồm pathParams, queryParams và requestBody
+   */
+  protected put<T>(
+    endpoint: string,
+    params: RequestParamsConfig = {}
+  ): Observable<T> {
+    const url = this.buildApiUrl(endpoint, params.pathParams);
+
+    const requestBody = this.buildRequestBody(params.requestBody);
+    const qParams = this.buildQueryParam(params.queryParams);
+
+    let options = { params: qParams, responseType: params.responseType };
+
+    return this.http.put<T>(url, requestBody, options);
+  }
+
+  /**
+   * Deletes a resource from the API.
+   *
+   * @param {string} endpoint - The endpoint of the resource to be deleted.
+   * @param {RequestParamsConfig} params - Optional parameters for the request.
+   * @returns {Observable<T>} - An Observable that emits the response data of the delete request.
+   */
+  protected delete<T>(
+    endpoint: string,
+    params: RequestParamsConfig = {}
+  ): Observable<T> {
+    const url = this.buildApiUrl(endpoint, params.pathParams);
+    const qParams = this.buildQueryParam(params.queryParams);
+    let options = { params: qParams, responseType: params.responseType };
+    return this.http.delete<T>(url, options);
   }
 
   private buildQueryParam(queryParams: any): HttpParams {
@@ -170,7 +207,7 @@ export abstract class AbstractService {
     endpoint: string,
     pathParams?: { [key: string]: string }
   ): string {
-    let baseURL = 'http://localhost:8080/';
+    let baseURL = '';
 
     if (pathParams) {
       endpoint = this.buildPathParams(endpoint, pathParams);

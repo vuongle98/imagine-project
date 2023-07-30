@@ -8,6 +8,8 @@ export type Quiz = {
   title: string;
   imagePath: string;
   description: string;
+  category: QuizCategory;
+  level: QuizLevel;
   createdDate: Date;
   createdBy: User;
 };
@@ -23,12 +25,13 @@ export type Question = {
   createdAt: Date;
   checkValue: string;
   type: string;
-  category: QuestionCategory;
+  category: string;
 };
 
 export type Answer = {
   id: string;
   answer: string;
+  correct: boolean;
 };
 
 export enum QuestionType {
@@ -56,13 +59,21 @@ export type QuizQueryParam = {
 export type QuestionQueryParam = {
   id?: string;
   likeAnswer?: string;
+  likeTitle?: string;
   difficultlyLevel?: number;
-  category?: QuestionCategory;
+  category?: QuizCategory;
   type?: QuestionType;
+  mark?: boolean;
 } & BaseQueryParam;
 
-export enum QuestionCategory {
+export enum QuizCategory {
   GENERAL,
   IT,
   COUNTRY,
+}
+
+export enum QuizLevel {
+  HARD,
+  MEDIUM,
+  EASY,
 }

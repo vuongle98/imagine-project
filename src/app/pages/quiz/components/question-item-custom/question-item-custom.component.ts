@@ -11,6 +11,7 @@ export class QuestionItemCustomComponent {
 
   @Input() question!: Question;
   @Input() index!: number;
+  @Input() size!: number;
 
   ngOnInit(): void {
 

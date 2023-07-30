@@ -63,7 +63,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -72,11 +78,17 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "imagine:build:production"
+              "browserTarget": "imagine:build:production",
+              "proxyConfig": "./proxy.conf.json"
             },
             "development": {
-              "browserTarget": "imagine:build:development"
+              "browserTarget": "imagine:build:development",
+              "proxyConfig": "./proxy.conf.json"
             }
+          },
+          "options": {
+            "browserTarget": "imagine:build:development",
+            "proxyConfig": "./proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },

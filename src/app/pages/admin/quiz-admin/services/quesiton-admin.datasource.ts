@@ -26,9 +26,13 @@ export class QuestionAdminDataSource extends BaseDataSource<
   }
 
   loadData(params: QuestionQueryParam) {
+    if (!params?.page || !params?.size) {
+      params.page = 0;
+      params.size = 10;
+    }
     this.loadingSubject.next(true);
     this.questionService
-      .findQuestions(params)
+      .adminFindQuestions(params)
       .pipe(
         tap((data) => this.dataSubject.next(data)),
         finalize(() => this.loadingSubject.next(false))

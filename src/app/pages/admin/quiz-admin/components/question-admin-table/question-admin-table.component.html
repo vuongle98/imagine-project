@@ -1,18 +1,33 @@
-<nz-table nzShowPagination nzShowSizeChanger [nzData]="listQuestion" [nzFrontPagination]="false"
+<nz-table class="table" nzShowPagination nzShowSizeChanger [nzData]="listQuestion" [nzFrontPagination]="false"
   [nzLoading]="questionAdminDatasource.loading$ | async" (nzQueryParams)="onQueryParamsChange($event)" [nzTotal]="total"
   [nzPageSize]="pageSize" [nzPageIndex]="pageIndex">
   <thead>
     <tr>
-      <th nzColumnKey="title">Nội dung</th>
-      <th nzColumnKey="type">Loại</th>
-      <th nzColumnKey="category">Nhóm</th>
+      <th nzColumnKey="no">No</th>
+      <th nzColumnKey="title">Title</th>
+      <th nzColumnKey="type">Type</th>
+      <th nzColumnKey="category">Category</th>
+      <th nzColumnKey="answers">Answers</th>
+      <th nzColumnKey="actions">Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of listQuestion">
+    <tr row-mark [is-mark]="item.mark" *ngFor="let item of listQuestion; index as i">
+      <td>{{ (currentPage * 10) + (i+1) }}</td>
       <td>{{item.title}}</td>
       <td>{{item.type}}</td>
       <td>{{item.category}}</td>
+      <td>
+        <ul>
+          <li answer-correct [is-correct]="item.correct" *ngFor="let item of item.answers; index as i">
+            {{item.answer}}
+          </li>
+        </ul>
+      </td>
+      <td>
+        <button vg-button color="primary" (click)="editQuestion(item)">Edit</button>
+        <button vg-button color="warning" (click)="deleteQuestion(item)">Delete</button>
+      </td>
     </tr>
   </tbody>
 </nz-table>

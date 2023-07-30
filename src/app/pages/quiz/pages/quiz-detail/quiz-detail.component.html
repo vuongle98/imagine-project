@@ -4,7 +4,7 @@
     <div nz-col nzSpan="24">
       <div *ngFor="let question of quiz.questions; index as i" nz-row nzJustify="center" nzAlign="middle">
         <app-question-item-custom *ngIf="displayItemIndex === i" [index]="i+1" nz-col nzSpan="12" [nzXs]="{span: 24}"
-          [nzMd]="{span: 12}" [question]="question"></app-question-item-custom>
+          [nzMd]="{span: 12}" [question]="question" [size]="quiz.questions.length"></app-question-item-custom>
       </div>
     </div>
 

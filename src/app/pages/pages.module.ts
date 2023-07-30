@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { ModuleRoutingModule } from './pages-routing.module';
+import { PagesRoutingModule } from './pages-routing.module';
 
 const COMPONENTS: any[] = [];
 const COMPONENTS_DYNAMIC: any[] = [];
 
 @NgModule({
-  imports: [SharedModule, ModuleRoutingModule],
+  imports: [SharedModule, PagesRoutingModule],
   declarations: [...COMPONENTS, ...COMPONENTS_DYNAMIC],
 })
-export class ModulesModule {}
+export class PagesModule {}
