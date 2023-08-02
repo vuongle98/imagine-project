@@ -1,13 +1,9 @@
 .card {
-  background: linear-gradient(
-    -35deg,
-    rgba(#222, 0.55) 0%,
-    rgba(#333, 0.55) 100%
-  );
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 10px rgba(#5c5c5c, 0.5);
+  box-shadow: 0px 5px 10px 0px rgba(157, 241, 252, 0.678);
+  filter: drop-shadow(0px 5px 10px 0px rgba(157, 241, 252, 0.678));
   color: white;
-  border-radius: 0.1em;
+  border-radius: 0.5em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,11 +14,15 @@
     justify-content: center;
     align-items: center;
     animation-timing-function: linear;
+
+    &-image {
+      min-height: 200px;
+    }
   }
 
   &-cover img {
-    border-top-left-radius: 0.1em;
-    border-top-right-radius: 0.1em;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
   }
 
   &-cover > * {
@@ -65,10 +65,14 @@
 
   &-play {
     transition: opacity 0.5s linear;
+    transition: all ease 0.2s;
   }
 
   &-play:hover {
     opacity: 0.8;
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 10px 0px rgba(157, 241, 252, 0.678);
+    filter: drop-shadow(0px 5px 20px 2px rgba(157, 241, 252, 0.678));
 
     .play {
       visibility: visible;

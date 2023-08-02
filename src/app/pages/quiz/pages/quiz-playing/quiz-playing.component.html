@@ -1,0 +1,26 @@
+<ng-container *ngIf="(quiz$ | async) as quiz">
+  <app-quiz-intro [quiz]="quiz" *ngIf="!isPlaying" (startPlaying)="isPlaying = $event"></app-quiz-intro>
+
+
+  <div class="question-container" *ngIf="isPlaying">
+    <div class="actions">
+      <button vg-button (click)="isPlaying = false">Back</button>
+    </div>
+    <ng-container *ngFor="let question of quiz.questions; index as i">
+      <app-question-item-custom *ngIf="displayItemIndex === i" [index]="i+1" [question]="question"
+        [size]="quiz.questions.length" (timeOverChange)="timeOverChange($event)"></app-question-item-custom>
+    </ng-container>
+
+
+    <div class="actions">
+      <!-- <button vg-button [disabled]="displayItemIndex == 0" (click)="pre()">Pre</button> -->
+      <button vg-button [disabled]="displayItemIndex == quiz.questions.length - 1" (click)="next()">Next</button>
+      <button nz-popconfirm nzPopconfirmTitle="Xác nhận nộp bài?" nzOkText="Xác nhận" nzCancelText="Hủy bỏ"
+        (nzOnConfirm)="done(quiz.questions)" (nzOnCancel)="cancel()" nz-button>
+        Done
+      </button>
+      <button *ngIf="!isPlaying" vg-button (click)="viewAnswer()">Review the answer</button>
+    </div>
+  </div>
+
+</ng-container>

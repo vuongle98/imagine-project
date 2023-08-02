@@ -16,7 +16,7 @@ import {
   selector: '[vg-button]',
 })
 export class VgButtonDirective {
-  @Input() size: 'medium' | 'small' | 'large' = 'medium';
+  @Input() size: 'medium' | 'small' | 'large' | 'xlarge' = 'medium';
   @Input() color: string = 'primary';
   @Input('border-radius') borderRadius: string = '0';
   @Input() shadow: boolean = false;

@@ -10,8 +10,11 @@ import { CardContentComponent } from './components/card/card-content/card-conten
 import { DividerComponent } from './components/divider/divider.component';
 import { VgButtonDirective } from './directives/vg-button.directive';
 import { VgCardDirective } from './directives/vg-card.directive';
-import { AnswerCorrectDirective } from './directives/answer-correct.directive';
+import { AnswerCorrectDirective } from './directives/quiz/answer-correct.directive';
 import { MarkDirective } from './directives/mark.directive';
+import { QuizLevelDirective } from './directives/quiz/quiz-level.directive';
+import { SkeletonDirective } from './directives/quiz/skeleton.directive';
+import { SecurePipe } from './pipes/secure.pipe';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -19,6 +22,8 @@ const COMPONENTS = [
   CardTitleComponent,
   CardContentComponent,
   DividerComponent,
+  QuizLevelDirective,
+  SkeletonDirective,
 ];
 
 const DIRECTIVES = [
@@ -29,11 +34,13 @@ const DIRECTIVES = [
   MarkDirective,
 ];
 
+const PIPES = [SecurePipe];
+
 const MODULES = [FormsModule, ReactiveFormsModule];
 
 @NgModule({
-  declarations: [COMPONENTS, DIRECTIVES],
+  declarations: [COMPONENTS, DIRECTIVES, PIPES],
   imports: [CommonModule, NzImportModule],
-  exports: [NzImportModule, COMPONENTS, MODULES, DIRECTIVES],
+  exports: [NzImportModule, COMPONENTS, MODULES, DIRECTIVES, PIPES],
 })
 export class SharedModule {}

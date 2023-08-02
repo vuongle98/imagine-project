@@ -18,6 +18,9 @@
       <div class="inner-content">
         <loading></loading>
         <router-outlet></router-outlet>
+        <div class="to-top" *ngIf="windowScrolled">
+          <button (click)="scrollToTop()" vg-button size="small" color="success">Back</button>
+        </div>
       </div>
     </nz-content>
     <!-- <nz-footer>Footer info</nz-footer> -->

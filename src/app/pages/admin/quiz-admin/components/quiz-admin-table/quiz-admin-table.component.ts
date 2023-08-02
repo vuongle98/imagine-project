@@ -21,6 +21,8 @@ export class QuizAdminTableComponent {
   pageIndex = 1;
   pageSize = 10;
 
+  showAllQuestion = false;
+
   onQueryParamsChange(queryParams: NzTableQueryParams) {
     this.emitQueryPageChange.emit(queryParams);
   }

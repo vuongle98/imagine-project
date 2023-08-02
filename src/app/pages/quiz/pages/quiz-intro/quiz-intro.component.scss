@@ -1,0 +1,45 @@
+.intro-card-container {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  .intro-card {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    background-color: var(--second-color);
+    border-radius: 1em;
+    box-shadow: -5px 5px 30px -10px rgba(157, 241, 252, 0.678);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    img {
+      width: 100%;
+      border-top-left-radius: 1em;
+      border-top-right-radius: 1em;
+    }
+
+    &-content {
+      padding: 1.2em;
+      display: flex;
+      flex-direction: column;
+
+      button {
+        margin: 0.5em 0;
+        // align-self: flex-end;
+      }
+    }
+
+    &-meta {
+      align-self: flex-end;
+    }
+
+    &-title {
+      font-size: 2.2em;
+    }
+
+    &-description {
+      font-size: 1.2em;
+    }
+  }
+}

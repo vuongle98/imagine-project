@@ -12,14 +12,15 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of listQuiz; index as i">
+    <tr [quiz-level]="item.level" *ngFor="let item of listQuiz; index as i">
       <td>{{ (currentPage * 10) + (i+1) }}</td>
       <td>{{item.title}}</td>
       <td>{{item.description}}</td>
       <td>{{item.category}}</td>
       <td>
-        <p *ngFor="let question of item.questions">{{question.title}}</p>
-        <!-- <a (click)="showAllQuestion()">View all</a> -->
+        <ng-container>
+          <p class="quesiton-item" *ngFor="let question of item.questions|slice:0:3">{{question.title}}</p>
+        </ng-container>
       </td>
       <td>
         <button vg-button color="primary" (click)="editQuiz(item)">Edit</button>

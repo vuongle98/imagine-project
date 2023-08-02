@@ -15,7 +15,7 @@
   justify-content: center;
   line-height: 1.25;
   min-height: 1rem;
-  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  padding: 1em 1.5em;
   position: relative;
   text-decoration: none;
   transition: all 250ms;
@@ -24,7 +24,6 @@
   touch-action: manipulation;
   vertical-align: baseline;
   width: auto;
-  margin: 0.3em;
 
   &-primary {
     background-color: var(--primary-color);
@@ -48,6 +47,11 @@
     min-width: 5em;
     height: 2.5em;
     font-size: 16px;
+  }
+  &-xlarge {
+    min-width: 6em;
+    height: 3em;
+    font-size: 18px;
   }
   &-small {
     min-width: 3em;

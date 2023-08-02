@@ -18,7 +18,7 @@ export class QuizStore {
     private quizService: QuizService,
     private loadingService: LoadingService
   ) {
-    this.findQuizs({ page: 0, size: 10 });
+    this.findQuizs({ page: 0, size: 12 });
   }
 
   findQuizs(params: QuizQueryParam) {

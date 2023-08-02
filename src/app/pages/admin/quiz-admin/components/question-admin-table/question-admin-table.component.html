@@ -8,6 +8,7 @@
       <th nzColumnKey="type">Type</th>
       <th nzColumnKey="category">Category</th>
       <th nzColumnKey="answers">Answers</th>
+      <th nzColumnKey="countDown">Countdown</th>
       <th nzColumnKey="actions">Actions</th>
     </tr>
   </thead>
@@ -24,6 +25,7 @@
           </li>
         </ul>
       </td>
+      <td>{{item.countDown}}</td>
       <td>
         <button vg-button color="primary" (click)="editQuestion(item)">Edit</button>
         <button vg-button color="warning" (click)="deleteQuestion(item)">Delete</button>

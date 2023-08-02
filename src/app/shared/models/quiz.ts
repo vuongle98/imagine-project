@@ -8,6 +8,7 @@ export type Quiz = {
   title: string;
   imagePath: string;
   description: string;
+  image: any;
   category: QuizCategory;
   level: QuizLevel;
   createdDate: Date;
@@ -26,6 +27,10 @@ export type Question = {
   checkValue: string;
   type: string;
   category: string;
+  countDown: number;
+  description: string;
+  codeDescription: string;
+  fileDescription: any;
 };
 
 export type Answer = {

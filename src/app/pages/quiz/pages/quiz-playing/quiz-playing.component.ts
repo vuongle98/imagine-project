@@ -1,23 +1,27 @@
-import { Component, OnInit, ViewChild, ViewChildren } from '@angular/core';
+import {
+  Component, OnInit
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, startWith, tap } from 'rxjs';
+import {
+  Observable, tap
+} from 'rxjs';
 import { CheckAnswer, Question, Quiz } from 'src/app/shared/models/quiz';
 import { QuizService } from 'src/app/shared/services/rest-api/quiz/quiz.service';
-import { QuestionItemComponent } from '../../components/question-item/question-item.component';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
-  selector: 'app-quiz-detail',
-  templateUrl: './quiz-detail.component.html',
-  styleUrls: ['./quiz-detail.component.scss'],
+  selector: 'app-quiz-playing',
+  templateUrl: './quiz-playing.component.html',
+  styleUrls: ['./quiz-playing.component.scss'],
 })
-export class QuizDetailComponent implements OnInit {
+export class QuizPlayingComponent implements OnInit {
   quiz$!: Observable<Quiz>;
-  currentStep = 0;
-  effect = 'scrollx';
+
   quizId!: string;
   displayItemIndex = 0;
+
+  isPlaying = false;
 
   confirmModal?: NzModalRef;
 
@@ -43,6 +47,8 @@ export class QuizDetailComponent implements OnInit {
   }
 
   done(questions: Question[]) {
+    console.log(questions);
+
     this.commit(questions).subscribe();
   }
 
@@ -54,10 +60,21 @@ export class QuizDetailComponent implements OnInit {
 
     return this.quizService.checkAnswer(this.quizId, body).pipe(
       tap((res) => {
-        this.nzMessageService.info('Số câu đúng: ' + res.correctAnswers + "/" + res.totalAnswers);
+        this.nzMessageService.info(
+          'Số câu đúng: ' + res.correctAnswers + '/' + res.totalAnswers
+        );
+        this.isPlaying = false;
       })
     );
   }
 
   cancel() {}
+
+  timeOverChange(isOver: boolean) {
+    isOver && this.next();
+  }
+
+  viewAnswer() {
+
+  }
 }

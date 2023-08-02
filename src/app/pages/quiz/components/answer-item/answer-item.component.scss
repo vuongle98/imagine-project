@@ -1,13 +1,14 @@
 .answer-item label {
   display: inline-block;
   width: 100%;
-  padding: 10px 20px;
+  padding: 1em 0.5em;
   font-family: sans-serif, Arial;
   border: 1px solid var(--second-color);
   border-radius: 10px;
   background-color: var(--primary-color);
   text-align: center;
   margin-bottom: 10px;
+  font-size: 1.2em;
 }
 
 .answer-item input[type="radio"] {
@@ -17,11 +18,19 @@
 }
 
 .answer-item input[type="radio"]:checked + label {
-  background-color: var(--second-color);
+  background-color: var(--info-color);
 }
 
 .answer-item input[type="radio"]:hover + label {
   cursor: pointer;
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.answer-item input[type="radio"]:focus + input[type="radio"]:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
 }
 
 .index {

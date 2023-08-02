@@ -8,6 +8,16 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+// text
+.text-muted {
+  color: #c2c3c4;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+// loading
 .loading {
   &-container {
     display: flex;
@@ -20,6 +30,8 @@
     z-index: 1000;
   }
 }
+
+// scroll bar
 
 /* width */
 ::-webkit-scrollbar {
@@ -39,4 +51,20 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #919191;
+}
+
+// scroll to top button
+.to-top {
+  position: fixed;
+  bottom: 3em;
+  right: 3em;
+
+  button {
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+    box-shadow: -5px 5px 10px -5px rgba(12, 33, 36, 0.678);
+    filter: drop-shadow(-5px 5px 10px -5px rgba(12, 33, 36, 0.678));
+
+  }
 }

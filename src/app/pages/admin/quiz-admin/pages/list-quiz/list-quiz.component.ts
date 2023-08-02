@@ -45,7 +45,9 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
   createQuizForm!: FormGroup;
 
   isLoading = false;
-  optionList: Question[] = [];
+  questionList: Question[] = [];
+  currentQuestionPage = 1;
+  currentSearchQuestionKeyword = '';
   searchQuestionChange$ = new BehaviorSubject('');
 
   constructor(
@@ -89,6 +91,8 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
   }
 
   onSearchQuestion(value: string) {
+    this.currentSearchQuestionKeyword = value;
+    this.isLoading = true;
     this.searchQuestionChange$
       .asObservable()
       .pipe(
@@ -97,10 +101,23 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
           this.questionService.adminFindQuestions({ likeTitle: value })
         ),
         tap((res) => {
-          this.optionList = res.content;
+          this.isLoading = false;
+          this.questionList = res.content;
         })
       )
       .subscribe();
+  }
+
+  loadMoreQuestion() {
+    this.questionService
+      .adminFindQuestions({
+        likeTitle: this.currentSearchQuestionKeyword,
+        page: this.currentQuestionPage,
+      })
+      .subscribe((res) => {
+        this.questionList = [...this.questionList, ...res.content];
+        this.currentQuestionPage += 1;
+      });
   }
 
   openCreate() {
@@ -125,9 +142,6 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
     this.isShowCreateModal = false;
 
     const data = this.createQuizForm.value;
-
-    console.log(data);
-    console.log(this.selectedQuiz);
 
     iif(
       () => !!this.selectedQuiz.id,

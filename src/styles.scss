@@ -5,6 +5,11 @@
 @import "./styles/components/button.scss";
 @import "./styles/components/question.scss";
 @import "./styles/components/table.scss";
+@import "./styles/components/quiz.scss";
+
+html {
+  scroll-behavior: smooth;
+}
 
 html,
 body {

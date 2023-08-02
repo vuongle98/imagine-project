@@ -13,6 +13,7 @@ import { QuizStore } from 'src/app/shared/services/rest-api/quiz/quiz.store';
 export class QuizIndexComponent {
   quiz$!: Observable<Quiz[]>;
   currentPage = 0;
+  pageSize = 12;
 
   constructor(
     public quizStore: QuizStore,
@@ -22,8 +23,8 @@ export class QuizIndexComponent {
     this.reloadQuizs();
   }
 
-  navToDetail(id: string) {
-    this.router.navigate(['/quiz/' + id]);
+  navToPlaying(id: string) {
+    this.router.navigate(['/quiz/playing' + id]);
   }
 
   reloadQuizs() {
@@ -33,6 +34,6 @@ export class QuizIndexComponent {
   loadMore() {
     console.log('loading');
     this.currentPage += 1;
-    this.quizStore.findQuizs({ page: this.currentPage, size: 10 });
+    this.quizStore.findQuizs({ page: this.currentPage, size: 12 });
   }
 }

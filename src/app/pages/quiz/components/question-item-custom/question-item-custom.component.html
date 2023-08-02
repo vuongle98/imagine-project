@@ -1,12 +1,20 @@
-<div class="question-item" nz-row nzAlign="middle">
-  <div nz-col nzSpan="24">
-    <div nz-row nzJustify="center">
-      <div nz-col nzSpan="24">{{index}}/{{size}}</div>
-      <div class="title" nz-col nzSpan="24">
-        <h2>{{question.title}}</h2>
+<div class="question-card-container">
+  <div class="question-card">
+    <div class="question-header">
+      <div class="header-left-space">
+        {{index}}/{{size}}
+      </div>
+      <div class="header-right-space">
+        {{this.counter}}/{{question.countDown || 30}}s
+      </div>
+    </div>
+    <div class="question-content">
+      <div class="question-title">{{question.title}}</div>
+      <div class="question-description" [innerHTML]="question.codeDescription"></div>
+      <div class="question-meta">
+        <app-answer-item nz-col nzSpan="24" [answer]="answer" [question]="question"
+          *ngFor="let answer of question.answers; index as i" [index]="i"></app-answer-item>
       </div>
     </div>
   </div>
-  <app-answer-item nz-col nzSpan="24" [answer]="answer" [question]="question"
-    *ngFor="let answer of question.answers; index as i" [index]="i"></app-answer-item>
 </div>

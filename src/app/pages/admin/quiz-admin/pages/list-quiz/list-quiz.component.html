@@ -45,11 +45,19 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
+        <nz-form-control [nzOffset]="8">
+          <label nz-checkbox formControlName="published">
+            <span>Published</span>
+          </label>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
         <nz-form-label [nzSpan]="7" nzFor="listQuestionId" nzRequired>Questions</nz-form-label>
         <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select questions">
           <nz-select nzMode="multiple" nzPlaceHolder="Select questions" nzAllowClear nzShowSearch nzServerSearch
-            formControlName="listQuestionId" (nzOnSearch)="onSearchQuestion($event)">
-            <ng-container *ngFor="let o of optionList">
+            [nzLoading]="isLoading" formControlName="listQuestionId" (nzScrollToBottom)="loadMoreQuestion()"
+            (nzOnSearch)="onSearchQuestion($event)">
+            <ng-container *ngFor="let o of questionList">
               <nz-option *ngIf="!isLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
             </ng-container>
             <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
