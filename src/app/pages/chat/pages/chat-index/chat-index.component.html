@@ -1,9 +1,18 @@
 <div id="messages">
-  <button nz-button nzType="primary" class="btn btn-primary" (click)="onSendMessage()">Send Test Message</button>
-  <h2>Received messages</h2>
-  <ol>
-    <!-- we will use Angular binding to populate list of messages -->
-    <li class="message" *ngFor="let message of receivedMessages">{{ message }}</li>
+  <div class="chat-container">
+    <div class="chat chat-header">Simple chat</div>
+    <div class="chat chat-content">
+      <app-message message='Hi' side="right" name="test"></app-message>
+      <app-message message='Hi, welcome to SimpleChat! Go ahead and send me a message.' side="left"
+        name="BOT"></app-message>
+      <app-message message='test' side="right" name="test"></app-message>
 
-  </ol>
+      <ng-template #messageContainer></ng-template>
+    </div>
+    <form class="chat chat-input" [formGroup]="msgForm">
+      <input formControlName="message" class="chat-input-msg" type="text" placeholder="Enter your message">
+      <button (click)="onSendMessage()" type="submit" class="btn btn-send-message">Send</button>
+    </form>
+
+  </div>
 </div>

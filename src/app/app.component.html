@@ -6,6 +6,7 @@
       <ul nz-menu nzTheme="dark" nzMode="horizontal">
         <li nz-menu-item routerLink="/quiz">Quiz</li>
         <li nz-menu-item routerLink="/chat">Chat</li>
+        <li nz-menu-item routerLink="/calculator">Calculator</li>
         <li nz-menu-item routerLink="/auth/login" *ngIf="auth.isLoggedOut$ | async">Login</li>
         <li nz-menu-item (click)="logout()" *ngIf="auth.isLoggedIn$ | async">Logout</li>
       </ul>

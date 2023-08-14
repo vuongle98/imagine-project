@@ -1,11 +1,13 @@
-import {
-  Component, OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 import {
-  Observable, tap
-} from 'rxjs';
-import { CheckAnswer, Question, Quiz } from 'src/app/shared/models/quiz';
+  BaseCheckAnswer,
+  CheckAnswer,
+  CheckAnswerResponse,
+  Question,
+  Quiz,
+} from 'src/app/shared/models/quiz';
 import { QuizService } from 'src/app/shared/services/rest-api/quiz/quiz.service';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -22,6 +24,8 @@ export class QuizPlayingComponent implements OnInit {
   displayItemIndex = 0;
 
   isPlaying = false;
+  isCheckout = false;
+  quizResult = {} as CheckAnswerResponse;
 
   confirmModal?: NzModalRef;
 
@@ -53,7 +57,7 @@ export class QuizPlayingComponent implements OnInit {
   }
 
   commit(questions: Question[]): Observable<any> {
-    const body: CheckAnswer[] = questions.map((question) => {
+    const body: BaseCheckAnswer[] = questions.map((question) => {
       const answerIds = !question.checkValue ? [] : [question.checkValue];
       return { questionId: question.id, answerIds };
     });
@@ -61,9 +65,11 @@ export class QuizPlayingComponent implements OnInit {
     return this.quizService.checkAnswer(this.quizId, body).pipe(
       tap((res) => {
         this.nzMessageService.info(
-          'Số câu đúng: ' + res.correctAnswers + '/' + res.totalAnswers
+          'Số câu đúng: ' + res.numOfCorrectAnswers + '/' + res.totalAnswers
         );
         this.isPlaying = false;
+        this.isCheckout = true;
+        this.quizResult = res;
       })
     );
   }
@@ -74,7 +80,5 @@ export class QuizPlayingComponent implements OnInit {
     isOver && this.next();
   }
 
-  viewAnswer() {
-
-  }
+  viewAnswer() {}
 }

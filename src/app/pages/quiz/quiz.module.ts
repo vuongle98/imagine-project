@@ -9,6 +9,7 @@ import { QuestionItemCustomComponent } from './components/question-item-custom/q
 import { AnswerItemComponent } from './components/answer-item/answer-item.component';
 import { QuizIntroComponent } from './pages/quiz-intro/quiz-intro.component';
 import { QuizPlayingComponent } from './pages/quiz-playing/quiz-playing.component';
+import { QuizCheckoutComponent } from './pages/quiz-checkout/quiz-checkout.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { QuizPlayingComponent } from './pages/quiz-playing/quiz-playing.componen
     QuestionItemCustomComponent,
     AnswerItemComponent,
     QuizIntroComponent,
-    QuizPlayingComponent
+    QuizPlayingComponent,
+    QuizCheckoutComponent
   ],
   imports: [
     CommonModule,

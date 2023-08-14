@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { BehaviorSubject, Observable, map, shareReplay, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  filter,
+  map,
+  shareReplay,
+  tap,
+} from 'rxjs';
 import { LoginPayload, TokenResponse, User } from 'src/app/shared/models/user';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 
@@ -12,8 +19,8 @@ const AUTH_DATA = 'auth_data';
 export class AuthStore {
   private _token = new BehaviorSubject<string>('');
   token$ = this._token.asObservable();
-  private _user = new BehaviorSubject<User | null>(null);
-  user$ = this._user.asObservable();
+  private _user = new BehaviorSubject<User>({} as User);
+  user$ = this._user.asObservable().pipe(filter((user) => !!user?.id));
 
   isLoggedIn$!: Observable<boolean>;
   isLoggedOut$!: Observable<boolean>;
@@ -48,7 +55,7 @@ export class AuthStore {
   }
 
   logout() {
-    this._user.next(null);
+    this._user.next({} as User);
     this._token.next('');
     localStorage.removeItem(AUTH_DATA);
   }

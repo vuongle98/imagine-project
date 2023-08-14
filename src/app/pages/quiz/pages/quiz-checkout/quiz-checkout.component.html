@@ -1,0 +1,25 @@
+<div class="quiz-checkout-container">
+  <div class="quiz-checkout">
+    <div class="title">
+      Kết quả: {{quiz.title}}
+    </div>
+
+    <div class="text-muted result">
+      Số câu đúng {{quizResult.numOfCorrectAnswers}} / {{quizResult.totalAnswers}}
+    </div>
+
+    <div class="description">
+      <span class="dot correct"></span>Your answer
+      <span class="dot incorrect"></span>Correct answer
+    </div>
+
+    <div *ngFor="let answerItem of quizResult.answers" class="list-item">
+      <p class="question-title">{{answerItem.question.title}}</p>
+      <p class="answer" *ngFor="let questionAnswer of answerItem.question?.answers" answer-correct
+        [is-incorrect]="answerItem.answerIds.includes(questionAnswer.id)"
+        [is-correct]="answerItem.correctAnswerIds.includes(questionAnswer.id)">
+        {{questionAnswer.answer}}
+      </p>
+    </div>
+  </div>
+</div>

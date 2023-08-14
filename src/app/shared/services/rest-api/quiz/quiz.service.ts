@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map, shareReplay, tap } from 'rxjs/operators';
 import {
+  BaseCheckAnswer,
   CheckAnswer,
   CheckAnswerResponse,
   Quiz,
@@ -43,7 +44,7 @@ export class QuizService extends AbstractService {
 
   checkAnswer(
     id: string,
-    userAnswer: CheckAnswer[]
+    userAnswer: BaseCheckAnswer[]
   ): Observable<CheckAnswerResponse> {
     return this.post(this.apiEndpoint.quizWithId + '/answer', {
       pathParams: { id },

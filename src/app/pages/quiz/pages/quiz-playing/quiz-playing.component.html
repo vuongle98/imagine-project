@@ -1,8 +1,10 @@
 <ng-container *ngIf="(quiz$ | async) as quiz">
-  <app-quiz-intro [quiz]="quiz" *ngIf="!isPlaying" (startPlaying)="isPlaying = $event"></app-quiz-intro>
+  <app-quiz-intro [quiz]="quiz" *ngIf="!isPlaying && !isCheckout" (startPlaying)="isPlaying = $event"></app-quiz-intro>
+
+  <app-quiz-checkout *ngIf="!isPlaying && isCheckout" [quizResult]="quizResult" [quiz]="quiz"></app-quiz-checkout>
 
 
-  <div class="question-container" *ngIf="isPlaying">
+  <div class="question-container" *ngIf="isPlaying && !isCheckout">
     <div class="actions">
       <button vg-button (click)="isPlaying = false">Back</button>
     </div>

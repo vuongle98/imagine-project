@@ -41,6 +41,6 @@ const MODULES = [FormsModule, ReactiveFormsModule];
 @NgModule({
   declarations: [COMPONENTS, DIRECTIVES, PIPES],
   imports: [CommonModule, NzImportModule],
-  exports: [NzImportModule, COMPONENTS, MODULES, DIRECTIVES, PIPES],
+  exports: [NzImportModule, CommonModule, COMPONENTS, MODULES, DIRECTIVES, PIPES],
 })
 export class SharedModule {}

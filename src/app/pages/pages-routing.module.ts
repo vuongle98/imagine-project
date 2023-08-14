@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../core/guards/auth.guard';
 import { logoutGuard } from '../core/guards/logout.guard';
+import { CalculatorComponent } from './calculator/calculator.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,11 @@ const routes: Routes = [
   {
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then((m) => m.ChatModule),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'calculator',
+    component: CalculatorComponent,
     canActivate: [authGuard],
   },
   {

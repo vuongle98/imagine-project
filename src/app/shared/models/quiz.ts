@@ -45,14 +45,21 @@ export enum QuestionType {
   TEXT_BOX,
 }
 
-export type CheckAnswer = {
+export type BaseCheckAnswer = {
   questionId: string;
   answerIds: string[];
 };
 
+export type CheckAnswer = BaseCheckAnswer & {
+  correctAnswerIds: string[];
+  question: Question;
+};
+
 export type CheckAnswerResponse = {
   totalAnswers: number;
-  correctAnswers: number;
+  correctAnswers: CheckAnswer;
+  numOfCorrectAnswers: number;
+  answers: CheckAnswer[];
 };
 
 export type QuizQueryParam = {
