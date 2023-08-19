@@ -21,6 +21,8 @@ import { StickyButtonChatComponent } from './modules/chat/componenets/sticky-but
 import { ListChatComponent } from './modules/chat/componenets/list-chat/list-chat.component';
 import { BaseChatComponent } from './modules/chat/componenets/base-chat/base-chat.component';
 import { ChatHeaderComponent } from './modules/chat/componenets/chat-header/chat-header.component';
+import { RouterModule } from '@angular/router';
+import { TagUsername } from './pipes/tag-username.pipe';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -35,6 +37,7 @@ const COMPONENTS = [
   StickyButtonChatComponent,
   ListChatComponent,
   BaseChatComponent,
+  ChatHeaderComponent
 ];
 
 const DIRECTIVES = [
@@ -45,12 +48,12 @@ const DIRECTIVES = [
   MarkDirective,
 ];
 
-const PIPES = [SecurePipe];
+const PIPES = [SecurePipe, TagUsername];
 
-const MODULES = [FormsModule, ReactiveFormsModule];
+const MODULES = [FormsModule, ReactiveFormsModule, RouterModule];
 
 @NgModule({
-  declarations: [COMPONENTS, DIRECTIVES, PIPES, ChatHeaderComponent],
+  declarations: [COMPONENTS, DIRECTIVES, PIPES, ],
   imports: [CommonModule, NzImportModule, MODULES],
   exports: [
     NzImportModule,

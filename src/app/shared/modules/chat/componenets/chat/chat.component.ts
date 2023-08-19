@@ -13,6 +13,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthStore } from 'src/app/shared/services/rest-api/auth/auth.store';
 import { MessageComponent } from '../message/message.component';
 import { OnDestroyService } from '@shared/services/common/on-destroyed.service';
+import { User } from '@shared/models/user';
+import { ChatMessage } from '@shared/models/chat';
 
 @Component({
   selector: 'app-chat',
@@ -53,11 +55,12 @@ export class ChatComponent {
       .subscribe((message: Message) => {
         const parseMessage = JSON.parse(message.body);
 
-        if (this.currentUser.id !== parseMessage.senderId) {
-          this.appendMessage('BOT', parseMessage.content, 'left');
+        if (parseMessage instanceof Array) {
+          for (const mess of parseMessage) {
+            this.pushMessage(this.currentUser, mess);
+          }
         } else {
-          this.appendMessage(this.currentUser.fullName, parseMessage.content, 'right');
-          this.msgForm.reset();
+          this.pushMessage(this.currentUser, parseMessage);
         }
       });
   }
@@ -79,10 +82,18 @@ export class ChatComponent {
     });
   }
 
-  appendMessage(name: string, message: string, side: string) {
+  pushMessage(user: User, message: ChatMessage) {
+    if (user.username !== message.sender?.username) {
+      this.appendMessage(message, 'left');
+    } else {
+      this.appendMessage(message, 'right');
+      this.msgForm.reset();
+    }
+  }
+
+  appendMessage(message: ChatMessage, side: string) {
     const messageRef = this.viewContainerRef.createComponent(MessageComponent);
     messageRef.instance.message = message;
-    messageRef.instance.name = name;
     messageRef.instance.side = side;
   }
 }

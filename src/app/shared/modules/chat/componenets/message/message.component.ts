@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ChatMessage } from '@shared/models/chat';
 import { User } from 'src/app/shared/models/user';
 
 @Component({
@@ -9,10 +10,7 @@ import { User } from 'src/app/shared/models/user';
 export class MessageComponent {
 
   @Input() side = 'right';
-  @Input() message = '';
-  @Input() name!: string;
-  @Input() avatar!: string;
-  @Input() time = new Date();
+  @Input() message!: ChatMessage;
 
   viewProfile() {
     console.log("okie");

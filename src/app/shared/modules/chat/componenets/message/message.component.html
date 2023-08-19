@@ -7,7 +7,11 @@
       <div class="msg-info-name">{{name}}</div>
       <div class="msg-info-time">{{time | date:'HH:mm'}}</div>
     </div> -->
-    <div class="msg-text">{{message}}</div>
-    <div style="font-size: 12px; align-self: flex-end;">{{time | date:'HH:mm'}}</div>
+    <div class="msg-text">{{message.content}}</div>
+    <div style="font-size: 12px; align-self: flex-end;">
+      <span [routerLink]="['/auth/profile/', message.sender.username]"
+        routerLinkActive="router-link-active">{{message.sender.fullName}}</span> -
+      <span>{{message.timeStamp | date:'HH:mm'}}</span>
+    </div>
   </div>
 </div>

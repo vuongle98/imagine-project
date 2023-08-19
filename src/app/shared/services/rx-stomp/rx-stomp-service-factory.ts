@@ -7,10 +7,10 @@ export function rxStompServiceFactory() {
   const rxStomp = new RxStompService();
   const authStore = inject(AuthStore);
 
-  if (rxStompConfig.connectHeaders && authStore.token.length > 0)
-    rxStompConfig.connectHeaders['Authorization'] = authStore.token;
-
-  console.log(rxStompConfig);
+  if (rxStompConfig.connectHeaders)
+    if (authStore.token.length > 0)
+      rxStompConfig.connectHeaders['Authorization'] = authStore.token;
+    else delete rxStompConfig.connectHeaders['Authorization'];
 
   rxStomp.configure(rxStompConfig);
   rxStomp.activate();

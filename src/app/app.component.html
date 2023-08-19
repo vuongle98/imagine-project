@@ -19,7 +19,7 @@
       <div class="inner-content">
         <loading></loading>
         <router-outlet></router-outlet>
-        <app-sticky-button-chat *ngIf="auth.isLoggedIn$ | async"></app-sticky-button-chat>
+        <app-sticky-button-chat></app-sticky-button-chat>
         <div *ngIf="windowScrolled">
           <button (click)="scrollToTop()" vg-button size="small" color="success">Back</button>
         </div>

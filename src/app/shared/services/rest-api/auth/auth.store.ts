@@ -19,7 +19,7 @@ import { AUTH_DATA } from '@shared/utils/constant';
 export class AuthStore {
   private _token = new BehaviorSubject<string>('');
   token$ = this._token.asObservable();
-  private _user = new BehaviorSubject<User>({} as User);
+  private _user = new BehaviorSubject<User>({username: 'anonymous', fullName: 'anonymous'} as User);
   user$ = this._user.asObservable();
   token = '';
 
@@ -28,7 +28,7 @@ export class AuthStore {
 
   constructor(
     private authService: AuthService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
   ) {
     this.isLoggedIn$ = this.user$.pipe(map((user) => !!user.id));
 
@@ -63,6 +63,7 @@ export class AuthStore {
   }
 
   login(payload: LoginPayload) {
+    // unsubscribe to previous ws session, other previous data
     return this.authService.getToken(payload).pipe(
       tap((loginResponse) => {
         this._token.next(loginResponse.type + ' ' + loginResponse.token);
