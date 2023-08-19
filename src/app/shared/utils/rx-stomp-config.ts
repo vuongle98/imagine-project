@@ -1,14 +1,18 @@
+import { Inject } from "@angular/core";
+import { AuthStore } from "@shared/services/rest-api/auth/auth.store";
 import { RxStompConfig } from "@stomp/rx-stomp";
 
 export const rxStompConfig: RxStompConfig = {
+
   // Which server?
   brokerURL: 'ws://localhost:8080/ws',
 
   // Headers
   // Typical keys: login, passcode, host
   connectHeaders: {
-    login: 'guest',
-    passcode: 'guest',
+    login: 'vuongle',
+    passcode: 'aaaa',
+    Authorization: JSON.parse(localStorage.getItem("auth_data") as string)?.token
   },
 
   // How often to heartbeat?
@@ -25,6 +29,6 @@ export const rxStompConfig: RxStompConfig = {
   // It can be quite verbose, not recommended in production
   // Skip this key to stop logging to console
   debug: (msg: string): void => {
-    console.log(new Date(), msg);
+    // console.log(new Date(), msg);
   },
 }

@@ -1,0 +1,13 @@
+<div class="msg msg-{{side}}">
+  <div class="msg msg-avatar" *ngIf="side == 'left'" (click)="viewProfile()">
+    <img style="width: 30px; height: 30px;" src="assets/avatar/bear.png" alt="">
+  </div>
+  <div class="msg-content">
+    <!-- <div class="msg-info">
+      <div class="msg-info-name">{{name}}</div>
+      <div class="msg-info-time">{{time | date:'HH:mm'}}</div>
+    </div> -->
+    <div class="msg-text">{{message}}</div>
+    <div style="font-size: 12px; align-self: flex-end;">{{time | date:'HH:mm'}}</div>
+  </div>
+</div>

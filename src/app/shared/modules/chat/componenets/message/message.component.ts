@@ -14,4 +14,9 @@ export class MessageComponent {
   @Input() avatar!: string;
   @Input() time = new Date();
 
+  viewProfile() {
+    console.log("okie");
+
+  }
+
 }

@@ -1,18 +1,1 @@
-<div id="messages">
-  <div class="chat-container">
-    <div class="chat chat-header">Simple chat</div>
-    <div class="chat chat-content">
-      <app-message message='Hi' side="right" name="test"></app-message>
-      <app-message message='Hi, welcome to SimpleChat! Go ahead and send me a message.' side="left"
-        name="BOT"></app-message>
-      <app-message message='test' side="right" name="test"></app-message>
-
-      <ng-template #messageContainer></ng-template>
-    </div>
-    <form class="chat chat-input" [formGroup]="msgForm">
-      <input formControlName="message" class="chat-input-msg" type="text" placeholder="Enter your message">
-      <button (click)="onSendMessage()" type="submit" class="btn btn-send-message">Send</button>
-    </form>
-
-  </div>
-</div>
+<app-list-chat></app-list-chat>

@@ -1,0 +1,25 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat {
+  width: 100%;
+  padding: 0.5em;
+
+  &-header {
+    border-bottom: 1px solid var(--dark-color);
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 45px;
+
+    &-info * {
+      margin: 0.2em;
+    }
+  }
+}

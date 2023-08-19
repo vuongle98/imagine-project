@@ -15,6 +15,12 @@ import { MarkDirective } from './directives/mark.directive';
 import { QuizLevelDirective } from './directives/quiz/quiz-level.directive';
 import { SkeletonDirective } from './directives/quiz/skeleton.directive';
 import { SecurePipe } from './pipes/secure.pipe';
+import { ChatComponent } from './modules/chat/componenets/chat/chat.component';
+import { MessageComponent } from './modules/chat/componenets/message/message.component';
+import { StickyButtonChatComponent } from './modules/chat/componenets/sticky-button-chat/sticky-button-chat.component';
+import { ListChatComponent } from './modules/chat/componenets/list-chat/list-chat.component';
+import { BaseChatComponent } from './modules/chat/componenets/base-chat/base-chat.component';
+import { ChatHeaderComponent } from './modules/chat/componenets/chat-header/chat-header.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -24,6 +30,11 @@ const COMPONENTS = [
   DividerComponent,
   QuizLevelDirective,
   SkeletonDirective,
+  ChatComponent,
+  MessageComponent,
+  StickyButtonChatComponent,
+  ListChatComponent,
+  BaseChatComponent,
 ];
 
 const DIRECTIVES = [
@@ -39,8 +50,15 @@ const PIPES = [SecurePipe];
 const MODULES = [FormsModule, ReactiveFormsModule];
 
 @NgModule({
-  declarations: [COMPONENTS, DIRECTIVES, PIPES],
-  imports: [CommonModule, NzImportModule],
-  exports: [NzImportModule, CommonModule, COMPONENTS, MODULES, DIRECTIVES, PIPES],
+  declarations: [COMPONENTS, DIRECTIVES, PIPES, ChatHeaderComponent],
+  imports: [CommonModule, NzImportModule, MODULES],
+  exports: [
+    NzImportModule,
+    CommonModule,
+    COMPONENTS,
+    MODULES,
+    DIRECTIVES,
+    PIPES,
+  ],
 })
 export class SharedModule {}

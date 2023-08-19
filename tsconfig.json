@@ -24,16 +24,18 @@
       "dom"
     ],
     "paths": {
-      "@core": ["app/core"],
-      "@core/*": ["app/core/*"],
-      "@modeules": ["app/modeules"],
-      "@modeules/*": ["app/modeules/*"],
-      "@shared": ["app/shared"],
-      "@shared/*": ["app/shared/*"],
+      "@core": ["src/app/core"],
+      "@core/*": ["src/app/core/*"],
+      "@modeules": ["src/app/modeules"],
+      "@modeules/*": ["src/app/modeules/*"],
+      "@shared": ["src/app/shared"],
+      "@shared/*": ["src/app/shared/*"],
       "@testing": ["testing"],
       "@testing/*": ["testing/*"],
-      "@env": ["environments"],
-      "@env/*": ["environments/*"]
+      "@env": ["src/environments"],
+      "@env/*": ["src/environments/*"],
+      "@assets": ["src/assets"],
+      "@assets/*": ["src/assets/*"],
     }
 
   },

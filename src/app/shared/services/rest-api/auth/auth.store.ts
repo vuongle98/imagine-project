@@ -20,7 +20,7 @@ export class AuthStore {
   private _token = new BehaviorSubject<string>('');
   token$ = this._token.asObservable();
   private _user = new BehaviorSubject<User>({} as User);
-  user$ = this._user.asObservable().pipe(filter((user) => !!user?.id));
+  user$ = this._user.asObservable();
 
   isLoggedIn$!: Observable<boolean>;
   isLoggedOut$!: Observable<boolean>;
@@ -29,7 +29,7 @@ export class AuthStore {
     private authService: AuthService,
     private loadingService: LoadingService
   ) {
-    this.isLoggedIn$ = this.user$.pipe(map((user) => !!user));
+    this.isLoggedIn$ = this.user$.pipe(map((user) => !!user.id));
 
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map((loggedIn) => !loggedIn));
 
@@ -37,6 +37,9 @@ export class AuthStore {
 
     if (userStr) {
       const user = JSON.parse(userStr);
+
+      // check token is valid
+
 
       this._user.next(user);
       this._token.next(user.type + ' ' + user.token);

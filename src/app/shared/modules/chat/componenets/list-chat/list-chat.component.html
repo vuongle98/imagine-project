@@ -1,0 +1,13 @@
+<app-base-chat [rightAction]="rightAction" [currentChatInfo]="currentChatInfo">
+  <div *ngIf="!currentChatInfo" class="list-chat-container">
+    <div class="list-chat-item" *ngFor="let item of listChat" (click)="openChat(item)">
+      {{item.name}}
+    </div>
+  </div>
+
+  <app-chat [currentUser]="currentUser$ | async" [currentChatInfo]="currentChatInfo" *ngIf="currentChatInfo"></app-chat>
+</app-base-chat>
+
+<ng-template #rightAction>
+  <i style="padding: 5px;" (click)="onClose()" class="fa fa-times" aria-hidden="true"></i>
+</ng-template>

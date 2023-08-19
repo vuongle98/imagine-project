@@ -1,16 +1,24 @@
 .msg {
   display: flex;
   align-items: flex-end;
+  margin: 0.3em;
 
   &-content {
-    max-width: 450px;
     min-width: 120px;
-    padding: 0.5em;
-    border-radius: 1em;
-    background-color: #ddd;
-    margin-bottom: 0.5em;
-    color: #000;
+    padding: 0.3em;
+    border-radius: 0.75em;
+    background-color: #3E4042;
+    color: #ccc;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.2em;
+    box-shadow: 0 5px 10px rgba(26, 26, 26, 0.19), 0 6px rgba(26, 26, 26, 0.23);
   }
+
+  &-avatar {
+    cursor: pointer;
+  }
+
 
   &-info {
     display: flex;
