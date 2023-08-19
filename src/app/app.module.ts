@@ -18,12 +18,10 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { SharedModule } from './shared/shared.module';
 import { LoadingService } from './shared/components/loading/loading.service';
 import {
-  JWTInterceptorProvider,
-  JwtInterceptor,
+  JWTInterceptorProvider
 } from './core/intercepters/jwt-intercepter';
 import {
-  ErrorInterceptor,
-  ErrorInterceptorProvider,
+  ErrorInterceptorProvider
 } from './core/intercepters/error-interceptor';
 
 registerLocaleData(en);

@@ -5,6 +5,7 @@ import {
   LoginPayload,
   RegisterPayload,
   TokenResponse,
+  User,
 } from 'src/app/shared/models/user';
 import { Observable } from 'rxjs';
 
@@ -17,6 +18,7 @@ export class AuthService extends AbstractService {
     token: 'api/auth/token',
     logout: 'api/auth/logout',
     register: 'api/auth/register',
+    verify: 'api/auth/verify',
   };
 
   constructor(private httpClient: HttpClient) {
@@ -33,5 +35,9 @@ export class AuthService extends AbstractService {
     return this.post(this.apiEndpoint.register, {
       requestBody: { data: payload, type: 'application/json' },
     });
+  }
+
+  verifyUser(): Observable<User> {
+    return this.get(this.apiEndpoint.verify, {});
   }
 }
