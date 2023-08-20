@@ -1,20 +1,37 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { RxStompService } from 'src/app/shared/services/rx-stomp/rx-stomp.service';
 import { Message } from '@stomp/stompjs';
-import { Subscription, filter, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  Subscription,
+  combineLatest,
+  debounceTime,
+  filter,
+  merge,
+  of,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthStore } from 'src/app/shared/services/rest-api/auth/auth.store';
 import { MessageComponent } from '../message/message.component';
 import { OnDestroyService } from '@shared/services/common/on-destroyed.service';
 import { User } from '@shared/models/user';
 import { ChatMessage } from '@shared/models/chat';
+import { rxStompConfig } from '@shared/utils/rx-stomp-config';
+import { RxStompState } from '@stomp/rx-stomp';
+import { ChattingService } from '@shared/services/common/chatting.service';
 
 @Component({
   selector: 'app-chat',
@@ -24,20 +41,25 @@ import { ChatMessage } from '@shared/models/chat';
 })
 export class ChatComponent {
   @Input() currentChatInfo!: any;
-  @Input() currentUser!: any;
+  @Input() currentUser!: User;
 
   receivedMessages: any[] = [];
 
   msgForm!: FormGroup;
 
+  anonymousUserForm!: FormGroup;
+
   @ViewChild('messageContainer', { read: ViewContainerRef })
   viewContainerRef!: ViewContainerRef;
 
+  @ViewChild('lastMessage', { static: true }) lastMessage!: ElementRef;
+
   constructor(
-    private rxStompService: RxStompService,
     private fb: FormBuilder,
     private auth: AuthStore,
-    private onDestroyService: OnDestroyService
+    private onDestroyService: OnDestroyService,
+    private rxStompService: RxStompService,
+    private chattingService: ChattingService
   ) {
     this.initMsgForm();
   }
@@ -46,23 +68,47 @@ export class ChatComponent {
     this.msgForm = this.fb.group({
       message: [''],
     });
+
+    this.anonymousUserForm = this.fb.group({
+      username: [''],
+    });
   }
 
   ngOnInit() {
-    return this.rxStompService
-      .watch(`/topic/${this.currentChatInfo.id}`)
-      .pipe(takeUntil(this.onDestroyService))
-      .subscribe((message: Message) => {
-        const parseMessage = JSON.parse(message.body);
-
-        if (parseMessage instanceof Array) {
-          for (const mess of parseMessage) {
-            this.pushMessage(this.currentUser, mess);
-          }
-        } else {
-          this.pushMessage(this.currentUser, parseMessage);
-        }
+    this.chattingService
+      .subcribeAll([
+        `/user/topic/${this.currentChatInfo.id}`,
+        `/topic/${this.currentChatInfo.id}`,
+      ])
+      .pipe(
+        tap((message: ChatMessage | ChatMessage[]) =>
+          this.processMessage(message)
+        ),
+        debounceTime(100),
+        takeUntil(this.onDestroyService)
+      )
+      .subscribe(() => {
+        this.scrollToBottom();
       });
+  }
+
+  anonymousLogin() {
+    const username = this.anonymousUserForm.value.username;
+
+    const config = rxStompConfig;
+
+    if (config.connectHeaders) {
+      config.connectHeaders['username'] = username;
+      delete config.connectHeaders['Authorization'];
+    }
+
+    this.rxStompService.configure(config);
+
+    // this.subscribeChannel();
+  }
+
+  attachFile() {
+    console.log('attach file');
   }
 
   onSendMessage() {
@@ -82,18 +128,39 @@ export class ChatComponent {
     });
   }
 
+  processMessage(message: ChatMessage | ChatMessage[]) {
+    if (!message) {
+      return;
+    }
+
+    if (message instanceof Array) {
+      for (const mess of message) {
+        this.pushMessage(this.currentUser, mess);
+      }
+    } else {
+      this.pushMessage(this.currentUser, message);
+    }
+  }
+
   pushMessage(user: User, message: ChatMessage) {
     if (user.username !== message.sender?.username) {
-      this.appendMessage(message, 'left');
+      this.appendMessageUI(message, 'left');
     } else {
-      this.appendMessage(message, 'right');
+      this.appendMessageUI(message, 'right');
       this.msgForm.reset();
     }
   }
 
-  appendMessage(message: ChatMessage, side: string) {
+  appendMessageUI(message: ChatMessage, side: string) {
     const messageRef = this.viewContainerRef.createComponent(MessageComponent);
     messageRef.instance.message = message;
     messageRef.instance.side = side;
+  }
+
+  scrollToBottom() {
+    this.lastMessage.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
   }
 }

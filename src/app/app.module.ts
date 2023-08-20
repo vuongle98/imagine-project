@@ -17,12 +17,9 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { SharedModule } from './shared/shared.module';
 import { LoadingService } from './shared/components/loading/loading.service';
-import {
-  JWTInterceptorProvider
-} from './core/intercepters/jwt-intercepter';
-import {
-  ErrorInterceptorProvider
-} from './core/intercepters/error-interceptor';
+import { JWTInterceptorProvider } from './core/intercepters/jwt-intercepter';
+import { ErrorInterceptorProvider } from './core/intercepters/error-interceptor';
+import { AppInitializerProvider } from '@core/initializers';
 
 registerLocaleData(en);
 
@@ -40,11 +37,8 @@ registerLocaleData(en);
     NzMenuModule,
   ],
   providers: [
+    AppInitializerProvider,
     LoadingService,
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-    },
     { provide: NZ_I18N, useValue: en_US },
     JWTInterceptorProvider,
     ErrorInterceptorProvider,

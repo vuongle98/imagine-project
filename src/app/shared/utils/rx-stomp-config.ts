@@ -10,9 +10,7 @@ export const rxStompConfig: RxStompConfig = {
   // Headers
   // Typical keys: login, passcode, host
   connectHeaders: {
-    login: 'vuongle',
-    passcode: 'aaaa',
-    Authorization: JSON.parse(localStorage.getItem("auth_data") as string)?.token
+
   },
 
   // How often to heartbeat?

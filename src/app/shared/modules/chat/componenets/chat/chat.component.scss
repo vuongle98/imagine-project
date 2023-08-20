@@ -19,14 +19,17 @@
   &-content {
     height: 100%;
     padding: 0.5em;
+    height: 360px;
   }
 
   &-input {
     display: flex;
     width: 100%;
     color: var(--dark-color);
-    position: absolute;
+    position: fixed;
     bottom: 0;
+    padding: 0.3em;
+    background-color: violet;
   }
 
   &-input * {
@@ -58,5 +61,16 @@
     color: white;
     cursor: pointer;
     padding: 0.4em;
+
+    * {
+      width: 25px;
+      height: 25px;
+    }
+  }
+
+  &-attachment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

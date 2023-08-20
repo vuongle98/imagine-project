@@ -4,6 +4,7 @@ export type User = {
   username: string;
   email: string;
   roles: string[];
+  token?: string;
 };
 
 export type LoginPayload = {
@@ -11,9 +12,10 @@ export type LoginPayload = {
   password: string;
 };
 
-export type TokenResponse = User & {
+export type TokenResponse = {
   token: string;
   type: string;
+  user: User;
 };
 
 export type RegisterPayload = User & LoginPayload;

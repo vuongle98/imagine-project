@@ -7,6 +7,7 @@
         <li nz-menu-item routerLink="/quiz">Quiz</li>
         <li nz-menu-item routerLink="/chat">Chat</li>
         <li nz-menu-item routerLink="/calculator">Calculator</li>
+        <li nz-menu-item [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile</li>
         <li nz-menu-item routerLink="/auth/login" *ngIf="auth.isLoggedOut$ | async">Login</li>
         <li nz-menu-item (click)="logout()" *ngIf="auth.isLoggedIn$ | async">Logout</li>
       </ul>
@@ -19,7 +20,8 @@
       <div class="inner-content">
         <loading></loading>
         <router-outlet></router-outlet>
-        <app-sticky-button-chat></app-sticky-button-chat>
+        <app-sticky-button-chat *ngIf="auth.isLoggedIn$ | async"></app-sticky-button-chat>
+        <!-- <app-sticky-button-chat *ngIf="auth.isLoggedOut$ | async"></app-sticky-button-chat> -->
         <div *ngIf="windowScrolled">
           <button (click)="scrollToTop()" vg-button size="small" color="success">Back</button>
         </div>

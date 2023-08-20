@@ -1,9 +1,23 @@
-<div class="chat chat-content">
+<div #parent class="chat chat-content">
   <ng-template #messageContainer></ng-template>
+  <div #lastMessage></div>
 </div>
-<form class="chat chat-input" [formGroup]="msgForm" (submit)="onSendMessage()">
+
+<form *ngIf="!currentUser?.username" class="chat chat-input" [formGroup]="anonymousUserForm" (submit)="anonymousLogin()">
+  <input formControlName="username" class="chat-input-msg" type="text" placeholder="Enter your name">
+  <span class="btn btn-send" (click)="anonymousLogin()">
+    <!-- <i class="fa fa-paper-plane" aria-hidden="true"></i> -->
+    <img src="assets/icons/paper-plane.png" alt="send message">
+  </span>
+</form>
+
+<form *ngIf="currentUser?.username" class="chat chat-input" [formGroup]="msgForm" (submit)="onSendMessage()">
+  <span class="btn btn-send btn-attachment" (click)="attachFile()">
+    <img src="assets/icons/attachment.png" alt="attachment">
+  </span>
   <input formControlName="message" class="chat-input-msg" type="text" placeholder="Enter your message">
   <span class="btn btn-send" (click)="onSendMessage()">
-    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+    <!-- <i class="fa fa-paper-plane" aria-hidden="true"></i> -->
+    <img src="assets/icons/paper-plane.png" alt="send message">
   </span>
 </form>

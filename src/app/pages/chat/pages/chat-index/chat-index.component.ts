@@ -1,4 +1,5 @@
 import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { AuthStore } from '@shared/services/rest-api/auth/auth.store';
 
 @Component({
   selector: 'app-chat-index',
@@ -8,5 +9,8 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 export class ChatIndexComponent {
 
 
+  constructor(public authStore: AuthStore) {
+
+  }
 
 }

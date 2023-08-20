@@ -19,7 +19,7 @@ import { AUTH_DATA } from '@shared/utils/constant';
 export class AuthStore {
   private _token = new BehaviorSubject<string>('');
   token$ = this._token.asObservable();
-  private _user = new BehaviorSubject<User>({username: 'anonymous', fullName: 'anonymous'} as User);
+  private _user = new BehaviorSubject<User>({} as User);
   user$ = this._user.asObservable();
   token = '';
 
@@ -28,7 +28,7 @@ export class AuthStore {
 
   constructor(
     private authService: AuthService,
-    private loadingService: LoadingService,
+    private loadingService: LoadingService
   ) {
     this.isLoggedIn$ = this.user$.pipe(map((user) => !!user.id));
 
@@ -45,19 +45,23 @@ export class AuthStore {
 
     if (!userStr) return of({} as User);
 
-    const parsedUser = JSON.parse(userStr);
+    const parsedUser: TokenResponse = JSON.parse(userStr);
     const token = parsedUser.type + ' ' + parsedUser.token;
 
-    // emit token to verify
-    this._user.next(parsedUser);
+    // emit token from localStorage to verify
+    this._user.next(parsedUser.user);
     this._token.next(token);
     this.token = token;
 
     return this.authService.verifyUser().pipe(
-      tap((user) => {
+      map((user) => {
+        user.token = parsedUser.token;
+
         this._user.next(user);
         this._token.next(token);
         this.token = parsedUser.token;
+
+        return user;
       })
     );
   }
@@ -66,12 +70,21 @@ export class AuthStore {
     // unsubscribe to previous ws session, other previous data
     return this.authService.getToken(payload).pipe(
       tap((loginResponse) => {
-        this._token.next(loginResponse.type + ' ' + loginResponse.token);
-        this._user.next(loginResponse);
+        const token = loginResponse.type + ' ' + loginResponse.token;
+        const user = loginResponse.user;
+        user.token = token;
+
+        this._token.next(token);
+        this._user.next(user);
         localStorage.setItem(AUTH_DATA, JSON.stringify(loginResponse));
       }),
       shareReplay()
     );
+  }
+
+  anonymousLogin(username: string) {
+    username = 'anonymous-' + username.trim();
+    this._user.next({ username, fullName: username } as User);
   }
 
   logout() {

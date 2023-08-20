@@ -23,6 +23,11 @@ const routes: Routes = [
     canActivate: [logoutGuard]
   },
   {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [authGuard]
+  },
+  {
     path: 'profile/:username',
     component: ProfileComponent,
     canActivate: [authGuard]

@@ -16,10 +16,6 @@ export class AppComponent implements OnInit {
   windowScrolled = false;
 
   ngOnInit(): void {
-    this.auth.verifyUser().subscribe((user) => {
-      console.log(user);
-    });
-
     fromEvent(document, 'scroll').subscribe(() => {
       this.windowScrolled = window.scrollY > 100;
     });
