@@ -1,0 +1,17 @@
+<div dropdown>
+  <span>User</span>
+  <ul dropdown-item>
+    <li routerLink="/quiz">Quiz</li>
+    <li routerLink="/calculator">Calculator</li>
+    <li routerLink="/chat">Chat</li>
+    <li [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile</li>
+    <li routerLink="/admin/user" *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Manage
+      User</li>
+    <li routerLink="/admin/quiz" *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Manage
+      quiz</li>
+    <li routerLink="/admin/quiz/question" *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Manage
+      question</li>
+    <li routerLink="/auth/login" *ngIf="auth.isLoggedOut$ | async">Login</li>
+    <li (click)="logout()" *ngIf="auth.isLoggedIn$ | async">Logout</li>
+  </ul>
+</div>

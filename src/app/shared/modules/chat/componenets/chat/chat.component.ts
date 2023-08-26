@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   Output,
   ViewChild,
   ViewContainerRef,
@@ -32,6 +33,7 @@ import { ChatMessage } from '@shared/models/chat';
 import { rxStompConfig } from '@shared/utils/rx-stomp-config';
 import { RxStompState } from '@stomp/rx-stomp';
 import { ChattingService } from '@shared/services/common/chatting.service';
+import { CHAT_INSTANCE } from '@shared/utils/constant';
 
 @Component({
   selector: 'app-chat',
@@ -39,9 +41,10 @@ import { ChattingService } from '@shared/services/common/chatting.service';
   styleUrls: ['./chat.component.scss'],
   providers: [OnDestroyService],
 })
-export class ChatComponent {
+export class ChatComponent implements OnDestroy {
   @Input() currentChatInfo!: any;
   @Input() currentUser!: User;
+  @Input() isFullScreen = false;
 
   receivedMessages: any[] = [];
 
@@ -90,6 +93,11 @@ export class ChatComponent {
       .subscribe(() => {
         this.scrollToBottom();
       });
+  }
+
+  ngOnDestroy(): void {
+    console.log('ngOnDestroy');
+    sessionStorage.removeItem(CHAT_INSTANCE);
   }
 
   anonymousLogin() {

@@ -1,0 +1,17 @@
+.menu {
+  display: flex;
+  max-width: 80%;
+  padding: 1em;
+
+  &-item {
+    flex: 1;
+    cursor: pointer;
+    list-style-type: none;
+    padding: 0.5em 1em;
+    text-align: center;
+  }
+
+  & .active {
+    background-color: var(--primary-color);
+  }
+}

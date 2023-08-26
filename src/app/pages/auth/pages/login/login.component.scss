@@ -1,8 +1,16 @@
 .form-container {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
+.login-title {
+  margin-bottom: 16px;
+}
+
 .login-form {
   max-width: 300px;
+  width: 300px;
 }
 
 .login-form-margin {

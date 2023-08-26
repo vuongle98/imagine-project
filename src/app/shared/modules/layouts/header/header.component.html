@@ -1,0 +1,21 @@
+<div class="header-top">
+  <div></div>
+  <!-- <div></div>
+  <div></div> -->
+  <img routerLink="/" class="brand-logo" src="assets/avatar/bear.png" alt="logo">
+  <div></div>
+  <!-- <app-user-profile></app-user-profile>
+  <div></div> -->
+</div>
+
+<div class="header-nav">
+  <ul menu direction="horizontal">
+    <li menu-item routerLinkActive="active" routerLink="/quiz">Quiz</li>
+    <li menu-item routerLinkActive="active" routerLink="/calculator">Calculator</li>
+    <li menu-item routerLinkActive="active" routerLink="/chat">Chat</li>
+    <li menu-item routerLinkActive="active" [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile</li>
+    <li menu-item routerLinkActive="active" routerLink="/admin" *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Admin</li>
+    <li menu-item routerLinkActive="active" routerLink="/auth/login" *ngIf="auth.isLoggedOut$ | async">Login</li>
+    <li menu-item routerLinkActive="active" (click)="logout()" *ngIf="auth.isLoggedIn$ | async">Logout</li>
+  </ul>
+</div>

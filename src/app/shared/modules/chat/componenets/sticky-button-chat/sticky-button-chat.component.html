@@ -1,4 +1,3 @@
-<div class="sticky-chat-btn enter" [ngClass]="{ 'expand': isShowChat }">
-  <i style="padding: 10px;" (click)="toggleChat()" *ngIf="!isShowChat" class="fa fa-comments" aria-hidden="true"></i>
+<app-floatting-button [isShow]="isShowChat" (showChange)="toggleChat()">
   <app-list-chat [currentUser]="this.auth.user$| async" *ngIf="isShowChat" (closeChange)="toggleChat()"></app-list-chat>
-</div>
+</app-floatting-button>

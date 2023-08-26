@@ -23,6 +23,21 @@ import { BaseChatComponent } from './modules/chat/componenets/base-chat/base-cha
 import { ChatHeaderComponent } from './modules/chat/componenets/chat-header/chat-header.component';
 import { RouterModule } from '@angular/router';
 import { TagUsername } from './pipes/tag-username.pipe';
+import { AutofocusDirective } from './directives/auto-focus.directive';
+import { FocusInputDirective } from './directives/focus-input.directive';
+import { HeaderComponent } from './modules/layouts/header/header.component';
+import { UserProfileComponent } from './modules/layouts/widgets/user-profile/user-profile.component';
+import { NotificationComponent } from './modules/layouts/widgets/notification/notification.component';
+import { SidebarComponent } from './modules/layouts/sidebar/sidebar.component';
+import { MenuDirective } from './directives/layout/menu.directive';
+import { MenuItemDirective } from './directives/layout/menu-item.directive';
+import { DropdownItemDirective } from './directives/layout/dropdown-item.directive';
+import { DropdownDirective } from './directives/layout/dropdown.directive';
+import { FooterComponent } from './modules/layouts/footer/footer.component';
+import { MenuComponent } from './modules/layouts/menu/menu.component';
+import { FloattingButtonComponent } from './modules/floatting-button/floatting-button.component';
+import { BaseLayoutComponent } from './modules/layouts/base-layout/base-layout.component';
+import { NoBaseLayoutComponent } from './modules/layouts/no-base-layout/no-base-layout.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -37,7 +52,16 @@ const COMPONENTS = [
   StickyButtonChatComponent,
   ListChatComponent,
   BaseChatComponent,
-  ChatHeaderComponent
+  ChatHeaderComponent,
+  HeaderComponent,
+  UserProfileComponent,
+  NotificationComponent,
+  SidebarComponent,
+  FooterComponent,
+  MenuComponent,
+  FloattingButtonComponent,
+  BaseLayoutComponent,
+  NoBaseLayoutComponent,
 ];
 
 const DIRECTIVES = [
@@ -46,6 +70,12 @@ const DIRECTIVES = [
   VgCardDirective,
   AnswerCorrectDirective,
   MarkDirective,
+  AutofocusDirective,
+  FocusInputDirective,
+  MenuDirective,
+  MenuItemDirective,
+  DropdownItemDirective,
+  DropdownDirective,
 ];
 
 const PIPES = [SecurePipe, TagUsername];
@@ -53,7 +83,7 @@ const PIPES = [SecurePipe, TagUsername];
 const MODULES = [FormsModule, ReactiveFormsModule, RouterModule];
 
 @NgModule({
-  declarations: [COMPONENTS, DIRECTIVES, PIPES, ],
+  declarations: [COMPONENTS, DIRECTIVES, PIPES],
   imports: [CommonModule, NzImportModule, MODULES],
   exports: [
     NzImportModule,

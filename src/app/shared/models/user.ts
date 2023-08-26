@@ -5,6 +5,7 @@ export type User = {
   email: string;
   roles: string[];
   token?: string;
+  friends?: User[];
 };
 
 export type LoginPayload = {

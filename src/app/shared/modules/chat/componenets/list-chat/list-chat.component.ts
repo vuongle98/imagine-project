@@ -14,10 +14,12 @@ import {
 } from '@angular/core';
 import { Conversation } from '@shared/models/chat';
 import { User } from '@shared/models/user';
+import { ChattingService } from '@shared/services/common/chatting.service';
 import { AuthStore } from '@shared/services/rest-api/auth/auth.store';
 import { ChatService } from '@shared/services/rest-api/chat/chat.service';
 import { RxStompService } from '@shared/services/rx-stomp/rx-stomp.service';
-import { Observable, map, of, switchMap, take } from 'rxjs';
+import { CHAT_INSTANCE } from '@shared/utils/constant';
+import { Observable, map, of, skip, switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'app-list-chat',
@@ -26,6 +28,7 @@ import { Observable, map, of, switchMap, take } from 'rxjs';
 })
 export class ListChatComponent implements OnInit {
   @Input() currentUser!: any;
+  @Input() isFullScreen = false;
 
   @Output() closeChange = new EventEmitter<any>();
 
@@ -43,7 +46,7 @@ export class ListChatComponent implements OnInit {
   constructor(
     private chatService: ChatService,
     private authStore: AuthStore,
-    private rxStompService: RxStompService
+    private chattingService: ChattingService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +70,13 @@ export class ListChatComponent implements OnInit {
   }
 
   openChat(chat: Conversation) {
-    this.currentChatInfo = chat;
+    const chat_instance = sessionStorage.getItem(CHAT_INSTANCE);
+    if (!chat_instance) {
+      sessionStorage.setItem(CHAT_INSTANCE, 'true');
+      this.currentChatInfo = chat;
+    } else {
+      this.currentChatInfo = undefined;
+    }
   }
 
   closeChat() {

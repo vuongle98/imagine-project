@@ -1,30 +1,5 @@
-.list-chat-container {
-  width: 100%;
-  padding: 1em;
-}
-
-.list-chat-item {
-  height: 30px;
-  padding: 0 10px;
-  cursor: pointer;
-}
-
-app-base-chat {
-  width: 100%;
-}
-
-app-chat {
-  width: 100%;
-  height: 360px;
-  max-height: 360px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.btn-icon {
-  cursor: pointer;
-  padding: 0.3em;
-  margin: 0 0.2em;
+.chat-fullscreen {
+  max-height: calc(100vh - 290px) !important;
+  height: calc(100vh - 290px) !important;
+  width: 100% !important;
 }

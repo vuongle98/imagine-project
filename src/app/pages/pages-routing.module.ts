@@ -5,10 +5,7 @@ import { logoutGuard } from '../core/guards/logout.guard';
 import { CalculatorComponent } from './calculator/calculator.component';
 
 const routes: Routes = [
-  {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
-  },
+
   {
     path: 'quiz',
     loadChildren: () => import('./quiz/quiz.module').then((m) => m.QuizModule),

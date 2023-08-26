@@ -8,17 +8,8 @@ import {
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  Observable,
-  catchError,
-  filter,
-  mergeMap,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-  throwError,
+  Observable, mergeMap, take, tap
 } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/rest-api/auth/auth.service';
 import { AuthStore } from 'src/app/shared/services/rest-api/auth/auth.store';
 
 @Injectable()

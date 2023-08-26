@@ -21,10 +21,14 @@ export class AuthStore {
   token$ = this._token.asObservable();
   private _user = new BehaviorSubject<User>({} as User);
   user$ = this._user.asObservable();
+  private _permission = new BehaviorSubject<string[]>([]);
+  permission$ = this._permission.asObservable();
   token = '';
 
   isLoggedIn$!: Observable<boolean>;
   isLoggedOut$!: Observable<boolean>;
+
+  isAdmin$!: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -33,6 +37,10 @@ export class AuthStore {
     this.isLoggedIn$ = this.user$.pipe(map((user) => !!user.id));
 
     this.isLoggedOut$ = this.isLoggedIn$.pipe(map((loggedIn) => !loggedIn));
+
+    this.isAdmin$ = this.permission$.pipe(
+      map((roles) => roles.includes('ADMIN'))
+    );
   }
 
   /**
@@ -57,8 +65,7 @@ export class AuthStore {
       map((user) => {
         user.token = parsedUser.token;
 
-        this._user.next(user);
-        this._token.next(token);
+        this.setUserData(user, token);
         this.token = parsedUser.token;
 
         return user;
@@ -74,12 +81,17 @@ export class AuthStore {
         const user = loginResponse.user;
         user.token = token;
 
-        this._token.next(token);
-        this._user.next(user);
+        this.setUserData(user, token);
         localStorage.setItem(AUTH_DATA, JSON.stringify(loginResponse));
       }),
       shareReplay()
     );
+  }
+
+  setUserData(user: User, token: string) {
+    this._user.next(user);
+    this._token.next(token);
+    this._permission.next(user.roles);
   }
 
   anonymousLogin(username: string) {

@@ -1,0 +1,48 @@
+app-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .header {
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      padding: 1em;
+      align-items: center;
+
+      flex-wrap: wrap;
+      gap: 1em;
+
+      .brand {
+        &-logo {
+          cursor: pointer;
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+      &-search {
+        input {
+          border: none;
+          color: var(--dark-color);
+          border-radius: 0.5em;
+          padding: 0.35em 1em;
+        }
+      }
+
+      :focus {
+        outline: none;
+      }
+    }
+
+    &-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    & ul {
+      padding: 0;
+    }
+  }
+}
