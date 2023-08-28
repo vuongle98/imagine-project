@@ -1,12 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AuthStore } from '@shared/services/rest-api/auth/auth.store';
 import { RxStompService } from '@shared/services/rx-stomp/rx-stomp.service';
-import { Observable, iif, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  filter,
+  iif,
+  of,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StartupService {
+export class StartupService implements OnDestroy {
+  private _destroy$ = new Subject<void>();
+
   constructor(
     private authStore: AuthStore,
     private rxStompService: RxStompService
@@ -30,12 +41,19 @@ export class StartupService {
 
   loggedInFlow(): Observable<any> {
     return this.authStore.user$.pipe(
+      filter((user) => !!user.username),
       switchMap((user) => {
         this.rxStompService.configWs(undefined, user.token);
         this.rxStompService.activate();
         return of(user);
-      })
+      }),
+      takeUntil(this._destroy$)
     );
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   unauthenticatedFlow(username: string): Observable<any> {

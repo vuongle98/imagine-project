@@ -4,7 +4,7 @@ import { ReplaySubject } from 'rxjs';
 @Injectable()
 export class OnDestroyService extends ReplaySubject<void> implements OnDestroy {
   constructor() {
-    super(1);
+    super();
   }
 
   ngOnDestroy(): void {

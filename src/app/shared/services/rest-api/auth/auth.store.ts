@@ -12,6 +12,7 @@ import {
 import { LoginPayload, TokenResponse, User } from 'src/app/shared/models/user';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 import { AUTH_DATA } from '@shared/utils/constant';
+import { RxStompService } from '@shared/services/rx-stomp/rx-stomp.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,8 @@ export class AuthStore {
 
   constructor(
     private authService: AuthService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private rxStompService: RxStompService
   ) {
     this.isLoggedIn$ = this.user$.pipe(map((user) => !!user.id));
 
@@ -103,5 +105,6 @@ export class AuthStore {
     this._user.next({} as User);
     this._token.next('');
     localStorage.removeItem(AUTH_DATA);
+    this.rxStompService.deactivate();
   }
 }
