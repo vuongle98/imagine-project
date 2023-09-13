@@ -1,0 +1,21 @@
+<ng-container *ngIf="friends">
+  <div class="friend-header">
+    {{friendshipStatus(friendStatus)}} friends
+  </div>
+  <div class="friend friend-container" *ngFor="let friend of friends;">
+    <a routerLink="/auth/profile/{{friend.username}}">@{{friend.fullName}}</a>
+
+    <ng-container *ngIf="friendStatus === 'PENDING'">
+      <span class="friend-action" (click)="acceptFriend(friend.id)">Accept</span>
+      <span class="friend-action" (click)="declineFriend(friend.id)">Decline</span>
+    </ng-container>
+
+    <ng-container *ngIf="friendStatus === 'ACCEPTED'">
+      <span class="friend-action" (click)="removeFriend(friend.id)">Remove</span>
+    </ng-container>
+
+    <ng-container *ngIf="friendStatus === 'REQUESTED'">
+      <span class="friend-action" (click)="removeFriend(friend.id)">Remove</span>
+    </ng-container>
+  </div>
+</ng-container>

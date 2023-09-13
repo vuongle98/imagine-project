@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { FriendComponent } from './pages/profile/friend/friend.component';
 
 const COMPONENTS: any[] = [];
 const COMPONENTS_DYNAMIC: any[] = [];
@@ -16,6 +17,7 @@ const COMPONENTS_DYNAMIC: any[] = [];
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
+    FriendComponent,
   ],
 })
 export class AuthModule {}

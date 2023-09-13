@@ -5,7 +5,8 @@
     </div>
   </div>
 
-  <app-chat [ngClass]="{ 'chat-fullscreen': isFullScreen }" #appChat [currentUser]="currentUser" [currentChatInfo]="currentChatInfo" *ngIf="currentChatInfo"></app-chat>
+  <app-chat [ngClass]="{ 'chat-fullscreen': isFullScreen }" #appChat [currentUser]="currentUser"
+    [currentChatInfo]="currentChatInfo" *ngIf="currentChatInfo"></app-chat>
 </app-base-chat>
 
 <ng-template #rightAction>

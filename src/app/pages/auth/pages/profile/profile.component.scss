@@ -17,6 +17,7 @@
 
   &-fullname {
     font-size: 1.5em;
+    font-weight: bold;
   }
 
   &-username {
@@ -26,6 +27,20 @@
   &-meta {
 
   }
+
+  &-action {
+    cursor: pointer;
+    padding: 0.3em 0;
+
+    &:hover {
+      background-color: #4d4d4d;
+    }
+  }
+
+}
+
+app-friend {
+  margin: 1em;
 }
 
 .avatar {

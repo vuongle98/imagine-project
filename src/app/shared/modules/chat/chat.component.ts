@@ -26,7 +26,7 @@ import {
 } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthStore } from 'src/app/shared/services/rest-api/auth/auth.store';
-import { MessageComponent } from '../message/message.component';
+import { MessageComponent } from './message/message.component';
 import { OnDestroyService } from '@shared/services/common/on-destroyed.service';
 import { User } from '@shared/models/user';
 import { ChatMessage } from '@shared/models/chat';

@@ -3,8 +3,6 @@
 <div class="main">
   <loading></loading>
   <router-outlet></router-outlet>
-  <app-sticky-button-chat
-    *ngIf="(auth.isLoggedIn$ | async) && !(chattingService.isHideChatPopup$ | async)"></app-sticky-button-chat>
   <div *ngIf="windowScrolled">
     <button class="" (click)="scrollToTop()" vg-button size="small" color="success">Back</button>
   </div>

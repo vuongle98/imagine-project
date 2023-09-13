@@ -11,5 +11,9 @@ import { ChattingService } from '@shared/services/common/chatting.service';
 })
 export class AppComponent {
 
+  constructor(
+    public auth: AuthStore,
+    public chattingService: ChattingService
+  ) {}
 
 }

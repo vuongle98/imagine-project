@@ -1,0 +1,4 @@
+<app-floatting-button [isShow]="isShowChat" (showChange)="toggleChat()">
+  <app-list-chat [currentChatInfo]="initChat" [currentUser]="this.auth.user$| async" *ngIf="isShowChat" (closeChange)="toggleChat()"></app-list-chat>
+  <!-- <span (click)="closeChat()">close</span> -->
+</app-floatting-button>

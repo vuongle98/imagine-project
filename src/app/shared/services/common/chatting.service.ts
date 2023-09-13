@@ -1,23 +1,57 @@
-import { Injectable } from '@angular/core';
+import { ApplicationRef, ComponentRef, Injectable } from '@angular/core';
 import { ChatService } from '../rest-api/chat/chat.service';
 import { RxStompService } from '../rx-stomp/rx-stomp.service';
-import { BehaviorSubject, Subject, debounceTime, map, merge, tap } from 'rxjs';
+import { BehaviorSubject, map, merge, tap } from 'rxjs';
+import { Modal } from '@shared/models/modal.model';
+import { ModalRef } from '@shared/models/modal-ref.model';
+import { ChattingContainerComponent } from '@shared/modules/modal/chatting-container.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChattingService {
+  private modalContainer!: HTMLElement;
+  private componentRef!: ComponentRef<ChattingContainerComponent>;
 
   private _isHideChatPopup = new BehaviorSubject<boolean>(false);
   isHideChatPopup$ = this._isHideChatPopup.asObservable();
 
   constructor(
     private chatService: ChatService,
-    private rxStompService: RxStompService
+    private rxStompService: RxStompService,
+    private appRef: ApplicationRef
   ) {}
 
   set isHideChatPopup(value: boolean) {
     this._isHideChatPopup.next(value);
+  }
+
+  openChat(initChat?: any): any {
+    this.setupModalContainerDiv();
+
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
+
+    const componentRef = this.appRef.bootstrap(
+      ChattingContainerComponent,
+      this.modalContainer
+    );
+
+    componentRef.instance.renderChatButtonComponent(initChat);
+
+    this.componentRef = componentRef;
+  }
+
+  closeChat(): void {
+    this._isHideChatPopup.next(true);
+  }
+
+  private setupModalContainerDiv(): void {
+    this.modalContainer = document.createElement('div');
+    document
+      .getElementsByTagName('app-root')[0]
+      .appendChild(this.modalContainer);
   }
 
   subcribeTo(destination: string) {

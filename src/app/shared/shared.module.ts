@@ -15,12 +15,12 @@ import { MarkDirective } from './directives/mark.directive';
 import { QuizLevelDirective } from './directives/quiz/quiz-level.directive';
 import { SkeletonDirective } from './directives/quiz/skeleton.directive';
 import { SecurePipe } from './pipes/secure.pipe';
-import { ChatComponent } from './modules/chat/componenets/chat/chat.component';
-import { MessageComponent } from './modules/chat/componenets/message/message.component';
-import { StickyButtonChatComponent } from './modules/chat/componenets/sticky-button-chat/sticky-button-chat.component';
-import { ListChatComponent } from './modules/chat/componenets/list-chat/list-chat.component';
-import { BaseChatComponent } from './modules/chat/componenets/base-chat/base-chat.component';
-import { ChatHeaderComponent } from './modules/chat/componenets/chat-header/chat-header.component';
+import { ChatComponent } from './modules/chat/chat.component';
+import { MessageComponent } from './modules/chat/message/message.component';
+import { StickyButtonChatComponent } from './modules/chat/sticky-button-chat/sticky-button-chat.component';
+import { ListChatComponent } from './modules/chat/list-chat/list-chat.component';
+import { BaseChatComponent } from './modules/chat/base-chat/base-chat.component';
+import { ChatHeaderComponent } from './modules/chat/chat-header/chat-header.component';
 import { RouterModule } from '@angular/router';
 import { TagUsername } from './pipes/tag-username.pipe';
 import { AutofocusDirective } from './directives/auto-focus.directive';
@@ -38,6 +38,7 @@ import { MenuComponent } from './modules/layouts/menu/menu.component';
 import { FloattingButtonComponent } from './modules/floatting-button/floatting-button.component';
 import { BaseLayoutComponent } from './modules/layouts/base-layout/base-layout.component';
 import { NoBaseLayoutComponent } from './modules/layouts/no-base-layout/no-base-layout.component';
+import { ChattingContainerComponent } from './modules/modal/chatting-container.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -62,6 +63,7 @@ const COMPONENTS = [
   FloattingButtonComponent,
   BaseLayoutComponent,
   NoBaseLayoutComponent,
+  ChattingContainerComponent,
 ];
 
 const DIRECTIVES = [
@@ -84,7 +86,7 @@ const MODULES = [FormsModule, ReactiveFormsModule, RouterModule];
 
 @NgModule({
   declarations: [COMPONENTS, DIRECTIVES, PIPES],
-  imports: [CommonModule, NzImportModule, MODULES],
+  imports: [CommonModule, NzImportModule, MODULES, ],
   exports: [
     NzImportModule,
     CommonModule,

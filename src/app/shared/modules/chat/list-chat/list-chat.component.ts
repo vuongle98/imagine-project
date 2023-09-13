@@ -32,7 +32,7 @@ export class ListChatComponent implements OnInit {
 
   @Output() closeChange = new EventEmitter<any>();
 
-  currentChatInfo?: any;
+  @Input() currentChatInfo?: any;
 
   listChat: Conversation[] = [
     {
@@ -74,6 +74,7 @@ export class ListChatComponent implements OnInit {
     if (!chat_instance) {
       sessionStorage.setItem(CHAT_INSTANCE, 'true');
       this.currentChatInfo = chat;
+
     } else {
       this.currentChatInfo = undefined;
     }
