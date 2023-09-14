@@ -1,5 +1,4 @@
 .question-container {
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,9 +6,13 @@
 }
 
 .actions {
-  margin: 1.2em;
+  margin: 0.5em;
 
   button {
     margin: 0 0.3em;
   }
+}
+
+app-question-item-custom {
+  width: 100%;
 }

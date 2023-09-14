@@ -6,6 +6,7 @@
 
   width: 50px;
   height: 50px;
+  z-index: 1000;
 
   &.expand {
     width: 350px;
@@ -14,5 +15,15 @@
     border-radius: 5px;
     cursor: auto;
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .sticky-btn {
+    &.expand {
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100% !important;
+    }
   }
 }

@@ -3,3 +3,13 @@
   height: calc(100vh - 290px) !important;
   width: 100% !important;
 }
+
+@media only screen and (max-width: 600px) {
+  .chat-fullscreen {
+    &.expand {
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100% !important;
+    }
+  }
+}

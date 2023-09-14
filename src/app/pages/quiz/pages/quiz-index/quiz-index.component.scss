@@ -1,3 +1,14 @@
 .load-more-button {
-  margin-top: 1.5em;
+  padding: 1.5em 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: 0.2fr;
+  gap: 1em;
+
 }

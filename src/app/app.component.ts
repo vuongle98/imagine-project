@@ -10,10 +10,14 @@ import { ChattingService } from '@shared/services/common/chatting.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  windowScrolled = false;
 
-  constructor(
-    public auth: AuthStore,
-    public chattingService: ChattingService
-  ) {}
-
+  constructor(public auth: AuthStore, public chattingService: ChattingService) {
+    fromEvent(document, 'scroll').subscribe(() => {
+      this.windowScrolled = window.scrollY > 100;
+    });
+  }
+  scrollToTop(): void {
+    window.scrollTo(0, 0);
+  }
 }

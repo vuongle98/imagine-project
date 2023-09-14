@@ -51,8 +51,6 @@ export class QuizPlayingComponent implements OnInit {
   }
 
   done(questions: Question[]) {
-    console.log(questions);
-
     this.commit(questions).subscribe();
   }
 
