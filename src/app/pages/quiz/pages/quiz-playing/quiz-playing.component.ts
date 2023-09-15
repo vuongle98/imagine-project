@@ -3,14 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import {
   BaseCheckAnswer,
-  CheckAnswer,
   CheckAnswerResponse,
   Question,
   Quiz,
 } from 'src/app/shared/models/quiz';
 import { QuizService } from 'src/app/shared/services/rest-api/quiz/quiz.service';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { NotificationService } from '@shared/services/common/notificaton.service';
 
 @Component({
   selector: 'app-quiz-playing',
@@ -32,7 +31,7 @@ export class QuizPlayingComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private quizService: QuizService,
-    private nzMessageService: NzMessageService
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -62,8 +61,9 @@ export class QuizPlayingComponent implements OnInit {
 
     return this.quizService.checkAnswer(this.quizId, body).pipe(
       tap((res) => {
-        this.nzMessageService.info(
-          'Số câu đúng: ' + res.numOfCorrectAnswers + '/' + res.totalAnswers
+        this.notificationService.info(
+          'Thông tin',
+          'Số câu đúng: ' + res.numOfCorrectAnswers + '/' + res.totalAnswers,
         );
         this.isPlaying = false;
         this.isCheckout = true;

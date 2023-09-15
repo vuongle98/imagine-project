@@ -17,8 +17,14 @@ import {
 })
 export class VgButtonDirective {
   @Input() size: 'medium' | 'small' | 'large' | 'xlarge' = 'medium';
-  @Input() color: string = 'primary';
-  @Input('border-radius') borderRadius: string = '0';
+  @Input() type: 'button' | 'link' | 'icon' = 'button';
+  @Input() color:
+    | 'error'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'info' = 'primary';
   @Input() shadow: boolean = false;
 
   @Input() set loading(value: boolean | null) {
@@ -41,7 +47,11 @@ export class VgButtonDirective {
 
   @HostBinding('class')
   get buttonClass(): string {
-    return `button button-${this.size} button-${this.color}`;
+    if (this.type === 'icon') {
+      return `button button-${this.color} button-icon`;
+    }
+
+    return `button button-${this.size} button-${this.color} button-${this.type}`;
   }
 
   toggle(condition: boolean) {

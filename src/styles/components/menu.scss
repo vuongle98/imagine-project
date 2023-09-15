@@ -15,18 +15,3 @@
     background-color: var(--primary-color);
   }
 }
-
-.show-menu {
-  display: none;
-}
-
-@media only screen and (max-width: 600px) {
-  .menu {
-    flex-direction: column;
-    display: none;
-  }
-
-  .show-menu {
-    display: block;
-  }
-}

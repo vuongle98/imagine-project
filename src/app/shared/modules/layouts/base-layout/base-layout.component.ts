@@ -10,7 +10,7 @@ import { fromEvent } from 'rxjs';
   styleUrls: ['./base-layout.component.scss'],
 })
 export class BaseLayoutComponent {
-  isCollapsed = false;
+  isMobile = false;
 
   constructor(
     public auth: AuthStore,
@@ -20,6 +20,16 @@ export class BaseLayoutComponent {
 
   ngOnInit(): void {
     sessionStorage.clear();
+
+    if (window.innerWidth > 600) {
+      this.isMobile = false;
+    } else {
+      this.isMobile = true;
+    }
+
+    window.onresize = () => {
+      this.isMobile = window.innerWidth < 600 || false;
+    };
   }
 
   logout() {

@@ -1,7 +1,6 @@
-<app-header></app-header>
+<app-header *ngIf="!isMobile"></app-header>
+<app-header-mobile *ngIf="isMobile"></app-header-mobile>
 
 <div class="main">
-  <loading></loading>
   <router-outlet></router-outlet>
-
 </div>

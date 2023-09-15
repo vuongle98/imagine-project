@@ -27,7 +27,6 @@ import { AutofocusDirective } from './directives/auto-focus.directive';
 import { FocusInputDirective } from './directives/focus-input.directive';
 import { HeaderComponent } from './modules/layouts/header/header.component';
 import { UserProfileComponent } from './modules/layouts/widgets/user-profile/user-profile.component';
-import { NotificationComponent } from './modules/layouts/widgets/notification/notification.component';
 import { SidebarComponent } from './modules/layouts/sidebar/sidebar.component';
 import { MenuDirective } from './directives/layout/menu.directive';
 import { MenuItemDirective } from './directives/layout/menu-item.directive';
@@ -39,6 +38,8 @@ import { FloattingButtonComponent } from './modules/floatting-button/floatting-b
 import { BaseLayoutComponent } from './modules/layouts/base-layout/base-layout.component';
 import { NoBaseLayoutComponent } from './modules/layouts/no-base-layout/no-base-layout.component';
 import { ChattingContainerComponent } from './modules/modal/chatting-container.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { HeaderMobileComponent } from './modules/layouts/header-mobile/header-mobile.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -85,7 +86,7 @@ const PIPES = [SecurePipe, TagUsername];
 const MODULES = [FormsModule, ReactiveFormsModule, RouterModule];
 
 @NgModule({
-  declarations: [COMPONENTS, DIRECTIVES, PIPES],
+  declarations: [COMPONENTS, DIRECTIVES, PIPES, HeaderMobileComponent],
   imports: [CommonModule, NzImportModule, MODULES, ],
   exports: [
     NzImportModule,

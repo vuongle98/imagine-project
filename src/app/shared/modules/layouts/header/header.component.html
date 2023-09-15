@@ -10,13 +10,14 @@
 
 
 <div class="header-nav">
-  <button vg-button size="small" color="success" class="show-menu">Show menu</button>
   <ul menu direction="horizontal">
     <li menu-item routerLinkActive="active" routerLink="/quiz">Quiz</li>
     <li menu-item routerLinkActive="active" routerLink="/calculator">Calculator</li>
     <li menu-item routerLinkActive="active" routerLink="/chat">Chat</li>
-    <li menu-item routerLinkActive="active" [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile</li>
-    <li menu-item routerLinkActive="active" routerLink="/admin" *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Admin</li>
+    <li menu-item routerLinkActive="active" [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile
+    </li>
+    <li menu-item routerLinkActive="active" routerLink="/admin"
+      *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Admin</li>
     <li menu-item routerLinkActive="active" routerLink="/auth/login" *ngIf="auth.isLoggedOut$ | async">Login</li>
     <li menu-item routerLinkActive="active" (click)="logout()" *ngIf="auth.isLoggedIn$ | async">Logout</li>
   </ul>

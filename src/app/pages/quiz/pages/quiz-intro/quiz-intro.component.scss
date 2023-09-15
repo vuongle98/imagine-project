@@ -1,45 +1,38 @@
-.intro-card-container {
+.intro-card {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  max-width: 540px;
+  background-color: var(--second-color);
+  border-radius: 1em;
+  box-shadow: -5px 5px 30px -10px rgba(157, 241, 252, 0.678);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-  .intro-card {
+  img {
+    width: 100%;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+  }
+
+  &-content {
+    padding: 1.2em;
     display: flex;
     flex-direction: column;
-    max-width: 800px;
-    background-color: var(--second-color);
-    border-radius: 1em;
-    box-shadow: -5px 5px 30px -10px rgba(157, 241, 252, 0.678);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-    img {
-      width: 100%;
-      border-top-left-radius: 1em;
-      border-top-right-radius: 1em;
+    button {
+      margin: 0.5em 0;
+      // align-self: flex-end;
     }
+  }
 
-    &-content {
-      padding: 1.2em;
-      display: flex;
-      flex-direction: column;
+  &-meta {
+    align-self: flex-end;
+    font-size: 0.8em;
+  }
 
-      button {
-        margin: 0.5em 0;
-        // align-self: flex-end;
-      }
-    }
+  &-title {
+    font-size: 1.2em;
+  }
 
-    &-meta {
-      align-self: flex-end;
-      font-size: 0.8em;
-    }
-
-    &-title {
-      font-size: 1.2em;
-    }
-
-    &-description {
-
-    }
+  &-description {
   }
 }

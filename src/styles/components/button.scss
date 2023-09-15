@@ -14,8 +14,8 @@
   font-weight: 600;
   justify-content: center;
   line-height: 1.25;
-  min-height: 1rem;
-  padding: 1em 1.5em;
+  min-height: 1em;
+  padding: 0.4em 0.6em;
   position: relative;
   text-decoration: none;
   transition: all 250ms;
@@ -45,22 +45,25 @@
   }
   &-large {
     min-width: 5em;
-    height: 2.5em;
     font-size: 16px;
   }
   &-xlarge {
     min-width: 6em;
-    height: 3em;
     font-size: 18px;
   }
   &-small {
     min-width: 3em;
-    height: 1.5em;
     font-size: 14px;
   }
   &-medium {
-    min-width: 4.5em;
-    height: 2em;
+    min-width: 4em;
+  }
+  &-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    padding: 15px;
+    font-size: 1em;
   }
   &-loading {
     display: inline-block;

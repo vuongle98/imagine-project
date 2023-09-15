@@ -1,0 +1,93 @@
+.notification-container {
+  .notification {
+    margin: 5px;
+    border-radius: 5px;
+    color: #fff;
+    overflow: hidden;
+
+    width: 400px;
+    max-width: 400px;
+    padding: 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &-title {
+      padding-left: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-message {
+      padding: 10px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    &-info {
+      background-color: rgba(58, 58, 58, 0.9);
+    }
+
+    &-success {
+      background-color: rgba(27, 158, 119, 0.9);
+    }
+
+    &-warning {
+      background-color: rgba(217, 95, 2, 0.9);
+    }
+
+    &-error {
+      background-color: rgba(246, 71, 71, 0.9);
+    }
+
+    &-top-right {
+      top: 20px;
+      right: 20px;
+      position: fixed;
+    }
+
+    &-bottom-right {
+      bottom: 20px;
+      right: 20px;
+      position: fixed;
+    }
+
+    &-bottom-left {
+      bottom: 20px;
+      left: 20px;
+      position: fixed;
+    }
+
+    &-top-left {
+      top: 20px;
+      left: 20px;
+      position: fixed;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .notification {
+    width: 90% !important;
+
+    &-top-right {
+      top: 0 !important;
+      right: 0 !important;
+    }
+
+    &-bottom-right {
+      bottom: 0 !important;
+      right: 0 !important;
+    }
+
+    &-bottom-left {
+      bottom: 0 !important;
+      left: 0 !important;
+    }
+
+    &-top-left {
+      top: 0 !important;
+      left: 0 !important;
+    }
+  }
+}

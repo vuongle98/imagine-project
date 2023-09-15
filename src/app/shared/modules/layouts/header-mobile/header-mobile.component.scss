@@ -1,0 +1,119 @@
+.btn-pluss {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  width: 50px;
+  margin: 0 auto;
+  //padding-top: 25px;
+  background-color: #124812;
+  transition: all 0.3s ease;
+  align-items: center;
+
+  a {
+    display: block;
+    position: relative;
+    color: #fa434b;
+    text-decoration: none;
+    overflow: hidden;
+    padding: 5px;
+    border-radius: 5px;
+    &:hover {
+      text-decoration: inherit;
+      color: white;
+      background-color: #fa434b;
+      transition: background-color 0.3s ease;
+    }
+  }
+  // &:after {
+  //   content: "+";
+  //   position: absolute;
+  //   top: 50%;
+  //   left: 50%;
+  //   display: block;
+  //   height: 20px;
+  //   width: 20px;
+  //   border-radius: 100%;
+  //   line-height: 20px;
+  //   text-align: center;
+  //   font-size: 1.1rem;
+  //   background-color: #fa434b;
+  //   color: white;
+  //   transform: translateY(-50%) translateX(-50%);
+  //   transition: all 0.3s 0.5s ease;
+  //   cursor: pointer;
+  //   cursor: hand;
+  // }
+
+  ul {
+    opacity: 0;
+    padding: 0;
+    margin: 0;
+  }
+  ul {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    //height: 0;
+    transition: all 0.5s ease;
+    text-align: center;
+    font-size: 0.9rem;
+    li {
+      background-color: #e4e4e4;
+      margin-top: 5px;
+      border-radius: 5px;
+      height: 0;
+      overflow: hidden;
+      transition: height 0.5s ease;
+    }
+  }
+}
+
+.header-nav:hover {
+  .btn-pluss {
+    width: 100%;
+    border-radius: 15px;
+    transition: width 0.3s ease, border-radius 0.3s ease,
+      padding-bottom 0.3s ease;
+    &::after {
+      display: none;
+      transition: all 0.3s ease;
+      left: 50%;
+      top: 10px;
+      transform: translateY(-5px) translateX(-50%);
+    }
+    img {
+      padding-top: 10px;
+    }
+    ul {
+      opacity: 1;
+      width: 100%;
+      height: 100%;
+      transition: all 0.3s ease;
+      padding: 10px;
+    }
+    li {
+      height: 25px;
+      transition: height 0.5s ease;
+      &:hover {
+        border-bottom: 1px solid darken(#e9e5e5, 10);
+      }
+    }
+  }
+}
+
+.brand-logo {
+  max-width: 50px;
+}
+@keyframes jump {
+  0% {
+    transform: translateY(3px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(3px);
+  }
+}
