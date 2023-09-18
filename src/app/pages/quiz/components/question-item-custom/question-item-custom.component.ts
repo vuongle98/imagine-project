@@ -33,7 +33,7 @@ export class QuestionItemCustomComponent implements OnDestroy {
 
   ngOnInit(): void {
     this.countdownService
-      .startCountdown(1000)
+    .startCountdown(this.question.countDown || 30)
       .pipe(takeUntil(this.onDestroyed$))
       .subscribe((counter) => {
         this.counter = counter;

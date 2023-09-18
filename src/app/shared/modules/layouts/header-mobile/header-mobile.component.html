@@ -1,14 +1,3 @@
-<div class="header-top">
-  <div></div>
-  <!-- <div></div>
-  <div></div> -->
-
-  <div></div>
-  <!-- <app-user-profile></app-user-profile>
-  <div></div> -->
-</div>
-
-
 <div class="header-nav">
 
   <div class="btn-pluss">
@@ -18,13 +7,18 @@
         <a routerLinkActive="active" routerLink="/quiz">Quiz</a>
       </li>
       <li><a routerLinkActive="active" routerLink="/calculator">Calculator</a></li>
-      <li routerLinkActive="active" routerLink="/chat">Chat</li>
-      <li routerLinkActive="active" [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile
+      <li>
+        <a routerLinkActive="active" routerLink="/chat">Chat</a>
       </li>
-      <li routerLinkActive="active" routerLink="/admin" *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">
-        Admin</li>
-      <li routerLinkActive="active" routerLink="/auth/login" *ngIf="auth.isLoggedOut$ | async">Login</li>
-      <li routerLinkActive="active" (click)="logout()" *ngIf="auth.isLoggedIn$ | async">Logout</li>
+      <li>
+        <a routerLinkActive="active" [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile</a>
+      </li>
+      <li>
+        <a routerLinkActive="active" routerLink="/admin"
+          *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Admin</a>
+      </li>
+      <li *ngIf="auth.isLoggedOut$ | async"><a routerLinkActive="active" routerLink="/auth/login">Login</a></li>
+      <li *ngIf="auth.isLoggedIn$ | async"><a routerLinkActive="active" (click)="logout()">Logout</a></li>
     </ul>
   </div>
 </div>
