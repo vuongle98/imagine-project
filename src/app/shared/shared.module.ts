@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NzImportModule } from '../nz-import.module';
 import { LoadingComponent } from './components/loading/loading.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,6 +39,11 @@ import { NoBaseLayoutComponent } from './modules/layouts/no-base-layout/no-base-
 import { ChattingContainerComponent } from './modules/modal/chatting-container.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { HeaderMobileComponent } from './modules/layouts/header-mobile/header-mobile.component';
+import { HeaderDirective } from './modules/table/components/header.directive';
+import { CellDirective } from './modules/table/components/cell.directive';
+import { ColumnDirective } from './modules/table/components/column.directive';
+import { PaginationComponent } from './modules/table/pagination/pagination.component';
+import { TableComponent } from './modules/table/table.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -65,6 +69,9 @@ const COMPONENTS = [
   BaseLayoutComponent,
   NoBaseLayoutComponent,
   ChattingContainerComponent,
+  HeaderMobileComponent,
+  TableComponent,
+  PaginationComponent,
 ];
 
 const DIRECTIVES = [
@@ -79,22 +86,17 @@ const DIRECTIVES = [
   MenuItemDirective,
   DropdownItemDirective,
   DropdownDirective,
+  ColumnDirective,
+  CellDirective,
+  HeaderDirective,
 ];
-
 const PIPES = [SecurePipe, TagUsername];
 
 const MODULES = [FormsModule, ReactiveFormsModule, RouterModule];
 
 @NgModule({
-  declarations: [COMPONENTS, DIRECTIVES, PIPES, HeaderMobileComponent],
-  imports: [CommonModule, NzImportModule, MODULES, ],
-  exports: [
-    NzImportModule,
-    CommonModule,
-    COMPONENTS,
-    MODULES,
-    DIRECTIVES,
-    PIPES,
-  ],
+  declarations: [COMPONENTS, DIRECTIVES, PIPES],
+  imports: [CommonModule, MODULES],
+  exports: [CommonModule, COMPONENTS, MODULES, DIRECTIVES, PIPES],
 })
 export class SharedModule {}

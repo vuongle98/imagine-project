@@ -7,9 +7,9 @@
         <a routerLinkActive="active" routerLink="/quiz">Quiz</a>
       </li>
       <li><a routerLinkActive="active" routerLink="/calculator">Calculator</a></li>
-      <li>
+      <!-- <li>
         <a routerLinkActive="active" routerLink="/chat">Chat</a>
-      </li>
+      </li> -->
       <li>
         <a routerLinkActive="active" [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile</a>
       </li>

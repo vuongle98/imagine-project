@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { QuizRoutingModule } from './quiz-routing.module';
 import { QuizIndexComponent } from './pages/quiz-index/quiz-index.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { QuestionItemComponent } from './components/question-item/question-item.component';
 import { QuestionItemCustomComponent } from './components/question-item-custom/question-item-custom.component';
 import { AnswerItemComponent } from './components/answer-item/answer-item.component';
 import { QuizIntroComponent } from './pages/quiz-intro/quiz-intro.component';
@@ -15,7 +14,6 @@ import { QuizCheckoutComponent } from './pages/quiz-checkout/quiz-checkout.compo
 @NgModule({
   declarations: [
     QuizIndexComponent,
-    QuestionItemComponent,
     QuestionItemCustomComponent,
     AnswerItemComponent,
     QuizIntroComponent,

@@ -9,7 +9,7 @@
     <div>
       {{notification.title}}
     </div>
-    <button *ngIf="notification.config?.showCloseButton" vg-button type="icon" (click)="close(notification)">close</button>
+    <button *ngIf="notification.config?.showCloseButton" vg-button btn-type="icon" (click)="close(notification)">close</button>
   </div>
   <div class="notification-message">
     {{notification.message}}

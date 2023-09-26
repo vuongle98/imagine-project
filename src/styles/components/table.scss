@@ -1,4 +1,33 @@
 .table {
+  background-color: var(--primary-color);
+  width: 100%;
+
+  th {
+    padding: 0.5em;
+    border-left: 1px var(--dark-color) solid;
+    border-bottom: 1px var(--dark-color) solid;
+    font-weight: bold;
+  }
+
+  th:first-child {
+    border-left: none;
+  }
+
+  td {
+    padding: 0.3em;
+    border-left: 1px var(--dark-color) solid;
+  }
+
+  td:first-child {
+    border: none;
+  }
+  tr:nth-child(even) {
+    background-color: var(--second-color);
+  }
+  tr:nth-child(odd) {
+    background-color: var(--third-color);
+  }
+
   .row {
     &-mark {
       background-color: rgba($color: #5cb85c, $alpha: 0.5);

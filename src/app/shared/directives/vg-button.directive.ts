@@ -17,7 +17,7 @@ import {
 })
 export class VgButtonDirective {
   @Input() size: 'medium' | 'small' | 'large' | 'xlarge' = 'medium';
-  @Input() type: 'button' | 'link' | 'icon' = 'button';
+  @Input('btn-type') btnType: 'button' | 'link' | 'icon' | 'submit' = 'button';
   @Input() color:
     | 'error'
     | 'primary'
@@ -47,11 +47,11 @@ export class VgButtonDirective {
 
   @HostBinding('class')
   get buttonClass(): string {
-    if (this.type === 'icon') {
+    if (this.btnType === 'icon') {
       return `button button-${this.color} button-icon`;
     }
 
-    return `button button-${this.size} button-${this.color} button-${this.type}`;
+    return `button button-${this.size} button-${this.color} button-${this.btnType}`;
   }
 
   toggle(condition: boolean) {

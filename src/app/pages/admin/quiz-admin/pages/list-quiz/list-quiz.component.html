@@ -1,72 +1,36 @@
-<div nz-row class="top-form">
-  <app-admin-search-quiz></app-admin-search-quiz>
-  <button nz-button (click)="openCreate()">Create</button>
-</div>
-<app-quiz-admin-table [quizAdminDataSource]="quizAdminDataSource" [listQuiz]="listQuiz" [total]="total"
-  [currentPage]="currentPage" (emitQueryPageChange)="onQueryParamsChange($event)" (onDeleteQuiz)="deleteQuiz($event)"
+<app-admin-search-quiz></app-admin-search-quiz>
+
+<app-quiz-admin-table [quizAdminDataSource]="quizAdminDataSource" [listQuiz]="listQuiz" [totalRows]="totalRows"
+  [currentPage]="currentPage" (onDeleteQuiz)="deleteQuiz($event)"
   (onEditQuiz)="editQuiz($event)"></app-quiz-admin-table>
 
-<nz-modal [(nzVisible)]="isShowCreateModal" nzTitle="Add/Remove quiz" nzCentered (nzOnCancel)="closeModal()"
-  (nzOnOk)="handleOk()">
-  <ng-container *nzModalContent>
-    <form nz-form [formGroup]="createQuizForm">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="title" nzRequired>Quiz title</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input quiz title!">
-          <nz-input-group>
-            <input type="text" nz-input formControlName="title" placeholder="Quiz title" />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="description" nzRequired>Quiz description</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input quiz description!">
-          <nz-input-group>
-            <input type="text" nz-input formControlName="description" placeholder="Quiz description" />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="category" nzRequired>Quiz category</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select quiz category">
-          <nz-select id="category" formControlName="category">
 
-            <nz-option *ngFor="let category of listQuizCategory" [nzLabel]="category.name"
-              [nzValue]="category.value"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="level" nzRequired>Quiz level</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select quiz level">
-          <nz-select id="level" formControlName="level">
-            <nz-option *ngFor="let level of listQuizLevel" [nzLabel]="level.name" [nzValue]="level.value"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control [nzOffset]="8">
-          <label nz-checkbox formControlName="published">
-            <span>Published</span>
-          </label>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="listQuestionId" nzRequired>Questions</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select questions">
-          <nz-select nzMode="multiple" nzPlaceHolder="Select questions" nzAllowClear nzShowSearch nzServerSearch
-            [nzLoading]="isLoading" formControlName="listQuestionId" (nzScrollToBottom)="loadMoreQuestion()"
-            (nzOnSearch)="onSearchQuestion($event)">
-            <ng-container *ngFor="let o of questionList">
-              <nz-option *ngIf="!isLoading" [nzValue]="o.id" [nzLabel]="o.title"></nz-option>
-            </ng-container>
-            <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
-              <span nz-icon nzType="loading" class="loading-icon"></span>
-              Loading Data...
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </ng-container>
-</nz-modal>
+
+<ng-template>
+  <form [formGroup]="createQuizForm">
+
+    <input type="text" formControlName="title" placeholder="Quiz title" />
+
+    <input type="text" formControlName="description" placeholder="Quiz description" />
+
+    <select name="category" formControlName="category">
+      <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
+    </select>
+    <select name="level" formControlName="level">
+      <option *ngFor="let level of listQuizLevel" [value]="level.value">{{level.name}}</option>
+    </select>
+
+    <input type="checkbox" name="published" formControlName="published">
+    <label>Published</label>
+
+    <select multiple placeHolder="Select questions" formControlName="listQuestionId">
+      <ng-container *ngFor="let o of questionList">
+        <option *ngIf="!isLoading" value="{{o.id}}">{{o.title}}</option>
+      </ng-container>
+      <option *ngIf="isLoading">
+        <span class="loading-icon"></span>
+        Loading Data...
+      </option>
+    </select>
+  </form>
+</ng-template>

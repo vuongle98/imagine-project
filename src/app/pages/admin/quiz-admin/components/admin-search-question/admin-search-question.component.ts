@@ -12,6 +12,7 @@ import {
 })
 export class AdminSearchQuestionComponent implements OnInit {
   @Output() emitSearch = new EventEmitter();
+  @Output() emitCreate = new EventEmitter();
 
   listQuestionType = listQuestionType;
   listQuizCategory = listQuizCategory;

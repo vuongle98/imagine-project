@@ -1,0 +1,15 @@
+.table {
+  margin-bottom: var(--default-margin);
+
+  .no-rows {
+    text-align: center;
+  }
+}
+
+
+app-pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--default-gap);
+}

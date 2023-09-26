@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, of } from 'rxjs';
+import { NotificationService } from './notificaton.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  constructor(private messageService: NzMessageService) {}
+  constructor(private notificationService: NotificationService) {}
 
   /**
    * Displays an error message and returns an Observable.
@@ -15,7 +15,7 @@ export class MessageService {
    * @return {Observable<any>} - an Observable that emits null
    */
   displayError(err: string): Observable<any> {
-    this.messageService.error(err);
+    this.notificationService.error('Error', err);
     return of(null);
   }
 
@@ -26,7 +26,7 @@ export class MessageService {
    * @return {Observable<any>} An observable that emits null.
    */
   displayInfo(msg: string): Observable<any> {
-    this.messageService.info(msg);
+    this.notificationService.info('Info', msg);
     return of(null);
   }
 }

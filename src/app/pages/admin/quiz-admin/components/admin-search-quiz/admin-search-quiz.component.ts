@@ -12,6 +12,7 @@ export class AdminSearchQuizComponent {
 
 
   @Output() emitSearch = new EventEmitter();
+  @Output() emitCreate = new EventEmitter();
 
   searchForm!: FormGroup;
 

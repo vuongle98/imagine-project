@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoadingService } from '@shared/components/loading/loading.service';
 import {
   BehaviorSubject,
   Observable,
@@ -21,7 +22,10 @@ export class QuestionAdminDataSource extends BaseDataSource<
   override dataSubject: BehaviorSubject<Pageable<Question[]>> =
     new BehaviorSubject({} as Pageable<Question[]>);
 
-  constructor(private questionService: QuestionService) {
+  constructor(
+    private questionService: QuestionService,
+    private loadingService: LoadingService
+  ) {
     super();
   }
 
@@ -30,18 +34,14 @@ export class QuestionAdminDataSource extends BaseDataSource<
       params.page = 0;
       params.size = 10;
     }
-    this.loadingSubject.next(true);
-    this.questionService
+    const loadQuestion$ = this.questionService
       .adminFindQuestions(params)
-      .pipe(
-        tap((data) => this.dataSubject.next(data)),
-        finalize(() => this.loadingSubject.next(false))
-      )
-      .subscribe();
+      .pipe(tap((data) => this.dataSubject.next(data)));
+
+    this.loadingService.showLoaderUntilCompleted(loadQuestion$).subscribe();
   }
 
   ngOnDestroy(): void {
     this.dataSubject.complete();
-    this.loadingSubject.complete();
   }
 }

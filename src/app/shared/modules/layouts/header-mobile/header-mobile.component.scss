@@ -1,5 +1,4 @@
 .header-nav {
-
 }
 .btn-pluss {
   overflow: hidden;
@@ -8,9 +7,20 @@
   border-radius: 30px;
   width: 60px;
   margin: 0 auto;
-  background-color: var(--primary-color);
   transition: all 0.3s ease;
   align-items: center;
+  background: linear-gradient(
+    -35deg,
+    rgba(59, 91, 95, 0.678) 0%,
+    rgba(#333, 0.55) 100%
+  );
+  backdrop-filter: blur(10px);
+  box-shadow: -5px 5px 30px -10px rgba(157, 241, 252, 0.678);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  img {
+    border-radius: 50%;
+  }
 
   a {
     display: block;
@@ -56,12 +66,13 @@
     text-align: center;
     font-size: 0.9rem;
     li {
-      background-color: #e4e4e4;
+      background-color: var(--light-gray-color);
       margin-top: 5px;
       border-radius: 5px;
       height: 0;
       overflow: hidden;
       transition: height 0.5s ease;
+      font-weight: bold;
     }
   }
 }
@@ -73,7 +84,7 @@
     transition: width 0.3s ease, border-radius 0.3s ease,
       padding-bottom 0.3s ease;
     img {
-      padding-top: 10px;
+      padding: 10px 0 10px 10px;
     }
     ul {
       opacity: 1;
@@ -94,5 +105,4 @@
 
 .brand-logo {
   max-width: 60px;
-  padding: 5px;
 }

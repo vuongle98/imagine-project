@@ -1,96 +1,56 @@
-<div nz-row class="top-form">
-  <app-admin-search-question></app-admin-search-question>
-  <button nz-button (click)="openCreate()">Create</button>
-</div>
+<app-admin-search-question></app-admin-search-question>
+
 <app-question-admin-table (onEditQuestion)="editQuestion($event)" [questionAdminDatasource]="questionAdminDatasource"
-  (emitQueryPageChange)="onQueryParamsChange($event)" [total]="total" [currentPage]="currentPage"
-  (onDeleteQuestion)="deleteQuestion($event)" [listQuestion]="listQuestion"></app-question-admin-table>
+  [totalRows]="totalRows" [currentPage]="currentPage" (onDeleteQuestion)="deleteQuestion($event)"
+  [listQuestion]="listQuestion"></app-question-admin-table>
 
-<nz-modal [(nzVisible)]="isShowCreateModal" nzTitle="Add/Remove quesiton" nzCentered (nzOnCancel)="closeModal()"
-  (nzOnOk)="handleOk()">
-  <ng-container *nzModalContent>
+<!-- <ng-template>
+  <form [formGroup]="createQuestionForm">
+    <input type="text" nz-input formControlName="title" placeholder="Question title" />
+    <select id="type" formControlName="type">
+      <option *ngFor="let type of listQuestionType" [value]="type.value">{{type.name}}</option>
+    </select>
+    <select id="category" formControlName="category">
 
-    <form nz-form [formGroup]="createQuestionForm">
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="type" nzRequired>Question title</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input question title!">
-          <nz-input-group> <!-- nzPrefixIcon="question"> -->
-            <input type="text" nz-input formControlName="title" placeholder="Question title" />
+      <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
+    </select>
+    <input type="number" nz-input formControlName="countDown" placeholder="Countdown value" />
+
+    <select id="difficultlyLevel" formControlName="difficultlyLevel">
+      <option *ngFor="let level of listdifficultLevel" [value]="level.value">{{level.name}}</option>
+    </select>
+    <input type="checkbox" name="mark" formControlName="mark">
+    <label for="mark">
+      Mark
+    </label>
+    <input type="checkbox" name="active" formControlName="active">
+    <label for="active">
+      Active
+    </label>
+
+    <nz-form-item *ngFor="let control of answers.controls">
+      <ng-container [formGroup]="control">
+        <nz-form-label [nzSpan]="7" nzRequired>Answer</nz-form-label>
+        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input question answer!">
+          <nz-input-group [nzSuffix]="suffixButton">
+            <input type="text" nz-input formControlName="answer" placeholder="Question answer" />
           </nz-input-group>
+          <div nz-col [nzSpan]="12">
+            <label nz-checkbox formControlName="correct">
+              <span>Correct answer</span>
+            </label>
+          </div>
         </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="type" nzRequired>Question type</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select question type">
-          <nz-select id="type" formControlName="type">
-            <nz-option *ngFor="let type of listQuestionType" [nzLabel]="type.name" [nzValue]="type.value"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="category" nzRequired>Question category</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select question category">
-          <nz-select id="category" formControlName="category">
+      </ng-container>
 
-            <nz-option *ngFor="let category of listQuizCategory" [nzLabel]="category.name"
-              [nzValue]="category.value"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="countDown" nzRequired>Countdown</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input Countdown value!">
-          <input type="number" nz-input formControlName="countDown" placeholder="Countdown value" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzFor="difficultlyLevel" nzRequired>Difficult level</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please select Difficult level">
-          <nz-select id="difficultlyLevel" formControlName="difficultlyLevel">
-            <nz-option *ngFor="let level of listdifficultLevel" [nzLabel]="level.name"
-              [nzValue]="level.value"></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
+      <ng-template #suffixButton><span class="dynamic-delete-button"
+          (click)="removeAnswer(control, $event)"></span></ng-template>
+    </nz-form-item>
 
-      <nz-form-item>
-        <nz-form-control [nzOffset]="8" [nzSpan]="9">
-          <label nz-checkbox formControlName="mark">
-            <span>Có đánh dấu</span>
-          </label>
-        </nz-form-control>
-        <nz-form-control [nzSpan]="9">
-          <label nz-checkbox formControlName="active">
-            <span>Active</span>
-          </label>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item *ngFor="let control of answers.controls">
-        <ng-container [formGroup]="control">
-          <nz-form-label [nzSpan]="7" nzRequired>Answer</nz-form-label>
-          <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input question answer!">
-            <nz-input-group [nzSuffix]="suffixButton">
-              <input type="text" nz-input formControlName="answer" placeholder="Question answer" />
-            </nz-input-group>
-            <div nz-col [nzSpan]="12">
-              <label nz-checkbox formControlName="correct">
-                <span>Correct answer</span>
-              </label>
-            </div>
-          </nz-form-control>
-        </ng-container>
+    <button class="add-button" (click)="addAnswer($event)">
+      <span nzType="plus"></span>
+      Add answer
+    </button>
 
-        <ng-template #suffixButton><span nz-icon nzType="minus-circle-o" class="dynamic-delete-button"
-            (click)="removeAnswer(control, $event)"></span></ng-template>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
-          <button nz-button nzType="dashed" class="add-button" (click)="addAnswer($event)">
-            <span nz-icon nzType="plus"></span>
-            Add answer
-          </button>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </ng-container>
-</nz-modal>
+  </form>
+</ng-template> -->

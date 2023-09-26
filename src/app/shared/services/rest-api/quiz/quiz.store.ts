@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, Observable, debounceTime, map, tap, withLatestFrom } from 'rxjs';
 import { Quiz, QuizQueryParam } from 'src/app/shared/models/quiz';
 import { QuizService } from './quiz.service';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';

@@ -8,7 +8,6 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import { QuizService } from 'src/app/shared/services/rest-api/quiz/quiz.service';
 import { QuizAdminDataSource } from '../../services/quiz-admin.datasource';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
@@ -19,8 +18,6 @@ import {
   QuizQueryParam,
 } from 'src/app/shared/models/quiz';
 import { listQuizCategory, listQuizLevel } from 'src/app/shared/utils/quiz';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { QuestionService } from 'src/app/shared/services/rest-api/quiz/question.service';
 
 @Component({
@@ -35,7 +32,7 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
   listQuizCategory = listQuizCategory;
   listQuizLevel = listQuizLevel;
 
-  total = 1;
+  totalRows = 1;
   currentPage = 0;
   listQuiz: Quiz[] = [];
 
@@ -53,17 +50,21 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
   constructor(
     public quizAdminDataSource: QuizAdminDataSource,
     private fb: FormBuilder,
-    private modal: NzModalService,
     private questionService: QuestionService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+
+    this.quizAdminDataSource.loadData({
+      page: this.currentPage,
+      size: 10,
+    });
     this.quizAdminDataSource.dataSubject
       .pipe(filter((data) => !!data.content))
       .subscribe((res) => {
         this.listQuiz = res.content;
-        this.total = res.totalElements;
+        this.totalRows = res.totalElements;
       });
   }
 
@@ -83,8 +84,19 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
     this.adminSearchQuizComponent.emitSearch
       .pipe(
         tap((value) => {
-          console.log(value);
-          this.quizAdminDataSource.loadData(value);
+          this.currentPage = 0;
+          this.quizAdminDataSource.loadData({
+            ...value,
+            page: this.currentPage,
+          });
+        })
+      )
+      .subscribe();
+
+    this.adminSearchQuizComponent.emitCreate
+      .pipe(
+        tap(() => {
+          console.log('create');
         })
       )
       .subscribe();
@@ -125,19 +137,6 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
     this.isShowCreateModal = true;
   }
 
-  onQueryParamsChange(nzQueryParams: NzTableQueryParams) {
-    const { pageSize, pageIndex } = nzQueryParams;
-
-    this.currentPage = pageIndex - 1;
-
-    const queryParams: QuizQueryParam = {
-      size: pageSize,
-      page: pageIndex - 1,
-    };
-
-    this.quizAdminDataSource.loadData(queryParams);
-  }
-
   handleOk(): void {
     this.isShowCreateModal = false;
 
@@ -157,17 +156,7 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
   }
 
   deleteQuiz(quiz: Quiz) {
-    this.modal.confirm({
-      nzTitle: `Are you sure to delete <b>${quiz.title}</b>`,
-      nzContent: '<b><i>After delete, you cannot recover this item</i></b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => this.confirmDeleteQuiz(quiz),
-      nzCancelText: 'No',
-      nzCentered: true,
-      nzOnCancel: () => console.log('Cancel'),
-    });
+    console.log('delete', quiz);
   }
 
   confirmDeleteQuiz(quiz: Quiz) {
@@ -175,7 +164,7 @@ export class ListQuizComponent implements OnInit, AfterViewInit {
       .delete(quiz.id)
       .pipe(
         tap(() => {
-          if (this.total <= this.currentPage * 10 + 1) {
+          if (this.totalRows <= this.currentPage * 10 + 1) {
             this.currentPage -= 1;
           }
           this.quizAdminDataSource.loadData({

@@ -20,10 +20,7 @@ import {
 } from '../../../../../shared/utils/quiz';
 import { QuestionService } from 'src/app/shared/services/rest-api/quiz/question.service';
 import { filter, iif, tap } from 'rxjs';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { AdminSearchQuestionComponent } from '../../components/admin-search-question/admin-search-question.component';
-import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-list-question',
@@ -38,7 +35,7 @@ export class ListQuestionComponent implements OnInit, AfterViewInit {
   listQuizCategory = listQuizCategory;
   listdifficultLevel = listDifficultLevel;
 
-  total = 1;
+  totalRows = 1;
   currentPage = 0;
   listQuestion: Question[] = [];
 
@@ -59,17 +56,21 @@ export class ListQuestionComponent implements OnInit, AfterViewInit {
   constructor(
     public questionAdminDatasource: QuestionAdminDataSource,
     private fb: FormBuilder,
-    private questionService: QuestionService,
-    private modal: NzModalService
+    private questionService: QuestionService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+
+    this.questionAdminDatasource.loadData({
+      page: this.currentPage,
+      size: 10,
+    });
     this.questionAdminDatasource.dataSubject
       .pipe(filter((data) => !!data.content))
       .subscribe((res) => {
         this.listQuestion = res.content;
-        this.total = res.totalElements;
+        this.totalRows = res.totalElements;
       });
   }
 
@@ -79,6 +80,14 @@ export class ListQuestionComponent implements OnInit, AfterViewInit {
         tap((value) => {
           // value = { ...value, page: 0, size: 10 };
           this.questionAdminDatasource.loadData(value);
+        })
+      )
+      .subscribe();
+
+    this.adminSearchQuestionComponent.emitCreate
+      .pipe(
+        tap(() => {
+          console.log('create');
         })
       )
       .subscribe();
@@ -109,19 +118,6 @@ export class ListQuestionComponent implements OnInit, AfterViewInit {
       countDown: [30],
       active: [true],
     });
-  }
-
-  onQueryParamsChange(nzParams: NzTableQueryParams): void {
-    const { pageSize, pageIndex } = nzParams;
-
-    this.currentPage = pageIndex - 1;
-
-    const queryParams: QuestionQueryParam = {
-      size: pageSize,
-      page: pageIndex - 1,
-    };
-
-    this.questionAdminDatasource.loadData(queryParams);
   }
 
   openCreate() {
@@ -194,17 +190,8 @@ export class ListQuestionComponent implements OnInit, AfterViewInit {
   }
 
   deleteQuestion(question: Question) {
-    this.modal.confirm({
-      nzTitle: `Are you sure to delete <b>${question.title}</b>`,
-      nzContent: '<b><i>After delete, you cannot recover this item</i></b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => this.confirmDeleteQuestion(question),
-      nzCancelText: 'No',
-      nzCentered: true,
-      nzOnCancel: () => console.log('Cancel'),
-    });
+    // this.confirmDeleteQuestion(question);
+    console.log('delete', question);
   }
 
   confirmDeleteQuestion(question: Question) {
@@ -212,7 +199,7 @@ export class ListQuestionComponent implements OnInit, AfterViewInit {
       .adminDeleteQuestion(question.id)
       .pipe(
         tap(() => {
-          if (this.total <= this.currentPage * 10 + 1) {
+          if (this.totalRows <= this.currentPage * 10 + 1) {
             this.currentPage -= 1;
           }
 

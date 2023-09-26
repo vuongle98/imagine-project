@@ -1,34 +1,15 @@
-<form nz-form [formGroup]="searchForm" nzLayout="inline" (ngSubmit)="onSubmit()">
-  <nz-form-item>
-    <nz-form-control>
-      <nz-input-group>
-        <input type="text" nz-input formControlName="likeTitle" placeholder="Quiz title" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control>
-      <nz-input-group>
-        <input type="text" nz-input formControlName="likeDescription" placeholder="Quiz description" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control>
-      <nz-select id="category" formControlName="category" nzPlaceHolder="Choose value">
-        <nz-option *ngFor="let category of listQuizCategory" [nzLabel]="category.name"
-          [nzValue]="category.value"></nz-option>
-      </nz-select>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control>
-      <button nz-button nzType="primary">Search</button>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control>
-      <button type="button" (click)="searchForm.reset()" nz-button nzType="default">Reset form</button>
-    </nz-form-control>
-  </nz-form-item>
+<form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+  <input type="text" formControlName="likeTitle" placeholder="Quiz title" />
+
+  <input type="text" formControlName="likeDescription" placeholder="Quiz description" />
+
+  <select name="category" formControlName="category">
+    <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
+  </select>
+
+  <button vg-button>Search</button>
+
+  <button vg-button type="button" (click)="searchForm.reset()">Reset form</button>
+  <button vg-button type="button" (click)="emitCreate.emit()">Create</button>
 </form>

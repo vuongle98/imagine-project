@@ -25,7 +25,13 @@ export class LoginComponent {
 
   initLoginForm() {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      username: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z0-9_]{3,16}$/),
+        ]),
+      ],
       password: ['', Validators.required],
       remember: [''],
     });

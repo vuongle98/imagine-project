@@ -1,6 +1,5 @@
 import { APP_INITIALIZER } from '@angular/core';
 import { StartupService } from './bootstrap/startup.service';
-import { ThemeService } from '../theme.service';
 import { RxStompService } from '@shared/services/rx-stomp/rx-stomp.service';
 
 export function StartupServiceFactory(

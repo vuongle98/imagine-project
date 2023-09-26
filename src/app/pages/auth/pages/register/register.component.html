@@ -1,1 +1,23 @@
-<p>register works!</p>
+<div class="register-form">
+  <div>REGISTER</div>
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="form-item">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" formControlName="username" placeholder="Username" />
+    </div>
+    <div class="form-item">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" formControlName="password" placeholder="Password" />
+    </div>
+    <div class="form-item">
+      <label for="rePassword">Password</label>
+      <input type="password" id="rePassword" name="rePassword" formControlName="rePassword"
+        placeholder="Confirm password" />
+    </div>
+    <div class="form-item form-actions">
+      <button vg-button color="info" type="submit">Register</button>
+      Or
+      <a routerLink="/auth/login">Login now!</a>
+    </div>
+  </form>
+</div>

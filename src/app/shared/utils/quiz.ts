@@ -2,6 +2,10 @@ import { QuizCategory, QuestionType, QuizLevel } from '../models/quiz';
 
 export const listQuestionType: any[] = [
   {
+    name: 'Tất cả',
+    value: ''
+  },
+  {
     name: 'Chọn nhiều',
     value: QuestionType[QuestionType.MULTIPLE],
   },
@@ -12,10 +16,14 @@ export const listQuestionType: any[] = [
   {
     name: 'Yes no',
     value: QuestionType[QuestionType.YES_NO],
-  },
+  }
 ];
 
 export const listQuizCategory: any[] = [
+  {
+    name: 'Tất cả',
+    value: ''
+  },
   {
     name: 'Chung',
     value: QuizCategory[QuizCategory.GENERAL],

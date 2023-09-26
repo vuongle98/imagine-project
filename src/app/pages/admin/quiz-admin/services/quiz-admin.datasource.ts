@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { LoadingService } from '@shared/components/loading/loading.service';
 import { BehaviorSubject, Observable, finalize, of, tap } from 'rxjs';
 import { BaseDataSource } from 'src/app/shared/datasource/base-datasource';
 import { Quiz, QuizQueryParam } from 'src/app/shared/models/quiz';
@@ -13,7 +14,10 @@ export class QuizAdminDataSource extends BaseDataSource<Pageable<Quiz[]>> {
     {} as Pageable<Quiz[]>
   );
 
-  constructor(private quizService: QuizService) {
+  constructor(
+    private quizService: QuizService,
+    private loadingService: LoadingService
+  ) {
     super();
   }
 
@@ -22,19 +26,16 @@ export class QuizAdminDataSource extends BaseDataSource<Pageable<Quiz[]>> {
       params.page = 0;
       params.size = 10;
     }
-    this.loadingSubject.next(true);
-    this.quizService
+
+    const loadQuiz$ = this.quizService
       .adminFindQuizs(params)
-      .pipe(
-        tap((data) => this.dataSubject.next(data)),
-        finalize(() => this.loadingSubject.next(false))
-      )
-      .subscribe();
+      .pipe(tap((data) => this.dataSubject.next(data)));
+
+    this.loadingService.showLoaderUntilCompleted(loadQuiz$).subscribe();
   }
 
   ngOnDestroy(): void {
     this.dataSubject.complete();
-    this.loadingSubject.complete();
   }
 
   create(quiz: Quiz): Observable<Quiz> {

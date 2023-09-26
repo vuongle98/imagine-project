@@ -1,35 +1,26 @@
-<nz-table class="table" nzShowPagination nzShowSizeChanger [nzData]="listQuestion" [nzFrontPagination]="false"
-  [nzLoading]="questionAdminDatasource.loading$ | async" (nzQueryParams)="onQueryParamsChange($event)" [nzTotal]="total"
-  [nzPageSize]="pageSize" [nzPageIndex]="pageIndex">
-  <thead>
-    <tr>
-      <th nzColumnKey="no">No</th>
-      <th nzColumnKey="title">Title</th>
-      <th nzColumnKey="type">Type</th>
-      <th nzColumnKey="category">Category</th>
-      <th nzColumnKey="answers">Answers</th>
-      <th nzColumnKey="countDown">Countdown</th>
-      <th nzColumnKey="actions">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr row-mark [is-mark]="item.mark" *ngFor="let item of listQuestion; index as i">
-      <td>{{ (currentPage * 10) + (i+1) }}</td>
-      <td>{{item.title}}</td>
-      <td>{{item.type}}</td>
-      <td>{{item.category}}</td>
-      <td>
-        <ul>
-          <li answer-correct [is-correct]="item.correct" *ngFor="let item of item.answers; index as i">
-            {{item.answer}}
-          </li>
-        </ul>
-      </td>
-      <td>{{item.countDown}}</td>
-      <td>
-        <button vg-button color="primary" (click)="editQuestion(item)">Edit</button>
-        <button vg-button color="warning" (click)="deleteQuestion(item)">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</nz-table>
+<app-table [rows]="listQuestion" [actions]="actions" [page]="currentPage" [pageSize]="pageSize" [totalRows]="totalRows"
+  (pageChange)="onPageChange($event)">
+  <table-column header="No" key="no">
+    <ng-template tableCell let-row>{{row.index}}</ng-template>
+  </table-column>
+  <table-column header="Title" key="title"></table-column>
+  <table-column header="Type" key="type"></table-column>
+  <table-column header="Category" key="category"></table-column>
+  <table-column header="Answers" key="answers">
+    <ng-template tableCell let-row>
+      <ul>
+        <li answer-correct [is-correct]="item.correct" *ngFor="let item of row.data.answers; index as i">{{item.answer}}
+        </li>
+      </ul>
+    </ng-template>
+  </table-column>
+  <table-column header="Countdown" key="countDown"></table-column>
+  <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
+    <ng-template tableCell let-row>
+      <ng-container *ngFor="let action of row.actions">
+        <button vg-button color="primary" (click)="action.action(row.data)">{{action.title}}</button>
+      </ng-container>
+    </ng-template>
+  </table-column>
+
+</app-table>

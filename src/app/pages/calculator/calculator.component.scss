@@ -1,29 +1,33 @@
-.container {
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .calculator {
-  background-color: #22333a;
   padding: 1em;
+
+  background: linear-gradient(
+    -35deg,
+    rgba(59, 91, 95, 0.678) 0%,
+    rgba(#333, 0.55) 100%
+  );
+  backdrop-filter: blur(10px);
+  border-radius: 0.5em;
+  box-shadow: -5px 5px 30px -10px rgba(157, 241, 252, 0.678);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .title {
   font-size: 1.5em;
+  text-align: center;
+  margin: 1em;
+}
+
+.buttons-container {
   display: flex;
-  justify-content: center;
-  padding: 5px 5px;
-  margin-bottom: 20px;
+  flex-direction: column;
 }
 
 .btn {
-  width: 70px;
-  height: 40px;
-  margin: 3px 3px;
+  margin: 5px;
   border: 0px;
+  padding: 0.6em;
+  flex: 1;
 }
 
 .number {
@@ -39,7 +43,7 @@
 }
 
 .op:hover {
-  background-color: rgb(112, 52, 9);
+  background-color: rgb(134, 58, 3);
 }
 
 .display-data {
@@ -48,7 +52,7 @@
   background-color: #575757;
   border-radius: 6px;
   padding: 0 5px;
-  margin-bottom: 5px;
+  margin: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -57,12 +61,6 @@
 
 #errors {
   background-color: rgba(224, 102, 65, 0.801);
-}
-
-.first-row {
-  flex-direction: row;
-  display: flex;
-  justify-content: flex-end;
 }
 
 .row {
@@ -76,5 +74,5 @@
 }
 
 .ac:hover {
-  background-color: rgb(38, 112, 9);
+  background-color: rgb(43, 143, 3);
 }

@@ -1,18 +1,18 @@
-<div class="container">
-  <div class="calculator">
-    <div class="title">Simple calculator</div>
+<div class="calculator">
+  <div class="title">Simple calculator</div>
 
-    <div class="display-data">
-      <div>{{displayValue}}</div>
-      <div>{{result}}</div>
-    </div>
+  <div class="display-data">
+    <div>{{displayValue}}</div>
+    <div>{{result}}</div>
+  </div>
 
-    <div id="errors">{{error}}</div>
-    <div class="row first-row">
+  <div id="errors">{{error}}</div>
+  <div class="buttons-container">
+    <div class="row">
       <!-- <button value="(" (click)="clickButton('(')">(</button>
       <button value=")" (click)="clickButton(')')">)</button> -->
-      <button class="btn ac" value="AC" (click)="clickAC()">AC</button>
       <button class="btn op" value="%" (click)="clickButton('%')">%</button>
+      <button class="btn ac" value="AC" (click)="clickAC()">AC</button>
     </div>
     <div class="row">
       <button class="btn number" *ngFor="let item of ['7', '8', '9']" value="{{item}}"
