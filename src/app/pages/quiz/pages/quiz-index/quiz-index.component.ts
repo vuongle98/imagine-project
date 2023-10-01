@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TestDialogComponent } from '@shared/components/dialog/test-dialog/test-dialog.component';
+import { DialogService } from '@shared/modules/dialog/dialog.service';
 import { Observable } from 'rxjs';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 import { Quiz } from 'src/app/shared/models/quiz';
@@ -18,7 +20,8 @@ export class QuizIndexComponent {
   constructor(
     public quizStore: QuizStore,
     private router: Router,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private dialogService: DialogService
   ) {
     this.reloadQuizs();
   }
@@ -35,5 +38,20 @@ export class QuizIndexComponent {
     console.log('loading');
     this.currentPage += 1;
     this.quizStore.findQuizs({ page: this.currentPage, size: 12 });
+  }
+
+  open() {
+    const config = {
+      header: 'Test Dialog',
+      data: {test: 'testdata'},
+      overlayConfig: {
+        width: '400px'
+      }
+    };
+    const ref = this.dialogService.open(TestDialogComponent, config);
+
+    ref.afterClose().subscribe((v) => {
+      console.log(v);
+    });
   }
 }

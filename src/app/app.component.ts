@@ -3,6 +3,8 @@ import { AuthStore } from './shared/services/rest-api/auth/auth.store';
 import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { ChattingService } from '@shared/services/common/chatting.service';
+import { DialogService } from '@shared/modules/dialog/dialog.service';
+import { TestDialogComponent } from '@shared/components/dialog/test-dialog/test-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +14,16 @@ import { ChattingService } from '@shared/services/common/chatting.service';
 export class AppComponent {
   windowScrolled = false;
 
-  constructor(public auth: AuthStore, public chattingService: ChattingService) {
+  constructor(
+    public auth: AuthStore,
+    public chattingService: ChattingService,
+
+  ) {
     fromEvent(document, 'scroll').subscribe(() => {
       this.windowScrolled = window.scrollY > 100;
     });
   }
+
   scrollToTop(): void {
     window.scrollTo(0, 0);
   }

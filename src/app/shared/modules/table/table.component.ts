@@ -9,7 +9,7 @@ import {
   QueryList,
   ViewChild,
 } from '@angular/core';
-import { ColumnDirective } from './components/column.directive';
+import { ColumnDirective } from './directives/column.directive';
 
 export type TableData = {
   columns: TableColumn[];

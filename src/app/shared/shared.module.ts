@@ -39,11 +39,15 @@ import { NoBaseLayoutComponent } from './modules/layouts/no-base-layout/no-base-
 import { ChattingContainerComponent } from './modules/modal/chatting-container.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { HeaderMobileComponent } from './modules/layouts/header-mobile/header-mobile.component';
-import { HeaderDirective } from './modules/table/components/header.directive';
-import { CellDirective } from './modules/table/components/cell.directive';
-import { ColumnDirective } from './modules/table/components/column.directive';
+import { HeaderDirective } from './modules/table/directives/header.directive';
+import { CellDirective } from './modules/table/directives/cell.directive';
+import { ColumnDirective } from './modules/table/directives/column.directive';
 import { PaginationComponent } from './modules/table/pagination/pagination.component';
 import { TableComponent } from './modules/table/table.component';
+import { DialogContentDirective } from './modules/dialog/dialog-content.directive';
+import { DialogContainerComponent } from './modules/dialog/dialog-container.components';
+import { TestDialogComponent } from './components/dialog/test-dialog/test-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -72,6 +76,8 @@ const COMPONENTS = [
   HeaderMobileComponent,
   TableComponent,
   PaginationComponent,
+  DialogContainerComponent,
+  TestDialogComponent,
 ];
 
 const DIRECTIVES = [
@@ -89,6 +95,7 @@ const DIRECTIVES = [
   ColumnDirective,
   CellDirective,
   HeaderDirective,
+  DialogContentDirective,
 ];
 const PIPES = [SecurePipe, TagUsername];
 
