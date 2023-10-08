@@ -16,24 +16,23 @@ import { DialogContentDirective } from './dialog-content.directive';
 import { DialogRef } from './dialog-ref';
 import { AnimationEvent } from '@angular/animations';
 
-// [@zoom]="{
-//   value: animationState,
-//   params: { timing: dialogConfig.containerAnimationTiming }
-// }"
-
 @Component({
   selector: 'app-dialog-container',
-  template: `<div class="dialog-container">
-    <div class="dialog-header">
-      {{ dialogConfig.header }}
-      <button (click)="onClickCloseDialog()">close</button>
+  template: `<div
+    class="dialog-container"
+    [@zoom]="{
+      value: animationState,
+      params: { timing: dialogConfig.containerAnimationTiming }
+    }"
+  >
+    <div dialogHeader>
+      <div>{{ dialogConfig.header }}</div>
+      <button vg-button btn-type="icon" color="secondary" dialogClose>x</button>
     </div>
-    <div class="dialog-content">
-      <ng-container dialogContent></ng-container>
-    </div>
+    <ng-container dialogContent></ng-container>
   </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [zoomAnimation(), fadeAnimation()]
+  animations: [zoomAnimation(), fadeAnimation()],
 })
 export class DialogContainerComponent<TContentComponent = any>
   implements AfterViewInit
@@ -77,7 +76,8 @@ export class DialogContainerComponent<TContentComponent = any>
 
   ngAfterViewInit(): void {
     this.loadContentComponent();
-    this.cdr.markForCheck();
+
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {

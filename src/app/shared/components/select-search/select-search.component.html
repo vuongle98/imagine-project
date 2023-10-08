@@ -1,0 +1,13 @@
+<div class="select-search">
+  <input type="text" [(ngModel)]="searchText" (input)="onSearchChange()" placeholder="Search options" />
+
+  <div class="options-container">
+    <ul>
+      <li *ngFor="let option of listOptions" (click)="onOptionSelect(option)">
+        <span [class.selected]="selectedOptions.includes(option)">{{ option.title }}</span>
+      </li>
+    </ul>
+
+    <!-- <button *ngIf="listOptions.length > 0" (click)="loadMoreOptions()">Load more</button> -->
+  </div>
+</div>

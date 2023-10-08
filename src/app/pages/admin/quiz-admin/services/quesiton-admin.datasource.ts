@@ -41,6 +41,18 @@ export class QuestionAdminDataSource extends BaseDataSource<
     this.loadingService.showLoaderUntilCompleted(loadQuestion$).subscribe();
   }
 
+  override create(data: any): Observable<any> {
+    return this.questionService.adminCreateQuestion(data);
+  }
+
+  override update(id: string, data: any): Observable<any> {
+    return this.questionService.adminUpdateQuestion(id, data);
+  }
+
+  override delete(id: string, forever = false): Observable<any> {
+    return this.questionService.adminDeleteQuestion(id);
+  }
+
   ngOnDestroy(): void {
     this.dataSubject.complete();
   }

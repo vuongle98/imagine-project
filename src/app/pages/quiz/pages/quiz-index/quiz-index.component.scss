@@ -1,3 +1,6 @@
+.title {
+  margin: var(--default-margin) 0;
+}
 .load-more-button {
   padding: 1.5em 0;
   display: flex;
@@ -10,7 +13,6 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-auto-rows: 0.2fr;
   gap: 1em;
-
 }
 .quiz-cover-image {
   width: 100%;

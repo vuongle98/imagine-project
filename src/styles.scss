@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/cdk/overlay-prebuilt.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 @import "./styles/colors.scss";
 @import "./styles/common.scss";
 @import "./styles/components/card.scss";
@@ -17,6 +18,7 @@
 @import "./styles/components/common.scss";
 @import "./styles/components/form.scss";
 @import "./styles/components/dialog.scss";
+@import "./styles/components/layout.scss";
 
 
 html {

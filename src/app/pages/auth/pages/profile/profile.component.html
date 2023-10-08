@@ -15,7 +15,7 @@
           <span (click)="acceptFriend(user.id)">Accept</span>
           <span (click)="declineFriend(user.id)">Decline</span>
         </div>
-        <div (click)="openChat(user.id, user.fullName)">Chat</div>
+        <div (click)="openChat(user.id, user.fullName || '')">Chat</div>
       </ng-container>
 
       <span class="user-action" *ngIf="!(isViewOtherProfile() | async)" (click)="logout()">Logout</span>

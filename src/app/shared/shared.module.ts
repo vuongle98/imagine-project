@@ -47,7 +47,16 @@ import { TableComponent } from './modules/table/table.component';
 import { DialogContentDirective } from './modules/dialog/dialog-content.directive';
 import { DialogContainerComponent } from './modules/dialog/dialog-container.components';
 import { TestDialogComponent } from './components/dialog/test-dialog/test-dialog.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogCloseDirective } from './modules/dialog/dialog-close.directive';
+import { SelectSearchComponent } from './components/select-search/select-search.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BaseCrudComponent } from './components/base-crud/base-crud.component';
+import { DialogHeaderDirective } from './modules/dialog/dialog-header.directive';
+import { DialogBodyDirective } from './modules/dialog/dialog-body.directive';
+import { DialogActionsDirective } from './modules/dialog/dialog-actions.directive';
+import { ConfirmComponent } from './components/dialog/confirm-delete/confirm.component';
+import { BasePageComponent } from './modules/layouts/base-page/base-page.component';
+import { FormItemComponent } from './components/form-item/form-item.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -78,6 +87,11 @@ const COMPONENTS = [
   PaginationComponent,
   DialogContainerComponent,
   TestDialogComponent,
+  SelectSearchComponent,
+  BaseCrudComponent,
+  ConfirmComponent,
+  BasePageComponent,
+  FormItemComponent,
 ];
 
 const DIRECTIVES = [
@@ -96,10 +110,19 @@ const DIRECTIVES = [
   CellDirective,
   HeaderDirective,
   DialogContentDirective,
+  DialogCloseDirective,
+  DialogHeaderDirective,
+  DialogBodyDirective,
+  DialogActionsDirective,
 ];
 const PIPES = [SecurePipe, TagUsername];
 
-const MODULES = [FormsModule, ReactiveFormsModule, RouterModule];
+const MODULES = [
+  FormsModule,
+  ReactiveFormsModule,
+  RouterModule,
+  NgSelectModule,
+];
 
 @NgModule({
   declarations: [COMPONENTS, DIRECTIVES, PIPES],

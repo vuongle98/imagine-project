@@ -1,5 +1,6 @@
 .dialog {
   &-container {
+    max-height: 90vh;
     background-color: var(--background-color);
     padding: var(--default-padding);
     border-radius: var(--default-border);
@@ -11,11 +12,27 @@
   &-header {
     display: flex;
     justify-content: space-between;
-    padding: var(--default-padding);
+    align-items: center;
+    margin: var(--default-margin);
+  }
+
+  &-body {
+    display: flex;
+    margin: var(--default-margin);
+    overflow: auto;
   }
 
   &-content {
     padding: var(--default-padding);
+    overflow: auto;
+  }
+
+  &-actions {
+    gap: var(--default-gap);
+    display: flex;
+    justify-content: center;
+    margin: var(--default-margin);
+    box-sizing: border-box;
   }
 }
 

@@ -1,0 +1,30 @@
+<app-table [rows]="listUser" [actions]="actions" [totalRows]="totalRows" [pageSize]="pageSize"
+  (pageChange)="onPageChange($event)">
+
+  <table-column header="No" key="no">
+    <!-- <ng-template tableHeader>Test</ng-template> -->
+    <ng-template tableCell let-row>{{row.index}}</ng-template>
+  </table-column>
+
+  <table-column header="Username" key="username"></table-column>
+  <table-column header="Full name" key="fullName"></table-column>
+  <table-column header="Email" key="email"></table-column>
+  <table-column header="Gender" key="gender"></table-column>
+  <table-column header="Birthdate" key="birthDate"></table-column>
+  <table-column header="Role" key="role">
+    <ng-template tableCell let-row>
+      <div *ngFor="let role of row.data.roles">
+        {{role}}
+      </div>
+    </ng-template>
+  </table-column>
+  <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
+    <ng-template tableCell let-row>
+      <ng-container *ngFor="let action of row.actions">
+        <button *ngIf="action?.isShow(row.data)" vg-button color="primary"
+          (click)="action.action(row.data)">{{action.title}}</button>
+      </ng-container>
+    </ng-template>
+  </table-column>
+
+</app-table>

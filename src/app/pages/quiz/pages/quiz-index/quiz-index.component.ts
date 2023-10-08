@@ -20,8 +20,7 @@ export class QuizIndexComponent {
   constructor(
     public quizStore: QuizStore,
     private router: Router,
-    public loadingService: LoadingService,
-    private dialogService: DialogService
+    public loadingService: LoadingService
   ) {
     this.reloadQuizs();
   }
@@ -38,20 +37,5 @@ export class QuizIndexComponent {
     console.log('loading');
     this.currentPage += 1;
     this.quizStore.findQuizs({ page: this.currentPage, size: 12 });
-  }
-
-  open() {
-    const config = {
-      header: 'Test Dialog',
-      data: {test: 'testdata'},
-      overlayConfig: {
-        width: '400px'
-      }
-    };
-    const ref = this.dialogService.open(TestDialogComponent, config);
-
-    ref.afterClose().subscribe((v) => {
-      console.log(v);
-    });
   }
 }

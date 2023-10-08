@@ -1,0 +1,7 @@
+<div dialogBody *ngIf="data">
+  {{data.dialogData.description}}
+</div>
+<div dialogActions>
+  <button vg-button dialogClose>Close</button>
+  <button vg-button color="warning" (click)="confirm()">Confirm</button>
+</div>

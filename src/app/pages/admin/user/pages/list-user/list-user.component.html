@@ -1,1 +1,10 @@
-<p>list-user works!</p>
+<app-base-page>
+  <app-admin-search-user></app-admin-search-user>
+
+  <app-admin-user-table [listUser]="listUser" [totalRows]="totalRows" [currentPage]="currentPage"
+    (onEditUser)="openEditUser($event)" (onLockUser)="handleUpdate($event, UPDATE_TYPE.LOCK)"
+    (onUnlockUser)="handleUpdate($event, UPDATE_TYPE.UNLOCK)"
+    (onDisableUser)="handleUpdate($event, UPDATE_TYPE.DISABLE)"
+    (onEnableUser)="handleUpdate($event, UPDATE_TYPE.ENABLE)"
+    (onDeleteUser)="deleteUser($event)"></app-admin-user-table>
+</app-base-page>

@@ -3,6 +3,7 @@ import { ESCAPE, hasModifierKey } from '@angular/cdk/keycodes';
 import { Observable, Subject, filter, map, race, take } from 'rxjs';
 import { DialogContainerComponent } from './dialog-container.components';
 import { AnimationState } from './constants';
+import { DialogConfig } from './dialog.config';
 
 const AnimationPhase = {
   START: 'start',
@@ -16,11 +17,22 @@ export class DialogRef<TReturnType = any, TContentComponent = any> {
 
   componentInstance!: DialogContainerComponent<TContentComponent>;
 
-  constructor(private readonly overlayRef: OverlayRef) {
+  constructor(private readonly overlayRef: OverlayRef, config: DialogConfig) {
+    if (config.closeable) {
+      race(
+        overlayRef.backdropClick(),
+        overlayRef
+          .keydownEvents()
+          .pipe(filter((event) => event.key === 'Escape'))
+      )
+        .pipe(take(1))
+        .subscribe(() => this.close());
+    }
+
     overlayRef.detachments().subscribe(() => {
       this.afterClosed$.next(this.result as TReturnType);
       this.afterClosed$.complete();
-      // this.componentInstance.;
+      this.componentInstance = null as any;
     });
   }
 

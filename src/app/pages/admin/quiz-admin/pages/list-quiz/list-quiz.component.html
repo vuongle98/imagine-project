@@ -1,36 +1,7 @@
-<app-admin-search-quiz></app-admin-search-quiz>
+<app-base-page>
+  <app-admin-search-quiz></app-admin-search-quiz>
 
-<app-quiz-admin-table [quizAdminDataSource]="quizAdminDataSource" [listQuiz]="listQuiz" [totalRows]="totalRows"
-  [currentPage]="currentPage" (onDeleteQuiz)="deleteQuiz($event)"
-  (onEditQuiz)="editQuiz($event)"></app-quiz-admin-table>
-
-
-
-<ng-template>
-  <form [formGroup]="createQuizForm">
-
-    <input type="text" formControlName="title" placeholder="Quiz title" />
-
-    <input type="text" formControlName="description" placeholder="Quiz description" />
-
-    <select name="category" formControlName="category">
-      <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
-    </select>
-    <select name="level" formControlName="level">
-      <option *ngFor="let level of listQuizLevel" [value]="level.value">{{level.name}}</option>
-    </select>
-
-    <input type="checkbox" name="published" formControlName="published">
-    <label>Published</label>
-
-    <select multiple placeHolder="Select questions" formControlName="listQuestionId">
-      <ng-container *ngFor="let o of questionList">
-        <option *ngIf="!isLoading" value="{{o.id}}">{{o.title}}</option>
-      </ng-container>
-      <option *ngIf="isLoading">
-        <span class="loading-icon"></span>
-        Loading Data...
-      </option>
-    </select>
-  </form>
-</ng-template>
+  <app-quiz-admin-table [quizAdminDataSource]="quizAdminDataSource" [listQuiz]="listQuiz" [totalRows]="totalRows"
+    [currentPage]="currentPage" (onDeleteQuiz)="deleteQuiz($event)"
+    (onEditQuiz)="openEdit($event)"></app-quiz-admin-table>
+</app-base-page>

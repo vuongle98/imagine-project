@@ -19,49 +19,42 @@ import {
   listQuestionType,
 } from '../../../../../shared/utils/quiz';
 import { QuestionService } from 'src/app/shared/services/rest-api/quiz/question.service';
-import { filter, iif, tap } from 'rxjs';
+import { Observable, filter, iif, of, switchMap, tap } from 'rxjs';
 import { AdminSearchQuestionComponent } from '../../components/admin-search-question/admin-search-question.component';
+import { DialogService } from '@shared/modules/dialog/dialog.service';
+import { QuestionFormComponent } from '../../components/question-form/question-form.component';
+import { BaseCrudComponent } from '@shared/components/base-crud/base-crud.component';
+import { NotificationService } from '@shared/services/common/notificaton.service';
 
 @Component({
   selector: 'app-list-question',
   templateUrl: './list-question.component.html',
   styleUrls: ['./list-question.component.scss'],
 })
-export class ListQuestionComponent implements OnInit, AfterViewInit {
+export class ListQuestionComponent
+  extends BaseCrudComponent<QuestionAdminDataSource>
+  implements OnInit, AfterViewInit
+{
   @ViewChild(AdminSearchQuestionComponent)
   adminSearchQuestionComponent!: AdminSearchQuestionComponent;
-
-  listQuestionType = listQuestionType;
-  listQuizCategory = listQuizCategory;
-  listdifficultLevel = listDifficultLevel;
 
   totalRows = 1;
   currentPage = 0;
   listQuestion: Question[] = [];
 
-  isShowCreateModal = false;
   selectedQuestion: Question = Object.assign({});
-
-  createQuestionForm!: FormGroup;
-
-  /**
-   * Returns the 'answers' property of the 'createQuestionForm' as a FormArray of FormGroups.
-   *
-   * @return {FormArray<FormGroup>} - The 'answers' property as a FormArray of FormGroups.
-   */
-  get answers(): FormArray<FormGroup> {
-    return this.createQuestionForm.get('answers') as FormArray<FormGroup>;
-  }
 
   constructor(
     public questionAdminDatasource: QuestionAdminDataSource,
     private fb: FormBuilder,
-    private questionService: QuestionService
-  ) {}
+    private questionService: QuestionService,
+    protected override dialogService: DialogService,
+    protected override notificationService: NotificationService
+  ) {
+    super(dialogService, questionAdminDatasource, notificationService);
+  }
 
   ngOnInit(): void {
-    this.initForm();
-
     this.questionAdminDatasource.loadData({
       page: this.currentPage,
       size: 10,
@@ -86,129 +79,59 @@ export class ListQuestionComponent implements OnInit, AfterViewInit {
 
     this.adminSearchQuestionComponent.emitCreate
       .pipe(
-        tap(() => {
-          console.log('create');
+        switchMap(() =>
+          this.openCreate(QuestionFormComponent, {
+            header: 'Create question',
+          })
+        ),
+        switchMap((formValue) => {
+          console.log(formValue);
+          return this.handleOk(formValue);
         })
       )
-      .subscribe();
-  }
-
-  /**
-   * Resets the answers.
-   *
-   * @return {void} No return value.
-   */
-  resetAnswers(): void {
-    this.answers.clear();
-  }
-
-  /**
-   * Initializes the form.
-   *
-   * @returns {void} - Does not return a value.
-   */
-  initForm(): void {
-    this.createQuestionForm = this.fb.group({
-      title: [''],
-      type: [QuestionType[QuestionType.YES_NO]],
-      category: [QuizCategory[QuizCategory.GENERAL]],
-      answers: this.fb.array([]),
-      mark: [false],
-      difficultlyLevel: [1],
-      countDown: [30],
-      active: [true],
-    });
-  }
-
-  openCreate() {
-    Object.assign({} as Question, this.selectedQuestion);
-    this.isShowCreateModal = true;
-  }
-
-  handleOk(): void {
-    this.isShowCreateModal = false;
-
-    const data = this.createQuestionForm.value;
-
-    iif(
-      () => !!this.selectedQuestion.id,
-      this.questionService.adminUpdateQuestion(this.selectedQuestion.id, data),
-      this.questionService.adminCreateQuestion(data)
-    ).subscribe(() => {
-      this.questionAdminDatasource.loadData({
-        page: this.currentPage,
-        size: 10,
-      });
-      this.resetAnswers();
-      this.initForm();
-    });
-  }
-
-  closeModal(): void {
-    this.resetAnswers();
-    this.initForm();
-    this.isShowCreateModal = false;
-  }
-
-  addAnswer(e?: MouseEvent) {
-    if (e) {
-      e.preventDefault();
-    }
-
-    this.answers.push(
-      new FormGroup({
-        answer: new FormControl('', Validators.required),
-        correct: new FormControl(false),
-      })
-    );
-  }
-
-  removeAnswer(control: FormGroup, e: MouseEvent) {
-    e.preventDefault();
-
-    if (this.answers.controls.length > 1) {
-      const index = this.answers.controls.indexOf(control);
-      this.answers.removeAt(index);
-    }
-  }
-
-  editQuestion(question: Question) {
-    this.selectedQuestion = question;
-
-    question.answers.map((answer) => {
-      this.answers.push(
-        new FormGroup({
-          answer: new FormControl(answer.answer),
-          correct: new FormControl(answer.correct),
-        })
-      );
-    });
-
-    this.createQuestionForm.patchValue(question);
-
-    this.isShowCreateModal = true;
-  }
-
-  deleteQuestion(question: Question) {
-    // this.confirmDeleteQuestion(question);
-    console.log('delete', question);
-  }
-
-  confirmDeleteQuestion(question: Question) {
-    this.questionService
-      .adminDeleteQuestion(question.id)
-      .pipe(
-        tap(() => {
-          if (this.totalRows <= this.currentPage * 10 + 1) {
-            this.currentPage -= 1;
-          }
-
+      .subscribe((result) => {
+        !!result &&
           this.questionAdminDatasource.loadData({
             page: this.currentPage,
             size: 10,
           });
-        })
+      });
+  }
+
+  handleOk(data: Question): Observable<Question | null> {
+    if (!data) return of(null);
+
+    return iif(
+      () => !!this.selectedQuestion.id,
+      this.questionService.adminUpdateQuestion(this.selectedQuestion.id, data),
+      this.questionService.adminCreateQuestion(data)
+    );
+  }
+
+  editQuestion(question: Question) {
+    this.selectedQuestion = question;
+    this.openUpdate(QuestionFormComponent, {
+      header: 'Update question',
+      data: this.selectedQuestion,
+    })
+      .pipe(
+        tap((v) => console.log(v)),
+        switchMap((formValue) => this.handleOk(formValue as Question))
       )
-      .subscribe();
+      .subscribe((result) => {
+        !!result &&
+          this.questionAdminDatasource.loadData({
+            page: this.currentPage,
+            size: 10,
+          });
+      });
+  }
+
+  deleteQuestion(question: Question) {
+    this.openDelete(
+      'Confirm delete question?',
+      'Are you sure you want to delete this question?',
+      question
+    ).subscribe();
   }
 }

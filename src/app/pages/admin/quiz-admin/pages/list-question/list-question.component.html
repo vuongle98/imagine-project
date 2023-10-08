@@ -1,56 +1,7 @@
-<app-admin-search-question></app-admin-search-question>
+<app-base-page>
+  <app-admin-search-question></app-admin-search-question>
 
-<app-question-admin-table (onEditQuestion)="editQuestion($event)" [questionAdminDatasource]="questionAdminDatasource"
-  [totalRows]="totalRows" [currentPage]="currentPage" (onDeleteQuestion)="deleteQuestion($event)"
-  [listQuestion]="listQuestion"></app-question-admin-table>
-
-<!-- <ng-template>
-  <form [formGroup]="createQuestionForm">
-    <input type="text" nz-input formControlName="title" placeholder="Question title" />
-    <select id="type" formControlName="type">
-      <option *ngFor="let type of listQuestionType" [value]="type.value">{{type.name}}</option>
-    </select>
-    <select id="category" formControlName="category">
-
-      <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
-    </select>
-    <input type="number" nz-input formControlName="countDown" placeholder="Countdown value" />
-
-    <select id="difficultlyLevel" formControlName="difficultlyLevel">
-      <option *ngFor="let level of listdifficultLevel" [value]="level.value">{{level.name}}</option>
-    </select>
-    <input type="checkbox" name="mark" formControlName="mark">
-    <label for="mark">
-      Mark
-    </label>
-    <input type="checkbox" name="active" formControlName="active">
-    <label for="active">
-      Active
-    </label>
-
-    <nz-form-item *ngFor="let control of answers.controls">
-      <ng-container [formGroup]="control">
-        <nz-form-label [nzSpan]="7" nzRequired>Answer</nz-form-label>
-        <nz-form-control nzOffset="1" [nzSpan]="18" nzErrorTip="Please input question answer!">
-          <nz-input-group [nzSuffix]="suffixButton">
-            <input type="text" nz-input formControlName="answer" placeholder="Question answer" />
-          </nz-input-group>
-          <div nz-col [nzSpan]="12">
-            <label nz-checkbox formControlName="correct">
-              <span>Correct answer</span>
-            </label>
-          </div>
-        </nz-form-control>
-      </ng-container>
-
-      <ng-template #suffixButton><span class="dynamic-delete-button"
-          (click)="removeAnswer(control, $event)"></span></ng-template>
-    </nz-form-item>
-
-    <button class="add-button" (click)="addAnswer($event)">
-      <span nzType="plus"></span>
-      Add answer
-    </button>
-
-  </form>
-</ng-template> -->
+  <app-question-admin-table (onEditQuestion)="editQuestion($event)" [questionAdminDatasource]="questionAdminDatasource"
+    [totalRows]="totalRows" [currentPage]="currentPage" (onDeleteQuestion)="deleteQuestion($event)"
+    [listQuestion]="listQuestion"></app-question-admin-table>
+</app-base-page>

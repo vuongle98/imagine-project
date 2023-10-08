@@ -38,15 +38,15 @@ export class QuizAdminDataSource extends BaseDataSource<Pageable<Quiz[]>> {
     this.dataSubject.complete();
   }
 
-  create(quiz: Quiz): Observable<Quiz> {
+  override create(quiz: Quiz): Observable<Quiz> {
     return this.quizService.adminCreateQuiz(quiz);
   }
 
-  update(id: string, quiz: Quiz): Observable<Quiz> {
+  override update(id: string, quiz: Quiz): Observable<Quiz> {
     return this.quizService.adminUpdateQuiz(id, quiz);
   }
 
-  delete(id: string): Observable<void> {
+  override delete(id: string, forever = false): Observable<void> {
     return this.quizService.adminDeleteQuiz(id);
   }
 }

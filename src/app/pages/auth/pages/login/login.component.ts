@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StartupService } from '@core/bootstrap/startup.service';
+import { LoadingService } from '@shared/components/loading/loading.service';
 import { tap } from 'rxjs';
 import { LoginPayload } from 'src/app/shared/models/user';
 import { AuthStore } from 'src/app/shared/services/rest-api/auth/auth.store';
@@ -18,7 +19,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authStore: AuthStore,
     private router: Router,
-    private startupService: StartupService
+    private startupService: StartupService,
+    private loadingService: LoadingService
   ) {
     this.initLoginForm();
   }
@@ -38,8 +40,8 @@ export class LoginComponent {
   }
 
   login() {
-    this.authStore
-      .login(this.loginForm.value as LoginPayload)
+    this.loadingService
+      .showLoaderUntilCompleted(this.authStore.login(this.loginForm.value))
       .pipe(tap(() => this.startupService.load()))
       .subscribe(() => this.router.navigateByUrl('/'));
   }

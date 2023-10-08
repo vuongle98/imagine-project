@@ -93,7 +93,7 @@ export class AuthStore {
   setUserData(user: User, token: string) {
     this._user.next(user);
     this._token.next(token);
-    this._permission.next(user.roles);
+    this._permission.next(user.roles || []);
   }
 
   anonymousLogin(username: string) {

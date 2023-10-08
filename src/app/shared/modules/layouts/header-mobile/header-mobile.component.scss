@@ -11,7 +11,7 @@
   align-items: center;
   background: linear-gradient(
     -35deg,
-    rgba(59, 91, 95, 0.678) 0%,
+    rgba(65, 65, 65, 0.678) 0%,
     rgba(#333, 0.55) 100%
   );
   backdrop-filter: blur(10px);
@@ -79,7 +79,7 @@
 
 .header-nav:hover {
   .btn-pluss {
-    width: 100%;
+    width: 600px;
     border-radius: 15px;
     transition: width 0.3s ease, border-radius 0.3s ease,
       padding-bottom 0.3s ease;
@@ -105,4 +105,13 @@
 
 .brand-logo {
   max-width: 60px;
+}
+
+
+@media only screen and (max-width: 800px) {
+  .header-nav:hover {
+    .btn-pluss {
+      width: 100%;
+    }
+  }
 }

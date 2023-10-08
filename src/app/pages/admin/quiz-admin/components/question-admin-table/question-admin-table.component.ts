@@ -32,18 +32,12 @@ export class QuestionAdminTableComponent implements OnInit, AfterViewInit {
     {
       icon: 'edit',
       title: 'Edit',
-      action: (item: Question) => {
-        console.log('edit', item);
-
-        // this.onEditQuestion.emit(item);
-      },
+      action: (item: Question) => this.onEditQuestion.emit(item),
     },
     {
       icon: 'delete',
       title: 'Delete',
-      action: (item: Question) => {
-        console.log('delete', item);
-      },
+      action: (item: Question) => this.onDeleteQuestion.emit(item),
     },
   ];
 

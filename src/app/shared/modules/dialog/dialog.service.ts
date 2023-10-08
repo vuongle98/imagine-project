@@ -31,10 +31,9 @@ export class DialogService {
     config: Partial<DialogConfig>
   ) {
     const mergeConfig = this.getMergeConfig(config);
-    console.log(mergeConfig);
 
     const overlayRef = this.overlay.create(mergeConfig.overlayConfig);
-    const dialogRef = new DialogRef<TReturnType, TContentComponent>(overlayRef);
+    const dialogRef = new DialogRef<TReturnType, TContentComponent>(overlayRef, mergeConfig);
 
     dialogRef.componentInstance = this.attachDialogContainer(
       overlayRef,

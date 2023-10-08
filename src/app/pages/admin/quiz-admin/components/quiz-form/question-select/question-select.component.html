@@ -1,0 +1,17 @@
+<app-table [rows]="listQuestion" [actions]="actions">
+  <table-column header="No" key="no">
+    <ng-template tableCell let-row>{{row.index}}</ng-template>
+  </table-column>
+  <table-column header="Title" key="title"></table-column>
+  <table-column header="Type" key="type"></table-column>
+  <table-column header="Category" key="category"></table-column>
+  <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
+    <ng-template tableCell let-row>
+      <ng-container *ngFor="let action of row.actions">
+        <label>{{action.title}}</label>
+        <input type="checkbox" (change)="action.action(row.data)">
+        <!-- <button vg-button color="primary" (click)="action.action(row.data)">{{action.title}}</button> -->
+      </ng-container>
+    </ng-template>
+  </table-column>
+</app-table>
