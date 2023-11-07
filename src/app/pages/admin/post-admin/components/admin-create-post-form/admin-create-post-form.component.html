@@ -1,0 +1,30 @@
+<form dialogBody class="quesiton-form" *ngIf="createPostForm" [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
+  <app-form-item>
+    <label for="title">Title</label>
+    <input type="text" formControlName="title" placeholder="Enter post title" />
+  </app-form-item>
+  <app-form-item>
+    <label for="description">Description</label>
+    <input type="text" formControlName="description" placeholder="Enter post description" />
+  </app-form-item>
+  <app-form-item>
+    <label for="content">Content</label>
+    <textarea type="text" formControlName="content" placeholder="Enter post content"></textarea>
+  </app-form-item>
+
+  <app-form-item>
+    <label for="categoryId">Category</label>
+    <ng-select formControlName="categoryId" [items]="listCategory" [multiple]="false" bindLabel="name"
+      [closeOnSelect]="false" bindValue="id" [placeholder]="'Select category'"
+      (scrollToEnd)="onScrollToEnd()"></ng-select>
+  </app-form-item>
+
+  <app-form-item>
+    <label for="file">File</label>
+    <input type="file" formControlName="file" />
+  </app-form-item>
+
+  <div class="actions">
+    <button vg-button>Save</button>
+  </div>
+</form>

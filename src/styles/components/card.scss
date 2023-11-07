@@ -30,17 +30,10 @@
     width: 100%;
   }
 
-  &-header {
-    margin: 10px;
-    height: 100px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
   &-title {
     font-weight: 500;
     font-size: 16px;
-    white-space: nowrap;
+    // white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     margin: 0.2em 0;
@@ -96,4 +89,31 @@
     opacity: 0;
     transition: visibility 0.5s, opacity 0.5s linear;
   }
+
+  &-red {
+    background-color: var(--error-color);
+  }
+
+  &-green {
+    background-color: var(--success-color);
+  }
+
+  &-blue {
+    background-color: var(--info-color);
+  }
+
+  &-yellow {
+    background-color: var(--waring-color);
+  }
+}
+
+app-card-title {
+  padding: var(--default-padding);
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+app-card-content {
+  padding: var(--default-padding);
+  overflow: hidden;
 }

@@ -26,11 +26,13 @@ export class QuizAdminTableComponent {
       icon: 'edit',
       title: 'Edit',
       action: (item: Quiz) => this.onEditQuiz.emit(item),
+      show: (item: Quiz) => true,
     },
     {
       icon: 'delete',
       title: 'Delete',
       action: (item: Quiz) => this.onDeleteQuiz.emit(item),
+      show: (item: Quiz) => true,
     },
   ];
 

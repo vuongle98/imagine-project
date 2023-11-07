@@ -1,5 +1,5 @@
 <div class="title">
-  <h3>Recently played</h3>
+  <h3>Recently added</h3>
 </div>
 <div class="card-container">
   <ng-container *ngFor="let item of quiz$ | async | slice:4:9; index as i">
@@ -9,7 +9,7 @@
     </ng-template>
     <app-card [quiz-level]="item.level" class="card" vg-card [cardPlay]="true" [useLink]="true"
       routerLink="{{'playing/' + item.id}}" [cover]="coverTemplate" [item]="item">
-      <app-card-title [title]="item.title" [description]="item.description"></app-card-title>
+      <app-card-title class="card-title" [title]="item.title" [description]="item.description"></app-card-title>
     </app-card>
   </ng-container>
 </div>
@@ -24,7 +24,7 @@
     </ng-template>
     <app-card [quiz-level]="item.level" class="card" vg-card [cardPlay]="true" [useLink]="true"
       routerLink="{{'playing/' + item.id}}" [cover]="coverTemplate" [item]="item">
-      <app-card-title [title]="item.title" [description]="item.description"></app-card-title>
+      <app-card-title class="card-title" [title]="item.title" [description]="item.description"></app-card-title>
     </app-card>
   </ng-container>
 </div>

@@ -24,6 +24,7 @@ export class QuestionSelectComponent implements OnInit {
       action: (item: Question) => {
         this.toggleSelectedQuestion(item);
       },
+      show: (item: Question) => true,
     },
   ];
 

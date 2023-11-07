@@ -20,7 +20,6 @@
 @import "./styles/components/dialog.scss";
 @import "./styles/components/layout.scss";
 
-
 html {
   scroll-behavior: smooth;
 }
@@ -33,7 +32,7 @@ body {
 }
 body * {
   margin: 0;
-  font-family: 'Space Mono', monospace;
+  font-family: "Space Mono", monospace;
 }
 
 app-base-layout {
@@ -42,7 +41,6 @@ app-base-layout {
   display: grid;
   gap: 15px;
 }
-
 
 app-no-base-layout {
   height: 100vh;

@@ -1,0 +1,13 @@
+<form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+  <input type="text" formControlName="likeTitle" placeholder="Enter title" />
+  <input type="text" formControlName="likeDescription" placeholder="Enter description" />
+
+  <input id="getDeleted" name="getDeleted" formControlName="getDeleted" type="checkbox">
+  <label for="getDeleted">Đã xóa</label>
+
+  <button vg-button>Search</button>
+
+  <button vg-button type="button" (click)="searchForm.reset()">Reset form</button>
+  <button vg-button type="button" (click)="emitCreate.emit()">Create</button>
+</form>

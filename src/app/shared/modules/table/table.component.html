@@ -26,7 +26,8 @@
               </ng-container>
               <ng-container *ngSwitchCase="DataType.ACTIONS">
                 <ng-container *ngFor="let action of actions">
-                  <button vg-button color="primary" (click)="action.action(data)">{{action.title}}</button>
+                  <button style="margin-right: 8px" *ngIf="action?.show(data)" vg-button color="primary"
+                    (click)="action.action(data)">{{action.title}}</button>
                 </ng-container>
               </ng-container>
               <ng-container *ngSwitchDefault>{{data[column.key]}}</ng-container>
@@ -44,5 +45,5 @@
 
   </tbody>
 </table>
-<app-pagination *ngIf="(totalRows / pageSize) > 1" [page]="page" [totalPage]="totalRows / pageSize"
+<app-pagination *ngIf="totalPages > 1" [page]="page" [totalPage]="totalPages"
   (pageChange)="page = $event; pageChange.emit($event)"></app-pagination>

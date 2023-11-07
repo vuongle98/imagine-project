@@ -21,6 +21,18 @@ const routes: Routes = [
       import('./user/user-admin.module').then((m) => m.UserAdminModule),
     canActivate: [authGuard, adminGuard],
   },
+  {
+    path: 'post',
+    loadChildren: () =>
+      import('./post-admin/post-admin.module').then((m) => m.PostAdminModule),
+    canActivate: [authGuard, adminGuard],
+  },
+  {
+    path: 'file',
+    loadChildren: () =>
+      import('./file-admin/file-admin.module').then((m) => m.FileAdminModule),
+    canActivate: [authGuard, adminGuard],
+  },
 ];
 
 @NgModule({

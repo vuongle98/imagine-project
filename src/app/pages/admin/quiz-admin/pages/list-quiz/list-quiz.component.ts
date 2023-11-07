@@ -44,8 +44,6 @@ export class ListQuizComponent
   currentPage = 0;
   listQuiz: Quiz[] = [];
 
-  selectedQuiz: Quiz = Object.assign({});
-
   constructor(
     public quizAdminDataSource: QuizAdminDataSource,
     private fb: FormBuilder,
@@ -103,11 +101,10 @@ export class ListQuizComponent
   }
 
   openEdit(quiz: Quiz) {
-    this.selectedQuiz = quiz;
 
     this.openUpdate(QuizFormComponent, {
       header: 'Update quiz',
-      data: this.selectedQuiz,
+      data: quiz,
     })
       .pipe(concatMap((formValue) => this.handleCreateOrUpdate(formValue)))
       .subscribe();

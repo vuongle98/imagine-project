@@ -12,5 +12,11 @@ export class VgCardDirective {
 
   @Input() @HostBinding('class.card-third') third = false;
 
+  @Input('color') color?: string;
+
+  @HostBinding('class') get cardColor() {
+    return `card-${this.color}`;
+  }
+
   constructor() {}
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserAdminDataSource } from '../../services/user-admin.datasource';
 import { User } from '@shared/models/user';
-import { DataType } from '@shared/modules/table/table.component';
+import { DataType, TableAction } from '@shared/modules/table/table.component';
 
 @Component({
   selector: 'app-admin-user-table',
@@ -26,36 +26,36 @@ export class AdminUserTableComponent {
 
   DataType = DataType;
 
-  actions = [
+  actions: TableAction[] = [
     {
       icon: 'edit',
       title: 'Edit',
       action: (item: User) => this.onEditUser.emit(item),
-      isShow: (item: User) => true,
+      show: (item: User) => true,
     },
     {
       icon: 'delete',
       title: 'Block',
       action: (item: User) => this.onLockUser.emit(item),
-      isShow: (item: User) => !item.locked,
+      show: (item: User) => !item.locked,
     },
     {
       icon: 'lock',
       title: 'Unlock',
       action: (item: User) => this.onUnlockUser.emit(item),
-      isShow: (item: User) => item.locked,
+      show: (item: User) => !!item.locked,
     },
     {
       icon: 'delete',
       title: 'Disable',
       action: (item: User) => this.onDisableUser.emit(item),
-      isShow: (item: User) => item.enabled,
+      show: (item: User) => !!item.enabled,
     },
     {
       icon: 'delete',
       title: 'Enable',
       action: (item: User) => this.onEnableUser.emit(item),
-      isShow: (item: User) => !item.enabled,
+      show: (item: User) => !item.enabled,
     },
   ];
 

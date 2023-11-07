@@ -21,7 +21,7 @@
   <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
     <ng-template tableCell let-row>
       <ng-container *ngFor="let action of row.actions">
-        <button *ngIf="action?.isShow(row.data)" vg-button color="primary"
+        <button *ngIf="action?.show(row.data)" vg-button color="primary"
           (click)="action.action(row.data)">{{action.title}}</button>
       </ng-container>
     </ng-template>

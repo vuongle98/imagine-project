@@ -5,6 +5,7 @@ import { DialogRef } from '@shared/modules/dialog/dialog-ref';
 export type ConfirmData = {
   dialogData: ConfirmDialogData;
   resData: any;
+  askForce?: boolean;
 };
 
 export type ConfirmDialogData = {
@@ -18,12 +19,18 @@ export type ConfirmDialogData = {
   styleUrls: ['./confirm.component.scss'],
 })
 export class ConfirmComponent {
+  isForce: boolean = false;
+
   constructor(
     @Inject(DIALOG_DATA) public readonly data: ConfirmData,
     private dialogRef: DialogRef
   ) {}
 
   confirm() {
-    this.dialogRef.close({ isConfirmed: true, data: this.data.resData });
+    this.dialogRef.close({
+      isConfirmed: true,
+      isForce: this.isForce,
+      data: this.data.resData,
+    });
   }
 }

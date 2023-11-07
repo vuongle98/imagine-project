@@ -14,12 +14,15 @@
     justify-content: space-between;
     align-items: center;
     margin: var(--default-margin);
+    font-weight: bold;
   }
 
   &-body {
     display: flex;
+    flex-direction: column;
     margin: var(--default-margin);
     overflow: auto;
+    min-height: 40px;
   }
 
   &-content {

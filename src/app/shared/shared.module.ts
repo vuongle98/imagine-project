@@ -57,6 +57,9 @@ import { DialogActionsDirective } from './modules/dialog/dialog-actions.directiv
 import { ConfirmComponent } from './components/dialog/confirm-delete/confirm.component';
 import { BasePageComponent } from './modules/layouts/base-page/base-page.component';
 import { FormItemComponent } from './components/form-item/form-item.component';
+import { PostComponent } from './components/post/post.component';
+import { CommentComponent } from './components/post/comment/comment.component';
+import { FormatFileSizePipe } from './pipes/file-size.pipe';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -92,6 +95,8 @@ const COMPONENTS = [
   ConfirmComponent,
   BasePageComponent,
   FormItemComponent,
+  PostComponent,
+  CommentComponent,
 ];
 
 const DIRECTIVES = [
@@ -115,7 +120,7 @@ const DIRECTIVES = [
   DialogBodyDirective,
   DialogActionsDirective,
 ];
-const PIPES = [SecurePipe, TagUsername];
+const PIPES = [SecurePipe, TagUsername, FormatFileSizePipe];
 
 const MODULES = [
   FormsModule,

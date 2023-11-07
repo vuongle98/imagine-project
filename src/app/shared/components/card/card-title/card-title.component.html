@@ -1,4 +1,8 @@
-<div class="card-header">
+<ng-container *ngIf="title; else noTitle">
   <div class="card-title">{{title}}</div>
   <div class="card-description">{{description}}</div>
-</div>
+</ng-container>
+
+<ng-template #noTitle>
+  <ng-content></ng-content>
+</ng-template>

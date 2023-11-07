@@ -1,0 +1,11 @@
+.quesiton-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--default-gap);
+  }
+}

@@ -30,6 +30,7 @@ export type TableAction = {
   icon: string;
   title: string;
   action: (item: any) => void;
+  show?: (item: any) => boolean;
 };
 
 export type Dictionary = {
@@ -57,6 +58,10 @@ export class TableComponent {
   @Input() pageSize = 10;
   @Input() totalRows = 0;
   @Output() pageChange = new EventEmitter<number>();
+
+  get totalPages() {
+    return Math.ceil(this.totalRows / this.pageSize);
+  }
 
   @ContentChildren(ColumnDirective) columns!: QueryList<ColumnDirective>;
 

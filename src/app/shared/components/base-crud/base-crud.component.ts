@@ -48,16 +48,31 @@ export abstract class BaseCrudComponent<T extends BaseDataSource<any>> {
       () => !!data.id,
       this.dataSource.update(data.id, data),
       this.dataSource.create(data)
-    ).pipe(finalize(() => this.dataSource.loadData({ page: 0, size: 10 })));
+    ).pipe(
+      catchError((error) => {
+        this.notificationService.error(
+          'Thêm mới thất bại',
+          error.message || error
+        );
+        return of(error);
+      }),
+      finalize(() => this.dataSource.loadData({ page: 0, size: 10 }))
+    );
   }
 
-  openDelete(title: string, description: string, data: any): Observable<any> {
+  openDelete(
+    title: string,
+    description: string,
+    data: any,
+    askForce = false
+  ): Observable<any> {
     return this.dialogService
       .open(ConfirmComponent, {
         header: title,
         data: {
           dialogData: { description },
           resData: data,
+          askForce,
         },
       })
       .afterClose()
@@ -65,11 +80,17 @@ export abstract class BaseCrudComponent<T extends BaseDataSource<any>> {
         switchMap((result?: any) =>
           iif(
             () => !!result?.isConfirmed,
-            this.dataSource.delete(result?.data?.id, false),
+            this.dataSource.delete(result?.data?.id, result?.isForce),
             of()
           )
         ),
-        // catchError(() => this.notificationService.error('Xóa thất bại')),
+        catchError((error) => {
+          this.notificationService.error(
+            'Xóa thất bại',
+            error.message || error
+          );
+          return of(error);
+        }),
         finalize(() => this.dataSource.loadData({ page: 0, size: 10 }))
       );
   }

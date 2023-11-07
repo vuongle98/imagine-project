@@ -101,6 +101,9 @@ export class QuestionFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close(this.createQuestionForm.value);
+    this.dialogRef.close({
+      id: this.data.id,
+      ...this.createQuestionForm.value,
+    });
   }
 }

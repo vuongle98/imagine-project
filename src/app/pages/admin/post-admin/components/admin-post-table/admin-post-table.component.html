@@ -1,0 +1,32 @@
+<app-table [rows]="listPost" [actions]="actions" [page]="currentPage" [pageSize]="pageSize" [totalRows]="totalRows"
+  (pageChange)="onPageChange($event)">
+  <table-column header="No" key="no">
+    <ng-template tableCell let-row>{{row.index}}</ng-template>
+  </table-column>
+  <table-column header="Title" key="title"></table-column>
+  <table-column header="Description" key="description"></table-column>
+  <table-column header="Content" key="content"></table-column>
+  <table-column header="Category" key="category">
+    <ng-template tableCell let-row>{{row.data.category?.name}}</ng-template>
+  </table-column>
+  <table-column header="Creator" key="creator">
+    <ng-template tableCell let-row>{{row.data.creator?.fullName}}</ng-template>
+  </table-column>
+  <table-column header="Deleted at" key="deletedAt">
+    <ng-template tableCell let-row>
+      <span *ngIf="row.data.deletedAt; else notDelete">{{row.data.deletedAt | date: 'HH:mm dd/MM/yyyy'}}</span>
+    </ng-template>
+    <ng-template #notDelete>
+      <span>Not deleted yet</span>
+    </ng-template>
+  </table-column>
+  <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
+    <ng-template tableCell let-row>
+      <ng-container *ngFor="let action of row.actions">
+        <button style="margin-right: 8px" *ngIf="action?.show(row.data)" vg-button color="primary"
+          (click)="action.action(row.data)">{{action.title}}</button>
+      </ng-container>
+    </ng-template>
+  </table-column>
+
+</app-table>

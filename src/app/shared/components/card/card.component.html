@@ -7,6 +7,7 @@
 <ng-content select="app-divider"></ng-content>
 <ng-content select="app-card-content"></ng-content>
 <ng-content select="app-card-actions"></ng-content>
+<ng-content></ng-content>
 <div class="card-actions" *ngFor="let action of actions">
   <ng-container *ngTemplateOutlet="action; context: {item: item}"></ng-container>
 </div>
