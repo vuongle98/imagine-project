@@ -1,7 +1,7 @@
 .answer-item label {
   display: inline-block;
   width: 100%;
-  padding: 0.5em 0.3em;
+  padding: var(--default-padding) calc(0.5 * var(--default-padding));
   font-family: sans-serif, Arial;
   border: 1px solid var(--second-color);
   border-radius: 10px;
@@ -28,7 +28,7 @@
 
 .answer-item input[type="radio"]:focus + input[type="radio"]:hover {
   border-color: rgba(0, 0, 0, 0.15);
-  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  // box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   color: rgba(0, 0, 0, 0.65);
 }
 

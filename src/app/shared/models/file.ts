@@ -2,8 +2,8 @@ import { BaseQueryParam } from "./utils";
 
 export type FileInfo = {
   id: string;
-  name: string;
-  ext: string;
+  fileName: string;
+  extension: string;
   size: number;
 }
 

@@ -57,9 +57,19 @@ import { DialogActionsDirective } from './modules/dialog/dialog-actions.directiv
 import { ConfirmComponent } from './components/dialog/confirm-delete/confirm.component';
 import { BasePageComponent } from './modules/layouts/base-page/base-page.component';
 import { FormItemComponent } from './components/form-item/form-item.component';
-import { PostComponent } from './components/post/post.component';
-import { CommentComponent } from './components/post/comment/comment.component';
+import { PostDetailComponent } from './components/post-detail/post-detail.component';
+import { CommentComponent } from './components/post-detail/comment/comment.component';
 import { FormatFileSizePipe } from './pipes/file-size.pipe';
+import { OpenImageViewerDirective } from './directives/open-image-viewer.directive';
+import { ImageViewerComponent } from './components/dialog/image-viewer/image-viewer.component';
+import { CardCategoryComponent } from './components/card/card-category/card-category.component';
+import { CardExtraComponent } from './components/card/card-extra/card-extra.component';
+import { BlogLayoutComponent } from './modules/blog/blog-layout/blog-layout.component';
+import { SideDirective } from './modules/blog/directives/side.directive';
+import { ListPostCompactComponent } from './modules/blog/list-compact-post/list-compact-post.component';
+import { ListPostComponent } from './modules/blog/list-post/list-post.component';
+import { PostCompactComponent } from './modules/blog/list-compact-post/post-compact/post-compact.component';
+import { PostComponent } from './modules/blog/post/post.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -95,8 +105,16 @@ const COMPONENTS = [
   ConfirmComponent,
   BasePageComponent,
   FormItemComponent,
-  PostComponent,
+  PostDetailComponent,
   CommentComponent,
+  ImageViewerComponent,
+  CardCategoryComponent,
+  CardExtraComponent,
+  BlogLayoutComponent,
+  ListPostCompactComponent,
+  ListPostComponent,
+  PostCompactComponent,
+  PostComponent,
 ];
 
 const DIRECTIVES = [
@@ -119,6 +137,8 @@ const DIRECTIVES = [
   DialogHeaderDirective,
   DialogBodyDirective,
   DialogActionsDirective,
+  OpenImageViewerDirective,
+  SideDirective,
 ];
 const PIPES = [SecurePipe, TagUsername, FormatFileSizePipe];
 

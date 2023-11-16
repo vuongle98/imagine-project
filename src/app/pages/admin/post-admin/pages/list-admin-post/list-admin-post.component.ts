@@ -94,11 +94,38 @@ export class ListAdminPostComponent
       .subscribe();
   }
 
+  setFeaturePost(post: Post): void {
+    this.openConfirm(
+      'Confirm set feature post?',
+      'Are you sure you want to mark this post is feature?',
+      post
+    )
+      .pipe(
+        concatMap(() => this.postAdminDataSource.setFeaturePost(post.id)),
+        finalize(() => this.postAdminDataSource.loadData({ page: 0, size: 10 }))
+      )
+      .subscribe();
+  }
+
+  unsetFeaturePost(post: Post): void {
+    this.openConfirm(
+      'Confirm unset feature post?',
+      'Are you sure you want to unset this post is feature?',
+      post
+    )
+      .pipe(
+        concatMap(() => this.postAdminDataSource.unsetFeaturePost(post.id)),
+        finalize(() => this.postAdminDataSource.loadData({ page: 0, size: 10 }))
+      )
+      .subscribe();
+  }
+
   deletePost(post: Post): void {
     this.openDelete(
       'Confirm delete post?',
       'Are you sure you want to delete this post?',
-      post, true
+      post,
+      true
     ).subscribe();
   }
 }

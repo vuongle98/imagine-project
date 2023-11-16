@@ -15,7 +15,7 @@
     rgba(#333, 0.55) 100%
   );
   backdrop-filter: blur(10px);
-  box-shadow: -5px 5px 30px -10px rgba(65, 65, 65, 0.678);
+  // box-shadow: -5px 5px 30px -10px rgba(65, 65, 65, 0.678);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   img {
@@ -25,7 +25,7 @@
   a {
     display: block;
     position: relative;
-    color: #fa434b;
+    color: var(--red-color);
     text-decoration: none;
     overflow: hidden;
     padding: 5px;

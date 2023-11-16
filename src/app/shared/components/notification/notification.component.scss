@@ -1,8 +1,10 @@
 .notification-container {
+
   .notification {
+    z-index: 1001;
     margin: 5px;
     border-radius: 5px;
-    color: #fff;
+    color: var(--text-color);
     overflow: hidden;
 
     width: 400px;

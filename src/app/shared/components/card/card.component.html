@@ -2,12 +2,16 @@
   <ng-container *ngTemplateOutlet="cover">
   </ng-container>
 </div>
+<div class="card-content">
+  <ng-content select="app-card-category"></ng-content>
+  <ng-content select="app-card-title"></ng-content>
+  <ng-content select="app-divider"></ng-content>
 
-<ng-content select="app-card-title"></ng-content>
-<ng-content select="app-divider"></ng-content>
-<ng-content select="app-card-content"></ng-content>
-<ng-content select="app-card-actions"></ng-content>
-<ng-content></ng-content>
+  <ng-content select="app-card-content"></ng-content>
+  <ng-content select="app-card-extra"></ng-content>
+  <ng-content></ng-content>
+
+</div>
 <div class="card-actions" *ngFor="let action of actions">
   <ng-container *ngTemplateOutlet="action; context: {item: item}"></ng-container>
 </div>

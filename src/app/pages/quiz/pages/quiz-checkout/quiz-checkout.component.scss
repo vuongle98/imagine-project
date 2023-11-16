@@ -23,8 +23,8 @@
 
 .list-item {
   background-color: var(--primary-color);
-  padding: 1em;
-  margin: 1em;
+  padding: calc(2 * var(--default-padding));
+  margin: calc(2 * var(--default-padding));
 }
 
 .question-title {
@@ -32,8 +32,8 @@
 }
 
 .answer {
-  margin: 0.2em;
-  padding: 0.3em;
+  margin: calc(0.5 * var(--default-padding));
+  padding: calc(0.5 * var(--default-padding));
 }
 
 .result {

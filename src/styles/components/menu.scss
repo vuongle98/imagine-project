@@ -1,13 +1,12 @@
 .menu {
   display: flex;
-  max-width: 80%;
-  padding: 1em;
+  padding: var(--default-padding);
 
   &-item {
     flex: 1;
     cursor: pointer;
     list-style-type: none;
-    padding: 0.5em 1em;
+    padding: calc(0.5 * var(--default-padding)) var(--default-padding);
     text-align: center;
   }
 

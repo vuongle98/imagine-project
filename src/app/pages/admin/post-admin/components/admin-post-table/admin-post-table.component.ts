@@ -17,6 +17,8 @@ export class AdminPostTableComponent {
   @Output() onEditPost = new EventEmitter<Post>();
   @Output() onDeletePost = new EventEmitter<Post>();
   @Output() onRecoverPost = new EventEmitter<Post>();
+  @Output() onSetFeaturePost = new EventEmitter<Post>();
+  @Output() onUnsetFeaturePost = new EventEmitter<Post>();
 
   pageSize = 10;
 
@@ -40,6 +42,18 @@ export class AdminPostTableComponent {
       title: 'Recover',
       action: (item: Post) => this.onRecoverPost.emit(item),
       show: (item: Post) => !!item.deletedAt,
+    },
+    {
+      icon: 'feature',
+      title: 'Feature',
+      action: (item: Post) => this.onSetFeaturePost.emit(item),
+      show: (item: Post) => !item.featured,
+    },
+    {
+      icon: 'unfeature',
+      title: 'Unfeature',
+      action: (item: Post) => this.onUnsetFeaturePost.emit(item),
+      show: (item: Post) => item.featured,
     },
   ];
 

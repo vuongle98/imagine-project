@@ -1,6 +1,6 @@
 <ng-container *ngIf="title; else noTitle">
-  <div class="card-title">{{title}}</div>
-  <div class="card-description">{{description}}</div>
+  <div class="card-title">{{title | slice: 0: 50}}</div>
+  <div class="card-description">{{description | slice: 0: 100}}</div>
 </ng-container>
 
 <ng-template #noTitle>

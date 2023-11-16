@@ -2,6 +2,6 @@
 
   // trừ đi height của header
   height: calc(100vh - 140px);
-  padding: 1em;
+  padding: calc(2 * var(--default-padding));
 
 }

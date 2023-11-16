@@ -4,7 +4,7 @@
   max-width: 540px;
   background-color: var(--second-color);
   border-radius: 1em;
-  box-shadow: -5px 5px 30px -10px rgba(65, 65, 65, 0.678);
+  // box-shadow: -5px 5px 30px -10px rgba(65, 65, 65, 0.678);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   img {
@@ -14,12 +14,12 @@
   }
 
   &-content {
-    padding: 1.2em;
+    padding: calc(2.5 * var(--default-padding));
     display: flex;
     flex-direction: column;
 
     button {
-      margin: 0.5em 0;
+      margin: calc(var(--default-margin)) 0;
       // align-self: flex-end;
     }
   }

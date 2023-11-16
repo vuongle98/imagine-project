@@ -57,6 +57,18 @@ export class PostAdminDataSource
     });
   }
 
+  setFeaturePost(id: string) {
+    return this.update(id, {
+      featured: true,
+    });
+  }
+
+  unsetFeaturePost(id: string) {
+    return this.update(id, {
+      featured: false,
+    });
+  }
+
   ngOnDestroy(): void {
     this.dataSubject.complete();
   }

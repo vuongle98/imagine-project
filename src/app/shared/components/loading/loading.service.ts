@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   BehaviorSubject,
   Observable,
@@ -6,6 +7,8 @@ import {
   debounceTime,
   finalize,
   of,
+  take,
+  takeUntil,
   tap,
 } from 'rxjs';
 
@@ -15,6 +18,8 @@ export class LoadingService {
 
   loading$: Observable<boolean> = this.loadingSubject.asObservable();
 
+  destroy$ = inject(DestroyRef);
+
   constructor() {
     console.log('Loading service created ...');
   }
@@ -23,7 +28,8 @@ export class LoadingService {
     return of(null).pipe(
       tap(() => this.loadingOn()),
       concatMap(() => obs$),
-      finalize(() => this.loadingOff())
+      finalize(() => this.loadingOff()),
+      takeUntilDestroyed(this.destroy$)
     );
   }
 

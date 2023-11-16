@@ -1,0 +1,11 @@
+<ng-container *ngIf="sides">
+
+  <ng-container *ngFor="let item of leftSide">
+    <ng-container *ngTemplateOutlet="item.template;"></ng-container>
+  </ng-container>
+
+  <ng-container *ngFor="let item of rightSide">
+    <ng-container *ngTemplateOutlet="item.template;"></ng-container>
+  </ng-container>
+</ng-container>
+<ng-content></ng-content>

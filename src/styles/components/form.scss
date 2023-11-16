@@ -1,19 +1,19 @@
 input, label {
-  padding: 0.5em;
+  padding: var(--default-padding);
   border-radius: 0.5em;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  margin: 0.2em;
+  margin: calc(0.5 * var(--default-padding));
 }
 
 input[type=checkbox] {
   width: auto !important;
-  padding: 0.5em;
+  padding: var(--default-padding);
 }
 
 select {
-  padding: 0.5em;
+  padding: var(--default-padding);
   border-radius: 0.5em;
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -22,7 +22,7 @@ select {
 
 .form {
   &-item {
-    margin: 0.3em;
+    margin: calc(0.5 * var(--default-padding));
     align-items: flex-start;
     display: flex;
     flex-direction: column;
@@ -40,6 +40,6 @@ select {
   }
 
   &-actions * {
-    margin: 0.2em;
+    margin: calc(0.5 * var(--default-padding));
   }
 }

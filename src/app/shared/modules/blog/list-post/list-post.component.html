@@ -1,0 +1,7 @@
+<app-post [item]="posts[0]"></app-post>
+<div class="card-container" [style.gridTemplateColumns]="gridTemplateColumns">
+  <ng-container *ngFor="let item of posts | slice: 1; index as i">
+    <app-post [item]="item"></app-post>
+  </ng-container>
+
+</div>

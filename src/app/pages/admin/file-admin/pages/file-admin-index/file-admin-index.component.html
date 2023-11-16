@@ -1,5 +1,6 @@
 <app-base-page>
   <app-file-admin-search-form></app-file-admin-search-form>
   <app-file-admin-table [listFile]="listFile" [fileAdminDataSource]="fileAdminDataSource" [currentPage]="currentPage"
-    [totalRows]="totalRows" (onDeleteFile)="onDeleteFile($event)"></app-file-admin-table>
+    [totalRows]="totalRows" (onDeleteFile)="onDeleteFile($event)" (onDownloadFile)="onDownLoadFile($event)"
+    (onPreViewImage)="onPreViewImage($event)"></app-file-admin-table>
 </app-base-page>

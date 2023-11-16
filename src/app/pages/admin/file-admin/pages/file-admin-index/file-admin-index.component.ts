@@ -7,6 +7,7 @@ import { DialogService } from '@shared/modules/dialog/dialog.service';
 import { NotificationService } from '@shared/services/common/notificaton.service';
 import { filter, switchMap, tap } from 'rxjs';
 import { FileAdminCreateFormComponent } from '../../components/file-admin-create-form/file-admin-create-form.component';
+import { ImageViewerComponent } from '@shared/components/dialog/image-viewer/image-viewer.component';
 
 @Component({
   selector: 'app-file-admin-index',
@@ -79,5 +80,16 @@ export class FileAdminIndexComponent
       file,
       true
     ).subscribe();
+  }
+
+  onDownLoadFile(file: FileInfo) {
+    this.fileAdminDataSource.downloadFile(file).subscribe();
+  }
+
+  onPreViewImage(file: FileInfo) {
+    this.dialogService.open(ImageViewerComponent, {
+      header: 'Preview image',
+      data: file,
+    });
   }
 }

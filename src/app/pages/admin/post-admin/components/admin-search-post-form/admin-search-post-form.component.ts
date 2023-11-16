@@ -20,6 +20,7 @@ export class AdminSearchPostFormComponent {
       likeDescription: [''],
       categoryId: [''],
       getDeleted: [null],
+      featured: [null],
     });
   }
 

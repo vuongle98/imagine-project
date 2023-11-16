@@ -3,7 +3,7 @@
   width: 100%;
 
   th {
-    padding: 0.5em;
+    padding: var(--default-padding);
     border-left: 1px var(--dark-color) solid;
     border-bottom: 1px var(--dark-color) solid;
     font-weight: bold;
@@ -14,7 +14,7 @@
   }
 
   td {
-    padding: 0.3em;
+    padding: calc(0.5 * var(--default-padding));
     border-left: 1px var(--dark-color) solid;
   }
 

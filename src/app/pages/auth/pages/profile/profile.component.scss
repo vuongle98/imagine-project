@@ -7,12 +7,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1em;
+  padding: calc(2 * var(--default-padding));
 
   &-info {
     display: grid;
     grid-template-columns: 1fr;
-    margin: 1em;
+    margin: calc(2 * var(--default-padding));
   }
 
   &-fullname {
@@ -30,7 +30,7 @@
 
   &-action {
     cursor: pointer;
-    padding: 0.3em 0;
+    padding: calc(0.5 * var(--default-padding)) 0;
 
     &:hover {
       background-color: #4d4d4d;
@@ -40,7 +40,7 @@
 }
 
 app-friend {
-  margin: 1em;
+  margin: calc(2 * var(--default-padding));
 }
 
 .avatar {

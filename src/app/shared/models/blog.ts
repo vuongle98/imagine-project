@@ -36,11 +36,15 @@ export type Post = {
   title: string;
   description: string;
   file: any;
+  featured: boolean;
   content: string;
   category: Category;
   creator: User;
+  createdDate: string;
   deletedAt: string;
   comments: Comment[];
+  numLikes: number;
+  numComments: number;
 };
 
 export type PostQuery = {

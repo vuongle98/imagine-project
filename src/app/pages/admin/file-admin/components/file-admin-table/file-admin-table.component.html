@@ -3,7 +3,10 @@
   <table-column header="No" key="no">
     <ng-template tableCell let-row>{{row.index}}</ng-template>
   </table-column>
-  <table-column header="File name" key="fileName"></table-column>
+  <table-column header="File name" key="fileName">
+    <!-- <ng-template tableCell let-row>
+      <span *ngIf="isImage(row.data)" [openImageViewer]="row.data">{{row.data.fileName}}</span></ng-template> -->
+  </table-column>
   <table-column header="Extension" key="extension"></table-column>
   <table-column header="Size" key="size">
     <ng-template tableCell let-row>{{row.data.size | fileSize:false}}</ng-template>

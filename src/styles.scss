@@ -19,6 +19,8 @@
 @import "./styles/components/form.scss";
 @import "./styles/components/dialog.scss";
 @import "./styles/components/layout.scss";
+@import "./styles/components/blog.scss";
+
 
 html {
   scroll-behavior: smooth;
@@ -27,20 +29,33 @@ html {
 html,
 body {
   height: 100%;
-  color: #e4e4e4;
-  background-color: #181818;
-}
-body * {
+  color: var(--text-color);
+  background-color: var(--app-background-color);
   margin: 0;
+}
+
+body * {
   font-family: "Space Mono", monospace;
+  word-spacing: -5px;
 }
 
 app-base-layout {
   height: 100%;
   width: 100%;
   display: grid;
-  gap: 15px;
+  gap: calc(var(--default-gap) * 2);
+  grid-template-rows: 80px 1fr;
 }
+
+app-base-page {
+  margin: var(--default-margin);
+}
+
+
+app-blog-layout {
+  margin: var(--default-margin);
+}
+
 
 app-no-base-layout {
   height: 100vh;

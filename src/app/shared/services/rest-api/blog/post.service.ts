@@ -12,6 +12,7 @@ import { Pageable } from '@shared/models/utils';
 export class PostService extends AbstractService {
   apiEndpoint = {
     post: 'api/post',
+    featuredPost: 'api/post/featured',
     postWithId: 'api/post/{id}',
 
     adminPost: 'api/admin/post',
@@ -28,6 +29,18 @@ export class PostService extends AbstractService {
   searchPost(params: PostQuery): Observable<Pageable<Post[]>> {
     return this.get<Pageable<Post[]>>(this.apiEndpoint.post, {
       queryParams: params,
+    });
+  }
+
+  findFeaturedPost(params: PostQuery): Observable<Post[]> {
+    return this.get<Post[]>(this.apiEndpoint.featuredPost, {
+      queryParams: params,
+    });
+  }
+
+  getPostById(id: string): Observable<Post> {
+    return this.get<Post>(this.apiEndpoint.postWithId, {
+      pathParams: { id },
     });
   }
 

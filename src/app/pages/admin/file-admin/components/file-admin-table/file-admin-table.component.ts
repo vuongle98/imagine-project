@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DataType, TableAction } from '@shared/modules/table/table.component';
 import { FileAdminDataSource } from '../../services/file-admin.datasource';
+import { FileInfo } from '@shared/models/file';
 
 @Component({
   selector: 'app-file-admin-table',
@@ -13,7 +14,7 @@ export class FileAdminTableComponent {
   @Input() currentPage = 0;
   @Input() listFile: any[] = [];
 
-  @Output() onEditFile = new EventEmitter<any>();
+  @Output() onPreViewImage = new EventEmitter<any>();
   @Output() onDeleteFile = new EventEmitter<any>();
   @Output() onDownloadFile = new EventEmitter<any>();
 
@@ -24,7 +25,7 @@ export class FileAdminTableComponent {
     {
       icon: 'download',
       title: 'Download',
-      action: (item: any) => this.onEditFile.emit(item),
+      action: (item: any) => this.onDownloadFile.emit(item),
       show: (item: any) => true,
     },
     {
@@ -32,6 +33,12 @@ export class FileAdminTableComponent {
       title: 'Delete',
       action: (item: any) => this.onDeleteFile.emit(item),
       show: (item: any) => !item.deletedAt,
+    },
+    {
+      icon: 'preview',
+      title: 'Preview',
+      action: (item: any) => this.onPreViewImage.emit(item),
+      show: (item: any) => this.isImage(item),
     },
   ];
 
@@ -43,5 +50,13 @@ export class FileAdminTableComponent {
       page: this.currentPage,
       size: this.pageSize,
     });
+  }
+
+  isImage(item: FileInfo) {
+    return (
+      item.extension === 'jpg' ||
+      item.extension === 'png' ||
+      item.extension === 'jpeg'
+    );
   }
 }

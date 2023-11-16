@@ -10,7 +10,7 @@
 
 // text
 .text-muted {
-  color: #c2c3c4;
+  color: var(--text-muted-color);
 }
 
 .text-italic {
@@ -67,7 +67,7 @@
     border-radius: 50%;
     width: 3em;
     height: 3em;
-    box-shadow: -5px 5px 10px -5px rgba(12, 33, 36, 0.678);
+    // box-shadow: -5px 5px 10px -5px rgba(12, 33, 36, 0.678);
     filter: drop-shadow(-5px 5px 10px -5px rgba(12, 33, 36, 0.678));
 
   }
