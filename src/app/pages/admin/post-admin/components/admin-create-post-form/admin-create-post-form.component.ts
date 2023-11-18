@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { Category, Post } from '@shared/models/blog';
 import { DIALOG_DATA } from '@shared/modules/dialog/constants';
 import { DialogRef } from '@shared/modules/dialog/dialog-ref';
@@ -19,6 +20,8 @@ export class AdminCreatePostFormComponent {
   currentSearchCategoryKeyword = '';
   searchCategoryChange$ = new BehaviorSubject('');
 
+  editor = DecoupledEditor;
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: DialogRef,
@@ -34,7 +37,10 @@ export class AdminCreatePostFormComponent {
     });
 
     if (data) {
-      this.createPostForm.patchValue({ ...data, categoryId: data?.category?.id });
+      this.createPostForm.patchValue({
+        ...data,
+        categoryId: data?.category?.id,
+      });
     }
 
     this.onSearchCategory('');
@@ -52,6 +58,8 @@ export class AdminCreatePostFormComponent {
         ),
         tap((res) => {
           this.listCategory = res.content;
+
+          this.createPostForm.patchValue({categoryId: this.listCategory[0]?.id});
         })
       )
       .subscribe();
@@ -63,5 +71,12 @@ export class AdminCreatePostFormComponent {
 
   onScrollToEnd() {
     console.log('scroll to end');
+  }
+
+  onReady(editor: DecoupledEditor) {
+    const element = editor.ui.getEditableElement();
+    const parent = element?.parentElement;
+
+    parent?.insertBefore(editor.ui.view.toolbar.element!, element!);
   }
 }

@@ -54,7 +54,7 @@ export class AdminPostTableComponent {
       title: 'Unfeature',
       action: (item: Post) => this.onUnsetFeaturePost.emit(item),
       show: (item: Post) => item.featured,
-    },
+    }
   ];
 
   constructor() {}

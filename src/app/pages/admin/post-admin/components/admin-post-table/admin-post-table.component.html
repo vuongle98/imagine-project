@@ -3,9 +3,17 @@
   <table-column header="No" key="no">
     <ng-template tableCell let-row>{{row.index}}</ng-template>
   </table-column>
-  <table-column header="Title" key="title"></table-column>
-  <table-column header="Description" key="description"></table-column>
-  <table-column header="Content" key="content"></table-column>
+  <table-column header="Title" key="title">
+    <ng-template tableCell let-row>
+      <a routerLink="/post/detail/{{row.data.id}}">{{row.data.title | slice: 0: 50}}...</a>
+    </ng-template>
+  </table-column>
+  <table-column header="Description" key="description">
+    <ng-template tableCell let-row>{{row.data.description | slice: 0: 50}}...</ng-template>
+  </table-column>
+  <table-column header="Content" key="content">
+    <ng-template tableCell let-row>{{row.data.content | slice: 0: 50}}...</ng-template>
+  </table-column>
   <table-column header="Category" key="category">
     <ng-template tableCell let-row>{{row.data.category?.name}}</ng-template>
   </table-column>

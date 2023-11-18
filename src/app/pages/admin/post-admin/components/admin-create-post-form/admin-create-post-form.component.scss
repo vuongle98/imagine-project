@@ -1,11 +1,17 @@
 .quesiton-form {
   display: flex;
   flex-direction: column;
-  min-width: 400px;
+  min-width: 800px;
 
   .actions {
     display: flex;
     justify-content: center;
     gap: var(--default-gap);
+  }
+
+  .post-content {
+    width: 100%;
+    max-height: 460px;
+    overflow-y: scroll;
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from '@shared/components/loading/loading.service';
 import { Post } from '@shared/models/blog';
@@ -22,7 +23,8 @@ export class PostDetailComponent implements OnInit {
     private postService: PostService,
     private router: ActivatedRoute,
     private loadingService: LoadingService,
-    private postStore: PostStore
+    private postStore: PostStore,
+    private readonly _sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -35,5 +37,9 @@ export class PostDetailComponent implements OnInit {
     );
 
     this.post$ = this.loadingService.showLoaderUntilCompleted(postObs$);
+  }
+
+  getPostContent(content: string) {
+    return this._sanitizer.bypassSecurityTrustHtml(content);
   }
 }

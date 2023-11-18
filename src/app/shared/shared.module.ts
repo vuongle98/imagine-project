@@ -70,6 +70,7 @@ import { ListPostCompactComponent } from './modules/blog/list-compact-post/list-
 import { ListPostComponent } from './modules/blog/list-post/list-post.component';
 import { PostCompactComponent } from './modules/blog/list-compact-post/post-compact/post-compact.component';
 import { PostComponent } from './modules/blog/post/post.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -147,6 +148,7 @@ const MODULES = [
   ReactiveFormsModule,
   RouterModule,
   NgSelectModule,
+  CKEditorModule,
 ];
 
 @NgModule({

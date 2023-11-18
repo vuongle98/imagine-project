@@ -13,6 +13,7 @@ import { LoadingService } from './shared/components/loading/loading.service';
 import { JWTInterceptorProvider } from './core/intercepters/jwt-intercepter';
 import { ErrorInterceptorProvider } from './core/intercepters/error-interceptor';
 import { AppInitializerProvider } from '@core/initializers';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 registerLocaleData(en);
 
@@ -25,6 +26,7 @@ registerLocaleData(en);
     HttpClientModule,
     SharedModule,
     FormsModule,
+    CKEditorModule
   ],
   providers: [
     AppInitializerProvider,

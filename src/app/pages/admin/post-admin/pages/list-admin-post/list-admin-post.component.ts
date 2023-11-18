@@ -5,7 +5,15 @@ import { DialogService } from '@shared/modules/dialog/dialog.service';
 import { NotificationService } from '@shared/services/common/notificaton.service';
 import { Post } from '@shared/models/blog';
 import { AdminSearchPostFormComponent } from '../../components/admin-search-post-form/admin-search-post-form.component';
-import { concatMap, filter, finalize, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  filter,
+  finalize,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { AdminCreatePostFormComponent } from '../../components/admin-create-post-form/admin-create-post-form.component';
 
 @Component({
@@ -102,6 +110,10 @@ export class ListAdminPostComponent
     )
       .pipe(
         concatMap(() => this.postAdminDataSource.setFeaturePost(post.id)),
+        catchError((error) => {
+          this.notificationService.error('Some error occurred', error);
+          return of(error);
+        }),
         finalize(() => this.postAdminDataSource.loadData({ page: 0, size: 10 }))
       )
       .subscribe();

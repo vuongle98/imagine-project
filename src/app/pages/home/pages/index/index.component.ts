@@ -9,5 +9,7 @@ import { PostStore } from '../../services/post.store';
 export class IndexComponent {
   featuredPosts$ = this.postStore.featuredPosts$;
 
+  latestPosts$ = this.postStore.latestPosts$;
+
   constructor(private postStore: PostStore) {}
 }

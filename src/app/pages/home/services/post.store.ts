@@ -15,12 +15,15 @@ export class PostStore {
 
   latestPosts$ = this._latestPosts$.asObservable();
 
+  private _posts$ = new BehaviorSubject<Pageable<Post[]>>({} as Pageable<Post[]>);
+  posts$ = this._posts$.asObservable();
+
   constructor(
     private postService: PostService,
     private loadingService: LoadingService
   ) {
     const loadPosts = of(null).pipe(
-      concatMap(() => this.loadLatestPosts({ page: 0, size: 5 })),
+      concatMap(() => this.loadLatestPosts({ page: 0, size: 10, sort: 'id,desc' })),
       concatMap(() => this.loadFeatutedPost())
     );
 
@@ -37,6 +40,13 @@ export class PostStore {
     return this.postService.searchPost(pageable).pipe(
       tap((posts) => this._latestPosts$.next(posts.content)),
       map((posts) => posts.content)
+    );
+  }
+
+  loadPosts(pageable: PostQuery): Observable<Pageable<Post[]>> {
+    return this.postService.searchPost(pageable).pipe(
+      tap(posts => this._posts$.next(posts)),
+      map(posts => posts)
     );
   }
 }

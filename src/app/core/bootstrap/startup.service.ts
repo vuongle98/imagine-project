@@ -34,9 +34,7 @@ export class StartupService implements OnDestroy {
           iif(() => !!user.username, this.loggedInFlow(), of(null))
         )
       )
-      .subscribe((res) => {
-        console.log(res);
-      });
+      .subscribe();
   }
 
   loggedInFlow(): Observable<any> {

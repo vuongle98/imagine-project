@@ -6,9 +6,9 @@
   <div class="spacer"></div>
   <div class="main-content">
     <ng-container *ngIf="(post$ | async) as post">
-      <div class="text-muted">
+      <!-- <div class="text-muted">
         <a routerLink="/category/{{post.category.id}}">{{post.category.name}}</a>
-      </div>
+      </div> -->
       <div class="post-title">
         {{post.title}}
       </div>
@@ -19,9 +19,7 @@
         -
         <span>{{post.numLikes}} likes</span>
       </div>
-      <div class="post-content">
-        {{post.content}}
-      </div>
+      <div class="post-content" [innerHTML]="getPostContent(post.content)"></div>
     </ng-container>
   </div>
   <div class="spacer"></div>

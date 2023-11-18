@@ -12,6 +12,7 @@ export type Pageable<T> = {
 export type BaseQueryParam = {
   page?: number;
   size?: number;
+  sort?: string;
 }
 
 export type MessageResponse = {

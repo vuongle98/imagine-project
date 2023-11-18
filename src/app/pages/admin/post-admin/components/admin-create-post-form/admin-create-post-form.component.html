@@ -9,7 +9,10 @@
   </app-form-item>
   <app-form-item>
     <label for="content">Content</label>
-    <textarea type="text" formControlName="content" placeholder="Enter post content"></textarea>
+    <!-- <textarea type="text" formControlName="content" placeholder="Enter post content"></textarea> -->
+    <ckeditor id="editor" class="post-content" [editor]="editor" (ready)="onReady($event)" formControlName="content"></ckeditor>
+
+    <!-- <textarea name="" id="editor" cols="30" rows="10"></textarea> -->
   </app-form-item>
 
   <app-form-item>
