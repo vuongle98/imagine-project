@@ -31,7 +31,7 @@ public class Conversation implements Serializable {
     private String title;
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
-    private List<ChatMessage> messages;
+    private List<ChatMessage> messages = new ArrayList<>();
 
     private Instant deletedAt;
 
@@ -44,6 +44,10 @@ public class Conversation implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> participants;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     // Additional conversation settings
     @Column(nullable = false)
@@ -70,11 +74,33 @@ public class Conversation implements Serializable {
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
 
-    public void addUserToGroup(User user) {
+    public void addParticipant(User user) {
         if (participants == null) {
             participants = new ArrayList<>();
         }
 
         participants.add(user);
+    }
+
+    public void addListParticipants(List<User> users) {
+        if (participants == null) {
+            participants = new ArrayList<>();
+        }
+
+        participants.addAll(users);
+    }
+
+    public void removeParticipant(UUID userId) {
+        if (participants == null) return;
+
+        participants.removeIf(u -> u.getId().equals(userId));
+    }
+
+    public void removeParticipants(List<UUID> userIds) {
+        if (participants == null) return;
+
+        for (var id: userIds) {
+            removeParticipant(id);
+        }
     }
 }

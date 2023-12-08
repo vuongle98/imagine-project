@@ -6,6 +6,7 @@ import com.vuongle.imaginepg.application.queries.PostFilter;
 import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.Post;
 import com.vuongle.imaginepg.domain.entities.User;
+import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.repositories.CategoryRepository;
 import com.vuongle.imaginepg.domain.repositories.PostRepository;
 import com.vuongle.imaginepg.domain.services.PostService;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -24,15 +26,16 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
 
-    private final CategoryRepository categoryRepository;
+    private final BaseRepository<Category> categoryRepository;
 
     public PostServiceImpl(
             PostRepository postRepository,
-            CategoryRepository categoryRepository
+            BaseRepository<Category> categoryRepository
     ) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
@@ -52,9 +55,7 @@ public class PostServiceImpl implements PostService {
         Category category = categoryRepository.getById(command.getCategoryId());
         post.setCategory(category);
 
-        User user = Context.getUser();
-
-        post.setCreator(user);
+        post.setCreator(Context.getUser());
 
         post = postRepository.save(post);
         return ObjectData.mapTo(post, PostDto.class);
@@ -71,6 +72,7 @@ public class PostServiceImpl implements PostService {
 
         if (Objects.nonNull(command.getTitle())) {
             existedPost.setTitle(command.getTitle());
+            existedPost.setSlug(Slugify.toSlug(existedPost.getTitle()));
         }
 
         if (Objects.nonNull(command.getContent())) {

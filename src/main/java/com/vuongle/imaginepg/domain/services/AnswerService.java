@@ -1,4 +1,8 @@
 package com.vuongle.imaginepg.domain.services;
 
-public interface AnswerService {
+import com.vuongle.imaginepg.application.commands.CreateAnswerCommand;
+import com.vuongle.imaginepg.application.dto.AnswerDto;
+import com.vuongle.imaginepg.application.queries.AnswerFilter;
+
+public interface AnswerService extends BaseService<AnswerDto, CreateAnswerCommand, AnswerFilter> {
 }

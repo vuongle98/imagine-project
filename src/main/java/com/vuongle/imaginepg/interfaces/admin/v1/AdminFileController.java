@@ -63,7 +63,7 @@ public class AdminFileController {
     )
     public ResponseEntity<FileDto> upload(
             @RequestParam(value = "file") MultipartFile file
-    ) {
+    ) throws IOException {
         FileDto fileInfo = fileService.uploadFile(file);
 
         return ResponseEntity.ok(fileInfo);

@@ -5,6 +5,7 @@ import com.vuongle.imaginepg.application.commands.CreateCategoryCommand;
 import com.vuongle.imaginepg.application.dto.CategoryDto;
 import com.vuongle.imaginepg.application.queries.CategoryFilter;
 import com.vuongle.imaginepg.domain.entities.Category;
+import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.repositories.CategoryRepository;
 import com.vuongle.imaginepg.domain.services.CategoryService;
 import com.vuongle.imaginepg.infrastructure.specification.CategorySpecifications;
@@ -14,20 +15,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository categoryRepository;
+    private final BaseRepository<Category> categoryRepository;
 
     private final ObjectMapper objectMapper;
 
     public CategoryServiceImpl(
-            CategoryRepository categoryRepository,
+            BaseRepository<Category> categoryRepository,
             ObjectMapper objectMapper
     ) {
         this.categoryRepository = categoryRepository;

@@ -6,6 +6,10 @@ import com.vuongle.imaginepg.shared.utils.SqlUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
 public class UserSpecifications {
 
     public static Specification<User> withFilter(UserFilter userFilter) {
@@ -24,18 +28,34 @@ public class UserSpecifications {
             specification.and(likeFullName(userFilter.getLikeFullName()));
         }
 
+        if (Objects.nonNull(userFilter.getId())) {
+            specification.and(isId(userFilter.getId()));
+        }
+
+        if (Objects.nonNull(userFilter.getInIds())) {
+            specification.and(inIds(userFilter.getInIds()));
+        }
+
         return specification;
     }
 
     private static Specification<User> likeUserName(String username) {
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("username")), SqlUtil.getLikePattern(username)));
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("username")), SqlUtil.getLikePattern(username));
     }
 
     private static Specification<User> likeFullName(String fullName) {
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("username")), SqlUtil.getLikePattern(fullName)));
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("username")), SqlUtil.getLikePattern(fullName));
     }
 
     private static Specification<User> likeEmail(String email) {
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), SqlUtil.getLikePattern(email)));
+        return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), SqlUtil.getLikePattern(email));
+    }
+
+    private static Specification<User> inIds(List<UUID> ids) {
+        return (root, query, criteriaBuilder) -> root.get("id").in(ids);
+    }
+
+    private static Specification<User> isId(UUID id) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), id);
     }
 }

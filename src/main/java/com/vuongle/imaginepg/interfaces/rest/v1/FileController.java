@@ -2,9 +2,7 @@ package com.vuongle.imaginepg.interfaces.rest.v1;
 
 import com.vuongle.imaginepg.application.dto.FileDto;
 import com.vuongle.imaginepg.application.queries.FileFilter;
-import com.vuongle.imaginepg.domain.repositories.FileRepository;
 import com.vuongle.imaginepg.domain.services.FileService;
-import com.vuongle.imaginepg.domain.services.impl.FileServiceImpl;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -52,7 +49,7 @@ public class FileController {
     @PostMapping
     public ResponseEntity<FileDto> upload(
             @RequestParam(value = "file") MultipartFile file
-    ) {
+    ) throws IOException {
         FileDto fileInfo = fileService.uploadFile(file);
 
         return ResponseEntity.ok(fileInfo);

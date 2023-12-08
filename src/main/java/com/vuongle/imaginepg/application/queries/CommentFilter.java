@@ -12,4 +12,6 @@ public class CommentFilter implements Serializable {
     private String likeContent;
     private UUID id;
     private UUID postId;
+
+    private String likeAnswer;
 }

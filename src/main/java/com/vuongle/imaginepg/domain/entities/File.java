@@ -35,10 +35,19 @@ public class File implements Serializable {
     private String extension;
 
     @Column(name = "size", nullable = false)
-    private String size;
+    private long size;
+
+    private String contentType;
 
     @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Post> posts;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
 
     @CreatedBy
     @Column(name = "created_by")

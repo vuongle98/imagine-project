@@ -9,12 +9,14 @@ import com.vuongle.imaginepg.domain.repositories.CommentRepository;
 import com.vuongle.imaginepg.domain.repositories.PostRepository;
 import com.vuongle.imaginepg.domain.services.CommentService;
 import com.vuongle.imaginepg.infrastructure.specification.CommentSpecifications;
+import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,6 +24,7 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -54,6 +57,8 @@ public class CommentServiceImpl implements CommentService {
             Comment parent = commentRepository.getById(command.getParentId());
             comment.setParent(parent);
         }
+
+        comment.setUser(Context.getUser());
 
         comment = commentRepository.save(comment);
 
