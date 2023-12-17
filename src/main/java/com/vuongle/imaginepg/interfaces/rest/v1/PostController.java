@@ -4,9 +4,11 @@ import com.vuongle.imaginepg.application.commands.CreatePostCommand;
 import com.vuongle.imaginepg.application.dto.PostDto;
 import com.vuongle.imaginepg.application.queries.PostFilter;
 import com.vuongle.imaginepg.domain.services.PostService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,8 @@ public class PostController {
     }
 
     @GetMapping()
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<PostDto>> searchPost(
         PostFilter postFilter,
         Pageable pageable
@@ -34,6 +38,8 @@ public class PostController {
     }
 
     @GetMapping("/featured")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<List<PostDto>> featured(
             PostFilter postFilter
     ) {
@@ -43,6 +49,8 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<PostDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
@@ -52,6 +60,8 @@ public class PostController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<PostDto> create(
             @RequestBody CreatePostCommand command
     ) {
@@ -61,6 +71,8 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<PostDto> update(
             @PathVariable(value = "id") UUID id,
             @RequestBody CreatePostCommand command

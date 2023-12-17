@@ -4,9 +4,11 @@ import com.vuongle.imaginepg.application.commands.CreateConversationCommand;
 import com.vuongle.imaginepg.application.dto.ConversationDto;
 import com.vuongle.imaginepg.application.queries.ConversationFilter;
 import com.vuongle.imaginepg.domain.services.ConversationService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,18 +26,21 @@ public class ConversationController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ConversationDto>> searchQuestion(
-            ConversationFilter conversationFilter,
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<Page<ConversationDto>> searchConversation(
             Pageable pageable
     ) {
-        Page<ConversationDto> quizPage = conversationService.getAll(conversationFilter, pageable);
+        Page<ConversationDto> quizPage = conversationService.getAllByCurrentUser(pageable);
 
         return ResponseEntity.ok(quizPage);
     }
 
     @PostMapping
-    public ResponseEntity<ConversationDto> createQuestion(
-            CreateConversationCommand command
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<ConversationDto> create(
+            @RequestBody CreateConversationCommand command
     ) {
         ConversationDto quiz = conversationService.create(command);
 
@@ -43,9 +48,11 @@ public class ConversationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ConversationDto> updateQuestion(
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<ConversationDto> updateConversation(
             @PathVariable(value = "id") UUID id,
-            CreateConversationCommand command
+            @RequestBody CreateConversationCommand command
     ) {
         ConversationDto quiz = conversationService.update(id, command);
 
@@ -53,13 +60,25 @@ public class ConversationController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<ConversationDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
-        ConversationDto quiz = conversationService.getById(id);
+        ConversationDto conversation = conversationService.getById(id);
 
-        return ResponseEntity.ok(quiz);
+        return ResponseEntity.ok(conversation);
     }
 
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<Void> deleteById(
+            @PathVariable(value = "id") UUID id
+    ) {
+        conversationService.delete(id, false);
+
+        return ResponseEntity.ok(null);
+    }
 
 }

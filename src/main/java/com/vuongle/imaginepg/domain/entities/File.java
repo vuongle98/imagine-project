@@ -39,7 +39,7 @@ public class File implements Serializable {
 
     private String contentType;
 
-    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL)
     private Set<Post> posts;
 
     @ManyToOne

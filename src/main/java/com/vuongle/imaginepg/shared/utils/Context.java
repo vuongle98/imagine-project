@@ -12,16 +12,24 @@ public class Context {
     public static User getUser() {
         if (Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
 //            throw new UserNotFoundException("User not found");
-            return null;
+            return new User("admin");
         }
 
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(context.getPrincipal() instanceof User)) {
 //            throw new UserNotFoundException("User not found");
-            return null;
+            return new User("admin");
         }
 
         return (User) context.getPrincipal();
+    }
+
+    public static boolean hasModifyPermission() {
+        User user = getUser();
+
+        if (user == null) return false;
+
+        return user.hasModifyPermission();
     }
 }

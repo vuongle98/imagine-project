@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateQuizCommand;
 import com.vuongle.imaginepg.application.dto.QuizDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.application.queries.QuizFilter;
 import com.vuongle.imaginepg.domain.entities.Question;
@@ -12,12 +13,14 @@ import com.vuongle.imaginepg.infrastructure.specification.QuestionSpecifications
 import com.vuongle.imaginepg.infrastructure.specification.QuizSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -40,7 +43,20 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public QuizDto getById(UUID id) {
-        return ObjectData.mapTo(quizRepository.getById(id), QuizDto.class);
+        return getById(id, QuizDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+
+        Quiz quiz = quizRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(quiz, Quiz.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(quiz, classType);
     }
 
     @Override
@@ -59,7 +75,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public QuizDto update(UUID id, CreateQuizCommand command) {
 
-        Quiz quiz = quizRepository.getById(id);
+        Quiz quiz = getById(id, Quiz.class);
 
         if (Objects.nonNull(command.getAddQuestionIds())) {
             quiz.addQuestions(getQuestions(command.getAddQuestionIds()));
@@ -81,7 +97,13 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public void delete(UUID id, boolean force) {
 
+        Quiz quiz = getById(id, Quiz.class);
+
         if (force) quizRepository.deleteById(id);
+        else {
+            quiz.setDeletedAt(Instant.now());
+            quizRepository.save(quiz);
+        }
     }
 
     @Override

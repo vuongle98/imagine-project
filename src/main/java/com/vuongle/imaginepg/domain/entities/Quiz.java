@@ -42,6 +42,8 @@ public class Quiz {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    private Instant deletedAt;
+
     @CreatedBy
     @Column(name = "created_by")
     private String createdBy;

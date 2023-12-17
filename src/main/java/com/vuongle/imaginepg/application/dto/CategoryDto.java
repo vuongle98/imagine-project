@@ -21,6 +21,4 @@ public class CategoryDto implements Serializable {
 
     private String slug;
 
-    private UserDto user;
-
 }

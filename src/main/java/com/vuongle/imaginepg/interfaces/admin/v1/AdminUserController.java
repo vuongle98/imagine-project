@@ -1,5 +1,7 @@
 package com.vuongle.imaginepg.interfaces.admin.v1;
 
+import com.vuongle.imaginepg.application.commands.RegisterCommand;
+import com.vuongle.imaginepg.application.commands.UpdateUserCommand;
 import com.vuongle.imaginepg.application.dto.UserDto;
 import com.vuongle.imaginepg.application.queries.UserFilter;
 import com.vuongle.imaginepg.domain.entities.User;
@@ -11,9 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/admin/user")
@@ -39,5 +41,31 @@ public class AdminUserController {
         Page<UserDto> userPage = userService.getAll(userFilter, pageable);
 
         return ResponseEntity.ok(userPage);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    public ResponseEntity<UserDto> create(
+            @RequestBody UpdateUserCommand command
+    ) {
+        UserDto user = userService.create(command);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    public ResponseEntity<UserDto> getById(
+            @PathVariable(value = "id") UUID id
+    ) {
+        UserDto user = userService.getById(id);
+
+        return ResponseEntity.ok(user);
     }
 }

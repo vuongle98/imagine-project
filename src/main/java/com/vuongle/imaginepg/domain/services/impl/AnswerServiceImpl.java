@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateAnswerCommand;
 import com.vuongle.imaginepg.application.dto.AnswerDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.domain.entities.Answer;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
@@ -9,6 +10,7 @@ import com.vuongle.imaginepg.domain.services.AnswerService;
 import com.vuongle.imaginepg.infrastructure.specification.AnswerSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,7 +35,19 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public AnswerDto getById(UUID id) {
-        return ObjectData.mapTo(answerRepository.getById(id), AnswerDto.class);
+        return getById(id, AnswerDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+        Answer answer = answerRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(answer, Answer.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(answer, classType);
     }
 
     @Override
@@ -49,7 +63,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public AnswerDto update(UUID id, CreateAnswerCommand command) {
-        Answer answer = answerRepository.getById(id);
+        Answer answer = getById(id, Answer.class);
 
         if (Objects.nonNull(command.getContent())) {
             answer.setContent(command.getContent());
@@ -62,7 +76,14 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public void delete(UUID id, boolean force) {
 
-        if (force) answerRepository.deleteById(id);
+        Answer answer = getById(id, Answer.class);
+
+        if (force) {
+            answerRepository.deleteById(id);
+            return;
+        }
+
+
     }
 
     @Override

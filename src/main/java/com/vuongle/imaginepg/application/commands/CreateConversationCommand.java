@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.application.commands;
 
+import com.vuongle.imaginepg.domain.constants.ChatType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,8 @@ import java.util.UUID;
 public class CreateConversationCommand implements Serializable {
 
     private String title;
-    private boolean isGroupChat;
+    private boolean groupChat;
+    private ChatType type = ChatType.PRIVATE;
 
     private List<UUID> addParticipants;
     private List<UUID> removeParticipants;

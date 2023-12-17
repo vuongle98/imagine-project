@@ -4,9 +4,11 @@ import com.vuongle.imaginepg.application.commands.CreateQuestionCommand;
 import com.vuongle.imaginepg.application.dto.QuestionDto;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.domain.services.QuestionService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,6 +26,8 @@ public class QuestionController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<QuestionDto>> searchQuestion(
             QuestionFilter questionFilter,
             Pageable pageable
@@ -34,6 +38,8 @@ public class QuestionController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<QuestionDto> createQuestion(
             CreateQuestionCommand command
     ) {
@@ -43,6 +49,8 @@ public class QuestionController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<QuestionDto> updateQuestion(
             @PathVariable(value = "id") UUID id,
             CreateQuestionCommand command
@@ -53,6 +61,8 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<QuestionDto> getById(
             @PathVariable(value = "id") UUID id
     ) {

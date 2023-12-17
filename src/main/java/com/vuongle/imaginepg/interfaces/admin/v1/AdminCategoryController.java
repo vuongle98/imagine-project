@@ -78,4 +78,15 @@ public class AdminCategoryController {
 
         return ResponseEntity.ok(category);
     }
+
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") UUID id, @RequestParam(value = "force") boolean force) {
+        categoryService.delete(id, force);
+
+        return ResponseEntity.ok(null);
+    }
 }

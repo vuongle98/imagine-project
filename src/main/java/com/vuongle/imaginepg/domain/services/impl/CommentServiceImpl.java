@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateCommentCommand;
 import com.vuongle.imaginepg.application.dto.CommentDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.CommentFilter;
 import com.vuongle.imaginepg.domain.entities.Comment;
 import com.vuongle.imaginepg.domain.entities.Post;
@@ -11,6 +12,7 @@ import com.vuongle.imaginepg.domain.services.CommentService;
 import com.vuongle.imaginepg.infrastructure.specification.CommentSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -45,6 +48,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+        Comment comment = commentRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(comment, Comment.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(comment, classType);
+    }
+
+    @Override
     public CommentDto create(CreateCommentCommand command) {
 
         Comment comment = ObjectData.mapTo(command, Comment.class);
@@ -68,7 +83,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto update(UUID id, CreateCommentCommand command) {
 
-        Comment existedComment = commentRepository.getById(id);
+        Comment existedComment = getById(id, Comment.class);
 
         if (Objects.nonNull(command.getContent())) {
             existedComment.setContent(command.getContent());
@@ -81,9 +96,15 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void delete(UUID id, boolean force) {
 
+        Comment comment = getById(id, Comment.class);
+
         if (force) {
             commentRepository.deleteById(id);
+            return;
         }
+
+        comment.setDeletedAt(Instant.now());
+        commentRepository.save(comment);
     }
 
     @Override

@@ -4,15 +4,23 @@ import com.vuongle.imaginepg.application.commands.CreateAnswerCommand;
 import com.vuongle.imaginepg.application.dto.AnswerDto;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.domain.services.AnswerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/answer")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Tag(
+        name = "Auth",
+        description = "CRUD REST APIs for Answer"
+)
 public class AnswerController {
 
     private final AnswerService answerService;
@@ -24,7 +32,11 @@ public class AnswerController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<AnswerDto>> searchQuestion(
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<Page<AnswerDto>> searchAnswer(
             AnswerFilter answerFilter,
             Pageable pageable
     ) {
@@ -34,7 +46,11 @@ public class AnswerController {
     }
 
     @PostMapping
-    public ResponseEntity<AnswerDto> createQuestion(
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<AnswerDto> createAnswer(
             CreateAnswerCommand command
     ) {
         AnswerDto quiz = answerService.create(command);
@@ -43,7 +59,11 @@ public class AnswerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AnswerDto> updateQuestion(
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<AnswerDto> updateAnswer(
             @PathVariable(value = "id") UUID id,
             CreateAnswerCommand command
     ) {
@@ -53,11 +73,26 @@ public class AnswerController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<AnswerDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
         AnswerDto quiz = answerService.getById(id);
 
         return ResponseEntity.ok(quiz);
+    }
+
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<Void> deleteById(
+            @PathVariable(value = "id") UUID id
+    ) {
+        answerService.delete(id, false);
+
+        return ResponseEntity.ok(null);
     }
 }

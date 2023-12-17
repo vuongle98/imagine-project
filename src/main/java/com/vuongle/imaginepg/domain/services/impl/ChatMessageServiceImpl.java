@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateChatMessageCommand;
 import com.vuongle.imaginepg.application.dto.ChatMessageDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.ChatMessageFilter;
 import com.vuongle.imaginepg.domain.entities.ChatMessage;
 import com.vuongle.imaginepg.domain.entities.Conversation;
@@ -10,6 +11,7 @@ import com.vuongle.imaginepg.domain.services.ChatMessageService;
 import com.vuongle.imaginepg.infrastructure.specification.ChatMessageSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,7 +40,19 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public ChatMessageDto getById(UUID id) {
-        return ObjectData.mapTo(messageRepository.getById(id), ChatMessageDto.class);
+        return getById(id, ChatMessageDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+        ChatMessage chatMessage = messageRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(chatMessage, ChatMessage.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(chatMessage, classType);
     }
 
     @Override
@@ -48,7 +62,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
         Conversation conversation = conversationRepository.getById(command.getConversationId());
         chatMessage.setConversation(conversation);
-        chatMessage.setUser(Context.getUser());
+        chatMessage.setSender(Context.getUser());
 
         chatMessage = messageRepository.save(chatMessage);
 
@@ -58,7 +72,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Override
     public ChatMessageDto update(UUID id, CreateChatMessageCommand command) {
 
-        ChatMessage chatMessage = messageRepository.getById(id);
+        ChatMessage chatMessage = getById(id, ChatMessage.class);
 
         if (Objects.nonNull(command.getContent())) {
             chatMessage.setContent(command.getContent());
@@ -72,7 +86,13 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     @Override
     public void delete(UUID id, boolean force) {
 
-        if (force) messageRepository.deleteById(id);
+        ChatMessage chatMessage = getById(id, ChatMessage.class);
+
+        if (force) {
+            messageRepository.deleteById(id);
+            return;
+        }
+
     }
 
     @Override

@@ -3,12 +3,14 @@ package com.vuongle.imaginepg.interfaces.rest.v1;
 import com.vuongle.imaginepg.application.dto.FileDto;
 import com.vuongle.imaginepg.application.queries.FileFilter;
 import com.vuongle.imaginepg.domain.services.FileService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +30,8 @@ public class FileController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<FileDto>> searchFiles(
             FileFilter filter,
             Pageable pageable
@@ -38,6 +42,8 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<FileDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
@@ -47,6 +53,8 @@ public class FileController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<FileDto> upload(
             @RequestParam(value = "file") MultipartFile file
     ) throws IOException {
@@ -56,6 +64,8 @@ public class FileController {
     }
 
     @GetMapping("/{id}/download")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Object> download(
             @PathVariable(value = "id") UUID id
     ) throws IOException {

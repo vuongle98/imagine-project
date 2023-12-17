@@ -22,4 +22,6 @@ public class ConversationDto implements Serializable {
     private boolean allowJoinRequests;
 
     private boolean allowMessageEditing;
+
+    private UserConversationDto settings;
 }

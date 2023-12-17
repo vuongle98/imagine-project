@@ -4,6 +4,7 @@ import com.vuongle.imaginepg.application.commands.LoginCommand;
 import com.vuongle.imaginepg.application.commands.RegisterCommand;
 import com.vuongle.imaginepg.application.dto.JwtResponse;
 import com.vuongle.imaginepg.application.dto.UserDto;
+import com.vuongle.imaginepg.application.dto.UserProfile;
 
 public interface AuthService {
 
@@ -11,6 +12,6 @@ public interface AuthService {
 
     UserDto register(RegisterCommand command);
 
-    UserDto verify();
+    UserProfile verify();
 
 }

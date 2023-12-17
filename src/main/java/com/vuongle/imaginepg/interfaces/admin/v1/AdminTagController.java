@@ -4,6 +4,7 @@ import com.vuongle.imaginepg.application.commands.CreateTagCommand;
 import com.vuongle.imaginepg.application.dto.TagDto;
 import com.vuongle.imaginepg.application.queries.TagFilter;
 import com.vuongle.imaginepg.domain.services.TagService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,11 @@ public class AdminTagController {
         this.tagService = tagService;
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     @GetMapping
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<TagDto>> searchTag(
             TagFilter tagFilter,
             Pageable pageable
@@ -36,6 +40,10 @@ public class AdminTagController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<TagDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
@@ -45,6 +53,10 @@ public class AdminTagController {
     }
 
     @PostMapping
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<TagDto> createTag(
             CreateTagCommand command
     ) {
@@ -54,6 +66,10 @@ public class AdminTagController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<TagDto> updateTag(
             @PathVariable(value = "id") UUID id,
             CreateTagCommand command
@@ -64,6 +80,10 @@ public class AdminTagController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<Void> deleteTag(@PathVariable(value = "id") UUID id, @RequestParam(value = "force") boolean force) {
         tagService.delete(id, force);
 

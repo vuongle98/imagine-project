@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateTagCommand;
 import com.vuongle.imaginepg.application.dto.TagDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.TagFilter;
 import com.vuongle.imaginepg.domain.entities.Tag;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
@@ -10,6 +11,7 @@ import com.vuongle.imaginepg.infrastructure.specification.TagSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
 import com.vuongle.imaginepg.shared.utils.Slugify;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -34,7 +36,20 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagDto getById(UUID id) {
-        return ObjectData.mapTo(tagRepository.getById(id), TagDto.class);
+        return getById(id, TagDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+
+        Tag tag = tagRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(tag, Tag.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(tag, classType);
     }
 
     @Override
@@ -50,7 +65,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagDto update(UUID id, CreateTagCommand command) {
-        Tag tag = tagRepository.getById(id);
+        Tag tag = getById(id, Tag.class);
 
         if (Objects.nonNull(command.getName())) {
             tag.setName(command.getName());
@@ -65,9 +80,15 @@ public class TagServiceImpl implements TagService {
     @Override
     public void delete(UUID id, boolean force) {
 
+        Tag tag = getById(id, Tag.class);
+
         if (force) {
             tagRepository.deleteById(id);
+        } else {
+            //
         }
+
+        // recursive delete
     }
 
     @Override

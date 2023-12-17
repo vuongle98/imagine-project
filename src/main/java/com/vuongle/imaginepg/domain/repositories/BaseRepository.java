@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.domain.repositories;
 
+import com.vuongle.imaginepg.domain.entities.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,5 +19,9 @@ public interface BaseRepository<T> {
     List<T> findAll(Specification<T> spec);
 
     Page<T> findAll(Specification<T> spec, Pageable pageable);
+
+//    List<T> saveAllAndFlush(List<T> data);
+
+//    List<T> saveAll(Iterable<T> post);
 
 }

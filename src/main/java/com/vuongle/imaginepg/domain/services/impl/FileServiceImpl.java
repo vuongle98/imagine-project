@@ -3,6 +3,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 import com.vuongle.imaginepg.application.commands.FileUploadCommand;
 import com.vuongle.imaginepg.application.dto.FileDto;
 import com.vuongle.imaginepg.application.exceptions.DataNotFoundException;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.exceptions.StorageException;
 import com.vuongle.imaginepg.application.queries.FileFilter;
 import com.vuongle.imaginepg.domain.entities.File;
@@ -12,6 +13,7 @@ import com.vuongle.imaginepg.infrastructure.specification.FileSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
 import com.vuongle.imaginepg.shared.utils.StorageUtils;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -53,7 +55,19 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public FileDto getById(UUID id) {
-        return ObjectData.mapTo(fileRepository.getById(id), FileDto.class);
+        return getById(id, FileDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+        File file = fileRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(file, File.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(file, classType);
     }
 
     @Override
@@ -69,7 +83,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public void delete(UUID id, boolean force) {
 
-        File file = fileRepository.getById(id);
+        File file = getById(id, File.class);
         if (force) {
 
             // delete from storage
@@ -133,7 +147,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public Resource downloadFile(UUID id) throws IOException {
 
-        File fileInfo = fileRepository.getById(id);
+        File fileInfo = getById(id, File.class);
 
         if (Objects.isNull(fileInfo)) {
             throw new DataNotFoundException("File not found");

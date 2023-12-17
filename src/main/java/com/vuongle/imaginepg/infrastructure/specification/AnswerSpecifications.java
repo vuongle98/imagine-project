@@ -3,9 +3,11 @@ package com.vuongle.imaginepg.infrastructure.specification;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.domain.entities.Answer;
 import com.vuongle.imaginepg.shared.utils.SqlUtil;
+import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -14,40 +16,42 @@ public class AnswerSpecifications {
 
     public static Specification<Answer> withFilter(AnswerFilter filter) {
 
-        Specification<Answer> specification = Specification.where(null);
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-        if (StringUtils.isNotBlank(filter.getLikeContent())) {
-            specification.and(likeContent(filter.getLikeContent()));
-        }
+            if (StringUtils.isNotBlank(filter.getLikeContent())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("content")), SqlUtil.getLikePattern(filter.getLikeContent())));
+            }
 
-        if (Objects.nonNull(filter.getId())) {
-            specification.and(isId(filter.getId()));
-        }
+            if (Objects.nonNull(filter.getId())) {
+                predicates.add(criteriaBuilder.equal(root.get("id"), filter.getId()));
+            }
 
-        if (Objects.nonNull(filter.getInIds())) {
-            specification.and(inIds(filter.getInIds()));
-        }
+            if (Objects.nonNull(filter.getInIds())) {
+                predicates.add(root.get("id").in(filter.getInIds()));
+            }
 
-        if (Objects.nonNull(filter.getUserId())) {
-            specification.and(byOwner(filter.getUserId()));
-        }
+            if (Objects.nonNull(filter.getUserId())) {
+                predicates.add(criteriaBuilder.equal(root.get("user_id"), filter.getUserId()));
+            }
 
-        return specification;
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
-    private static Specification<Answer> likeContent(String content) {
+    public static Specification<Answer> likeContent(String content) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("content")), SqlUtil.getLikePattern(content));
     }
 
-    private static Specification<Answer> isId(UUID id) {
+    public static Specification<Answer> isId(UUID id) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), id);
     }
 
-    private static Specification<Answer> inIds(List<UUID> ids) {
+    public static Specification<Answer> inIds(List<UUID> ids) {
         return (root, query, criteriaBuilder) -> root.get("id").in(ids);
     }
 
-    private static Specification<Answer> byOwner(UUID id) {
+    public static Specification<Answer> byOwner(UUID id) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("user_id"), id);
     }
 }

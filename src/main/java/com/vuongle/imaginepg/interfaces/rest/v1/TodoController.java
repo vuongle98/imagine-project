@@ -2,13 +2,16 @@ package com.vuongle.imaginepg.interfaces.rest.v1;
 
 import com.vuongle.imaginepg.application.commands.CreateTaskCommand;
 import com.vuongle.imaginepg.application.dto.TaskDto;
+import com.vuongle.imaginepg.application.exceptions.UserNotFoundException;
 import com.vuongle.imaginepg.application.queries.TaskFilter;
 import com.vuongle.imaginepg.domain.entities.Task;
 import com.vuongle.imaginepg.domain.services.TodoService;
 import com.vuongle.imaginepg.shared.utils.Context;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -36,10 +39,15 @@ public class TodoController {
     }
 
     @GetMapping("/current-user")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<TaskDto>> findByCurrentUser(
             Pageable pageable
     ) {
         TaskFilter taskFilter = new TaskFilter();
+
+        if (Context.getUser() == null) throw new UserNotFoundException("Not found current user");
+
         taskFilter.setUserId(Context.getUser().getId());
         Page<TaskDto> taskPage = todoService.getAll(taskFilter, pageable);
 
@@ -47,6 +55,8 @@ public class TodoController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<TaskDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
@@ -56,6 +66,8 @@ public class TodoController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<TaskDto> create(
             CreateTaskCommand command
     ) {
@@ -65,6 +77,8 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<TaskDto> update(
             @PathVariable(value = "id") UUID id,
             CreateTaskCommand command
@@ -75,11 +89,12 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Void> delete(
-            @PathVariable(value = "id") UUID id,
-            @RequestParam(value = "force") boolean force
+            @PathVariable(value = "id") UUID id
     ) {
-        todoService.delete(id, force);
+        todoService.delete(id, false);
 
         return ResponseEntity.ok(null);
     }

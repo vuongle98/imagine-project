@@ -20,6 +20,10 @@ public interface PostRepository {
 
     Post save(Post post);
 
+    List<Post> saveAllPosts(Iterable<Post> post);
+
     void deleteById(UUID id);
+
+    void deleteByCategoryId(UUID categoryId);
 
 }

@@ -4,9 +4,11 @@ import com.vuongle.imaginepg.application.commands.CreateCategoryCommand;
 import com.vuongle.imaginepg.application.dto.CategoryDto;
 import com.vuongle.imaginepg.application.queries.CategoryFilter;
 import com.vuongle.imaginepg.domain.services.CategoryService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,6 +26,10 @@ public class CategoryController {
     }
 
     @GetMapping
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<CategoryDto>> searchCategory(
             CategoryFilter filter,
             Pageable pageable
@@ -34,6 +40,10 @@ public class CategoryController {
     }
 
     @PostMapping
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<CategoryDto> create(
             @RequestBody CreateCategoryCommand command
     ) {
@@ -43,6 +53,10 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<CategoryDto> update(
             @PathVariable(value = "id") UUID id,
             @RequestBody CreateCategoryCommand command
@@ -53,6 +67,10 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<CategoryDto> getById(
             @PathVariable(value = "id") UUID id
     ) {

@@ -39,23 +39,23 @@ public class UserSpecifications {
         return specification;
     }
 
-    private static Specification<User> likeUserName(String username) {
+    public static Specification<User> likeUserName(String username) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("username")), SqlUtil.getLikePattern(username));
     }
 
-    private static Specification<User> likeFullName(String fullName) {
+    public static Specification<User> likeFullName(String fullName) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("username")), SqlUtil.getLikePattern(fullName));
     }
 
-    private static Specification<User> likeEmail(String email) {
+    public static Specification<User> likeEmail(String email) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), SqlUtil.getLikePattern(email));
     }
 
-    private static Specification<User> inIds(List<UUID> ids) {
+    public static Specification<User> inIds(List<UUID> ids) {
         return (root, query, criteriaBuilder) -> root.get("id").in(ids);
     }
 
-    private static Specification<User> isId(UUID id) {
+    public static Specification<User> isId(UUID id) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), id);
     }
 }

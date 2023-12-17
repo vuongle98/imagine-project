@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequestMapping("/api/admin/task")
 public class AdminTodoController {
 
-    private TodoService todoService;
+    private final TodoService todoService;
 
     public AdminTodoController(
             TodoService todoService

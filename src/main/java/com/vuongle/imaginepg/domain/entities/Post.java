@@ -51,18 +51,18 @@ public class Post implements Serializable {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "post")
     private Set<Comment> comments;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
     @ManyToMany
     private Set<Tag> tags;
 
-    @ManyToMany(mappedBy = "likedPosts")
-    private Set<User> likeByUsers;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<PostLike> likes;
 
     private boolean featured;
 
@@ -85,4 +85,13 @@ public class Post implements Serializable {
     @LastModifiedBy
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
+
+    // Add a transient field to store the like count
+    @Transient
+    private long numLikes;
+
+    // Getter method for the transient field
+    public long getNumLikes() {
+        return likes != null ? likes.size() : 0;
+    }
 }

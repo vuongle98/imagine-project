@@ -4,6 +4,7 @@ import com.vuongle.imaginepg.application.commands.LoginCommand;
 import com.vuongle.imaginepg.application.commands.RegisterCommand;
 import com.vuongle.imaginepg.application.dto.JwtResponse;
 import com.vuongle.imaginepg.application.dto.UserDto;
+import com.vuongle.imaginepg.application.dto.UserProfile;
 import com.vuongle.imaginepg.domain.services.AuthService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -48,8 +49,8 @@ public class AuthController {
     @SecurityRequirement(
             name = "Bearer authentication"
     )
-    public ResponseEntity<UserDto> verify() {
-        UserDto response = authService.verify();
+    public ResponseEntity<UserProfile> verify() {
+        UserProfile response = authService.verify();
 
         return ResponseEntity.ok(response);
     }

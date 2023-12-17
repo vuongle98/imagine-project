@@ -3,23 +3,28 @@ package com.vuongle.imaginepg.infrastructure.specification;
 import com.vuongle.imaginepg.application.queries.CategoryFilter;
 import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.shared.utils.SqlUtil;
+import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategorySpecifications {
 
     public static Specification<Category> withFilter(CategoryFilter categoryFilter) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-        Specification<Category> specification = Specification.where(null);
+            if (StringUtils.isNotBlank(categoryFilter.getLikeName())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), SqlUtil.getLikePattern(categoryFilter.getLikeName())));
+            }
 
-        if (StringUtils.isNotBlank(categoryFilter.getLikeName())) {
-            specification.and(likeName(categoryFilter.getLikeName()));
-        }
-
-        return specification;
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
-    private static Specification<Category> likeName(String name) {
+    public static Specification<Category> likeName(String name) {
         return ((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), SqlUtil.getLikePattern(name)));
     }
 }

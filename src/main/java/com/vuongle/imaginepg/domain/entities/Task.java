@@ -37,6 +37,8 @@ public class Task {
     @Column(name = "completed_at")
     private Instant completedAt;
 
+    private Instant deletedAt;
+
     private boolean pinned;
 
     @CreatedBy

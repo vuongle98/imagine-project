@@ -4,9 +4,11 @@ import com.vuongle.imaginepg.application.commands.CreateChatMessageCommand;
 import com.vuongle.imaginepg.application.dto.ChatMessageDto;
 import com.vuongle.imaginepg.application.queries.ChatMessageFilter;
 import com.vuongle.imaginepg.domain.services.ChatMessageService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,7 +26,9 @@ public class ChatMessageController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ChatMessageDto>> searchQuestion(
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<Page<ChatMessageDto>> searchMessage(
             ChatMessageFilter chatMessageFilter,
             Pageable pageable
     ) {
@@ -34,7 +38,9 @@ public class ChatMessageController {
     }
 
     @PostMapping
-    public ResponseEntity<ChatMessageDto> createQuestion(
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<ChatMessageDto> createMessage(
             CreateChatMessageCommand command
     ) {
         ChatMessageDto quiz = chatMessageService.create(command);
@@ -43,7 +49,9 @@ public class ChatMessageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ChatMessageDto> updateQuestion(
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<ChatMessageDto> updateMessage(
             @PathVariable(value = "id") UUID id,
             CreateChatMessageCommand command
     ) {
@@ -53,12 +61,25 @@ public class ChatMessageController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<ChatMessageDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
         ChatMessageDto quiz = chatMessageService.getById(id);
 
         return ResponseEntity.ok(quiz);
+    }
+
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<Void> deleteById(
+            @PathVariable(value = "id") UUID id
+    ) {
+        chatMessageService.delete(id, false);
+
+        return ResponseEntity.ok(null);
     }
 
 }

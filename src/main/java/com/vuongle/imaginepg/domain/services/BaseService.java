@@ -10,6 +10,8 @@ public interface BaseService<T, C, F> {
 
     T getById(UUID id);
 
+    <R> R getById(UUID id, Class<R> classType);
+
     T create(C command);
 
     T update(UUID id, C command);

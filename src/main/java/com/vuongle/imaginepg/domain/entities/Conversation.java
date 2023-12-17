@@ -1,5 +1,7 @@
 package com.vuongle.imaginepg.domain.entities;
 
+import com.vuongle.imaginepg.domain.constants.ChatType;
+import com.vuongle.imaginepg.shared.utils.Context;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,9 +14,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -30,12 +30,15 @@ public class Conversation implements Serializable {
 
     private String title;
 
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatMessage> messages = new ArrayList<>();
 
     private Instant deletedAt;
 
     private boolean isGroupChat;
+
+    @Enumerated(EnumType.STRING)
+    private ChatType type = ChatType.PRIVATE;
 
     @ManyToMany
     @JoinTable(
@@ -45,9 +48,15 @@ public class Conversation implements Serializable {
     )
     private List<User> participants;
 
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserConversation> userConversations = new HashSet<>();
+
+    @Transient // To avoid persistence
+    private UserConversation settings;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User user; // creator
 
     // Additional conversation settings
     @Column(nullable = false)
@@ -55,6 +64,8 @@ public class Conversation implements Serializable {
 
     @Column(nullable = false)
     private boolean allowMessageEditing;
+
+    private String description;
 
     // type: public, private...
 
@@ -102,5 +113,13 @@ public class Conversation implements Serializable {
         for (var id: userIds) {
             removeParticipant(id);
         }
+    }
+
+    public boolean hasParticipant(UUID participantId) {
+        return participants.stream().anyMatch(p -> p.getId().equals(participantId));
+    }
+
+    public boolean isOwner() {
+        return user.getId().equals(Context.getUser().getId());
     }
 }

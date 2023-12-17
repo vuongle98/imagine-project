@@ -4,9 +4,11 @@ import com.vuongle.imaginepg.application.queries.FileFilter;
 import com.vuongle.imaginepg.domain.constants.FileType;
 import com.vuongle.imaginepg.domain.entities.File;
 import com.vuongle.imaginepg.shared.utils.SqlUtil;
+import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,21 +25,31 @@ public class FileSpecifications {
     private static final List<String> AUDIO_FILE_TYPES = List.of("mp3", "wav");
 
     public static Specification<File> withFilter(FileFilter filter) {
-        Specification<File> specification = Specification.where(null);
 
-        if (StringUtils.isNotBlank(filter.getLikeName())) {
-            specification.and(likeName(filter.getLikeName()));
-        }
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-        if (StringUtils.isNotBlank(filter.getExtension())) {
-            specification.and(extension(filter.getExtension()));
-        }
+            if (StringUtils.isNotBlank(filter.getLikeName())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), SqlUtil.getLikePattern(filter.getLikeName())));
+            }
 
-        if (Objects.nonNull(filter.getFileType())) {
-            specification.and(isType(filter.getFileType()));
-        }
+            if (StringUtils.isNotBlank(filter.getExtension())) {
+                predicates.add(criteriaBuilder.equal(root.get("extension"), filter.getExtension()));
+            }
 
-        return specification;
+            if (Objects.nonNull(filter.getFileType())) {
+
+                switch (filter.getFileType()) {
+                    case AUDIO -> predicates.add(root.get("extension").in(AUDIO_FILE_TYPES));
+                    case VIDEO -> predicates.add(root.get("extension").in(VIDEO_FILE_TYPES));
+                    case COMPRESS -> predicates.add(root.get("extension").in(COMPRESS_FILE_TYPES));
+                    case DOCUMENT -> predicates.add(root.get("extension").in(DOCUMENT_FILE_TYPES));
+                    default -> predicates.add(root.get("extension").in(IMAGE_FILE_TYPES));
+                }
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 
     private static Specification<File> likeName(String name) {

@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateQuestionCommand;
 import com.vuongle.imaginepg.application.dto.QuestionDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.domain.entities.Answer;
@@ -12,6 +13,7 @@ import com.vuongle.imaginepg.infrastructure.specification.AnswerSpecifications;
 import com.vuongle.imaginepg.infrastructure.specification.QuestionSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -39,7 +41,20 @@ public class QuestionServiceImpl implements QuestionService {
     }
     @Override
     public QuestionDto getById(UUID id) {
-        return ObjectData.mapTo(questionRepository.getById(id), QuestionDto.class);
+        return getById(id, QuestionDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+
+        Question question = questionRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(question, Question.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(question, classType);
     }
 
     @Override
@@ -60,7 +75,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public QuestionDto update(UUID id, CreateQuestionCommand command) {
 
-        Question question = questionRepository.getById(id);
+        Question question = getById(id, Question.class);
 
         if (Objects.nonNull(command.getContent())) {
             question.setContent(command.getContent());

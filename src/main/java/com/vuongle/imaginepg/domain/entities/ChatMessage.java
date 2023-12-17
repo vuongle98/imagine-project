@@ -30,9 +30,11 @@ public class ChatMessage implements Serializable {
     @JoinColumn(name = "conversation_id", nullable = false)
     private Conversation conversation;
 
+    private boolean pinned;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User sender;
 
     @Column(nullable = false)
     private String content;

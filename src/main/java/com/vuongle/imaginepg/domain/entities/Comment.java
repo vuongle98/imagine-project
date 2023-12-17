@@ -31,7 +31,7 @@ public class Comment implements Serializable {
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     private Set<Comment> children;
 
     @Column(name = "content", nullable = false)

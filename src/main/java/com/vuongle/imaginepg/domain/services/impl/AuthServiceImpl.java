@@ -4,10 +4,12 @@ import com.vuongle.imaginepg.application.commands.LoginCommand;
 import com.vuongle.imaginepg.application.commands.RegisterCommand;
 import com.vuongle.imaginepg.application.dto.JwtResponse;
 import com.vuongle.imaginepg.application.dto.UserDto;
+import com.vuongle.imaginepg.application.dto.UserProfile;
 import com.vuongle.imaginepg.application.exceptions.DataExistedException;
 import com.vuongle.imaginepg.application.exceptions.UserNotFoundException;
 import com.vuongle.imaginepg.domain.constants.UserRole;
 import com.vuongle.imaginepg.domain.entities.User;
+import com.vuongle.imaginepg.domain.mapper.UserMapper;
 import com.vuongle.imaginepg.domain.repositories.UserRepository;
 import com.vuongle.imaginepg.domain.services.AuthService;
 import com.vuongle.imaginepg.shared.utils.Context;
@@ -92,13 +94,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDto verify() {
+    public UserProfile verify() {
         User user = Context.getUser();
 
         if (Objects.isNull(user) || !user.isEnabled()) {
             throw new UserNotFoundException("User not found");
         }
 
-        return ObjectData.mapTo(user, UserDto.class);
+        return UserMapper.mapToProfile(user);
     }
 }

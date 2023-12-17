@@ -93,4 +93,15 @@ public class AdminFileController {
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(fileResource);
     }
+
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") UUID id, @RequestParam(value = "force") boolean force) {
+        fileService.delete(id, force);
+
+        return ResponseEntity.ok(null);
+    }
 }

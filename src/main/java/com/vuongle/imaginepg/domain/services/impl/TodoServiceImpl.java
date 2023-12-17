@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateTaskCommand;
 import com.vuongle.imaginepg.application.dto.TaskDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.TaskFilter;
 import com.vuongle.imaginepg.domain.entities.Task;
 import com.vuongle.imaginepg.domain.repositories.TaskRepository;
@@ -9,6 +10,7 @@ import com.vuongle.imaginepg.domain.services.TodoService;
 import com.vuongle.imaginepg.infrastructure.specification.TaskSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -34,7 +36,18 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public TaskDto getById(UUID id) {
-        return ObjectData.mapTo(taskRepository.getById(id), TaskDto.class);
+        return getById(id, TaskDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+        Task task = taskRepository.getById(id);
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(task, Task.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(task, classType);
     }
 
     @Override
@@ -52,7 +65,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TaskDto update(UUID id, CreateTaskCommand command) {
 
-        Task existed = taskRepository.getById(id);
+        Task existed = getById(id, Task.class);
 
         if (Objects.nonNull(command.getDescription())) {
             existed.setDescription(command.getDescription());
@@ -77,8 +90,13 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public void delete(UUID id, boolean force) {
 
+        Task task = getById(id, Task.class);
+
         if (force) {
             taskRepository.deleteById(id);
+        } else {
+            task.setDeletedAt(Instant.now());
+            taskRepository.save(task);
         }
 
     }

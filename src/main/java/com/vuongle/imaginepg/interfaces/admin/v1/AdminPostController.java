@@ -78,4 +78,15 @@ public class AdminPostController {
 
         return ResponseEntity.ok(post);
     }
+
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") UUID id, @RequestParam(value = "force") boolean force) {
+        postService.delete(id, force);
+
+        return ResponseEntity.ok(null);
+    }
 }

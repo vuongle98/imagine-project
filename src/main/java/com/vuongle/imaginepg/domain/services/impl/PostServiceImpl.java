@@ -2,18 +2,18 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreatePostCommand;
 import com.vuongle.imaginepg.application.dto.PostDto;
+import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.PostFilter;
 import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.Post;
-import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
-import com.vuongle.imaginepg.domain.repositories.CategoryRepository;
 import com.vuongle.imaginepg.domain.repositories.PostRepository;
 import com.vuongle.imaginepg.domain.services.PostService;
 import com.vuongle.imaginepg.infrastructure.specification.PostSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
 import com.vuongle.imaginepg.shared.utils.Slugify;
+import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,10 +41,22 @@ public class PostServiceImpl implements PostService {
         this.categoryRepository = categoryRepository;
     }
 
-
     @Override
     public PostDto getById(UUID id) {
-        return ObjectData.mapTo(postRepository.getById(id), PostDto.class);
+        return getById(id, PostDto.class);
+    }
+
+    @Override
+    public <R> R getById(UUID id, Class<R> classType) {
+
+        Post post = postRepository.getById(id);
+
+        // check permission
+        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(post, Post.class)) {
+            throw new NoPermissionException("No permission");
+        }
+
+        return ObjectData.mapTo(post, classType);
     }
 
     @Override
@@ -63,7 +75,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto update(UUID id, CreatePostCommand command) {
-        Post existedPost = postRepository.getById(id);
+        Post existedPost = getById(id, Post.class);
 
         if (Objects.nonNull(command.getCategoryId())) {
             Category category = categoryRepository.getById(command.getCategoryId());
@@ -90,12 +102,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(UUID id, boolean force) {
+
+        Post existedPost = getById(id, Post.class);
+
         if (force) {
             postRepository.deleteById(id);
             return;
         }
 
-        Post existedPost = postRepository.getById(id);
         existedPost.setDeletedAt(Instant.now());
         postRepository.save(existedPost);
 

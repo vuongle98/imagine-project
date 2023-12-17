@@ -4,9 +4,11 @@ import com.vuongle.imaginepg.application.commands.CreateAnswerCommand;
 import com.vuongle.imaginepg.application.dto.AnswerDto;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.domain.services.AnswerService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,6 +26,10 @@ public class AdminAnswerController {
     }
 
     @GetMapping
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<AnswerDto>> searchQuestion(
             AnswerFilter answerFilter,
             Pageable pageable
@@ -34,6 +40,10 @@ public class AdminAnswerController {
     }
 
     @PostMapping
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<AnswerDto> createQuestion(
             CreateAnswerCommand command
     ) {
@@ -43,6 +53,10 @@ public class AdminAnswerController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<AnswerDto> updateQuestion(
             @PathVariable(value = "id") UUID id,
             CreateAnswerCommand command
@@ -53,12 +67,27 @@ public class AdminAnswerController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<AnswerDto> getById(
             @PathVariable(value = "id") UUID id
     ) {
         AnswerDto quiz = answerService.getById(id);
 
         return ResponseEntity.ok(quiz);
+    }
+
+    @DeleteMapping("/{id}")
+    @SecurityRequirement(
+            name = "Bearer authentication"
+    )
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") UUID id, @RequestParam(value = "force") boolean force) {
+        answerService.delete(id, force);
+
+        return ResponseEntity.ok(null);
     }
 
 }

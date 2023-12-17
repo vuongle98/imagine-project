@@ -1,7 +1,11 @@
 package com.vuongle.imaginepg.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vuongle.imaginepg.application.exceptions.DataNotFoundException;
+import com.vuongle.imaginepg.domain.constants.FriendStatus;
 import com.vuongle.imaginepg.domain.constants.Gender;
 import com.vuongle.imaginepg.domain.constants.UserRole;
+import com.vuongle.imaginepg.shared.utils.Context;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -47,6 +51,7 @@ public class User implements Serializable, UserDetails {
     private Instant birthday;
 
     @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender = Gender.MALE;
 
     @Column(name = "address")
@@ -65,16 +70,18 @@ public class User implements Serializable, UserDetails {
     @Enumerated(EnumType.STRING)
     protected Set<UserRole> roles = Set.of(UserRole.USER);
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Post> posts;
 
-    @ManyToMany
-    @JoinTable(
-            name = "post_likes",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<Post> likedPosts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PostLike> likes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Friendship> friendships = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<UserConversation> userConversations = new HashSet<>();
 
     @CreatedBy
     @Column(name = "created_by")
@@ -91,6 +98,10 @@ public class User implements Serializable, UserDetails {
     @LastModifiedBy
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
+
+    public User(String username) {
+        this.username = username;
+    }
 
     public User(
             String username,
@@ -169,4 +180,122 @@ public class User implements Serializable, UserDetails {
     private void lockUser(boolean locked) {
         this.setLocked(locked);
     }
+
+    // current user request friend
+    public void addFriend(User friend) {
+        if (Objects.isNull(friendships)) {
+            friendships = new HashSet<>();
+        }
+
+        if (friendships.stream().noneMatch(f -> f.getFriend().getId().equals(friend.getId()))) {
+            Friendship friendship = new Friendship();
+            friendship.setUser(Context.getUser());
+            friendship.setFriend(friend);
+            friendship.setStatus(FriendStatus.REQUESTED);
+            friendship.setFriendFrom(Instant.now());
+            friendships.add(friendship);
+
+//            friend.getFriendships().add(new Friendship(friend, this, FriendStatus.PENDING));
+        } else {
+            for (var friendShip: friendships) {
+                if (friendShip.getFriend().getId().equals(friend.getId()) &&
+                        (friendShip.getStatus().equals(FriendStatus.REJECTED) || friendShip.getStatus().equals(FriendStatus.REJECTED_REQUEST))) {
+                    friendShip.setStatus(FriendStatus.REQUESTED);
+                    friendShip.setUpdateFrom(Instant.now());
+                }
+            }
+        }
+    }
+
+    // friend receive request
+    public void pendingFriend(User friend) {
+        if (Objects.isNull(friendships)) {
+            friendships = new HashSet<>();
+        }
+
+        if (friendships.stream().noneMatch(f -> f.getFriend().getId().equals(friend.getId()))) {
+            Friendship friendship = new Friendship();
+            friendship.setUser(this);
+            friendship.setFriend(friend);
+            friendship.setStatus(FriendStatus.PENDING);
+            friendship.setFriendFrom(Instant.now());
+            friendships.add(friendship);
+        } else {
+            for (var friendShip: friendships) {
+                if (friendShip.getFriend().getId().equals(friend.getId()) &&
+                        (friendShip.getStatus().equals(FriendStatus.REJECTED) || friendShip.getStatus().equals(FriendStatus.REJECTED_REQUEST))) {
+                    friendShip.setStatus(FriendStatus.PENDING);
+                    friendShip.setUpdateFrom(Instant.now());
+                }
+            }
+        }
+    }
+
+    public void acceptFriend(User friend) {
+        if (Objects.isNull(friendships)) {
+            throw new DataNotFoundException("Not found relationship with " + friend.getUsername());
+        }
+
+        if (friendships.stream().noneMatch(f -> f.getFriend().getId().equals(friend.getId()))) {
+            throw new DataNotFoundException("Not found friendship");
+        }
+
+        if (friendships.stream().anyMatch(f -> f.getFriend().getId().equals(friend.getId()) &&
+                (f.getStatus().equals(FriendStatus.PENDING) || f.getStatus().equals(FriendStatus.REQUESTED)))) {
+            for (var friendShip: friendships) {
+                if (friendShip.getFriend().getId().equals(friend.getId())) {
+                    friendShip.setStatus(FriendStatus.ACCEPTED);
+                    friendShip.setUpdateFrom(Instant.now());
+                }
+            }
+        }
+    }
+
+    public void declineFriend(User friend) {
+        if (Objects.isNull(friendships)) {
+            throw new DataNotFoundException("Not found relationship with " + friend.getUsername());
+        }
+
+        if (friendships.stream().noneMatch(f -> f.getFriend().getId().equals(friend.getId()))) {
+            throw new DataNotFoundException("Not found friendship");
+        }
+
+        if (friendships.stream().anyMatch(f -> f.getFriend().getId().equals(friend.getId()) && f.getStatus().equals(FriendStatus.REQUESTED))) {
+            // update
+            for (var friendship : friendships) {
+                if (friendship.getFriend().getId().equals(friend.getId())) {
+                    friendship.setStatus(FriendStatus.REJECTED_REQUEST);
+                    friendship.setUpdateFrom(Instant.now());
+                }
+            }
+        }
+
+
+        if (friendships.stream().anyMatch(f -> f.getFriend().getId().equals(friend.getId()) && f.getStatus().equals(FriendStatus.PENDING))) {
+            for (var friendship : friendships) {
+                if (friendship.getFriend().getId().equals(friend.getId())) {
+                    friendship.setStatus(FriendStatus.REJECTED);
+                    friendship.setUpdateFrom(Instant.now());
+                }
+            }
+        }
+    }
+
+    public void removeFriend(User friend) {
+        if (Objects.isNull(friendships)) {
+            throw new DataNotFoundException("Not found relationship with " + friend.getUsername());
+        }
+
+        if (friendships.stream().noneMatch(f -> f.getFriend().getId().equals(friend.getId()))) {
+            throw new DataNotFoundException("Not found friendship");
+        }
+
+        friendships.removeIf(f -> f.getFriend().getId().equals(friend.getId()));
+    }
+
+    public boolean isFriend(User friend) {
+        return friendships.stream().anyMatch(f -> f.getFriend().getId().equals(friend.getId()) && f.getStatus().equals(FriendStatus.ACCEPTED));
+    }
+
+
 }
