@@ -66,7 +66,7 @@ export class AdminCreatePostFormComponent {
   }
 
   onSubmit() {
-    this.dialogRef.close({ id: this.data.id, ...this.createPostForm.value });
+    this.dialogRef.close({ id: this.data?.id, ...this.createPostForm.value });
   }
 
   onScrollToEnd() {

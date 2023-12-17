@@ -13,7 +13,7 @@
         {{post.title}}
       </div>
       <div class="post-meta text-muted" style="text-align: end;">
-        <span>{{post.createdDate | date:'dd/MM/yyyy'}}</span>
+        <span>{{post.createdAt | date:'dd/MM/yyyy'}}</span>
         -
         <span>by <a routerLink="/auth/profile/{{post.creator.username}}">{{post.creator.fullName}}</a></span>
         -

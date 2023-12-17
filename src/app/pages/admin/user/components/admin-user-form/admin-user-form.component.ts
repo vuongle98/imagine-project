@@ -36,6 +36,6 @@ export class AdminUserFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close({ id: this.data.id, ...this.userForm.value });
+    this.dialogRef.close({ id: this.data?.id, ...this.userForm.value });
   }
 }

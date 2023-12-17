@@ -24,13 +24,14 @@ export const userResolver: ResolveFn<any> = (
   const messageService = inject(MessageService);
 
   const username = route.paramMap.get('username');
-  if (username) return authService.getProfile(username).pipe(
-    catchError((err) => {
-      messageService.displayError(err);
+  if (username)
+    return authService.getProfile(username).pipe(
+      catchError((err) => {
+        messageService.displayError(err);
 
-      return of(null);
-    })
-  );
+        return of(null);
+      })
+    );
 
   return of(null);
 };
@@ -55,17 +56,11 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [authGuard],
-    resolve: {
-      user: userResolver,
-    }
   },
   {
     path: 'profile/:username',
     component: ProfileComponent,
     canActivate: [authGuard],
-    resolve: {
-      user: userResolver,
-    }
   },
 ];
 

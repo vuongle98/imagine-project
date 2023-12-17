@@ -1,25 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '@shared/models/user';
+import { Friendship, User } from '@shared/models/user';
 import { ChattingService } from '@shared/services/common/chatting.service';
+import { OnDestroyService } from '@shared/services/common/on-destroyed.service';
 import { AuthStore } from '@shared/services/rest-api/auth/auth.store';
 import { ChatService } from '@shared/services/rest-api/chat/chat.service';
 import { UserService } from '@shared/services/rest-api/user/user.service';
-import { Observable, combineLatest, iif, map, of, switchMap, tap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  iif,
+  map,
+  of,
+  shareReplay,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  providers: [OnDestroyService],
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   viewProfileUser$!: Observable<User>;
 
-  pendingFriend$!: Observable<User[]>;
+  pendingFriend$!: Observable<Friendship[]>;
 
-  acceptedFriend$!: Observable<User[]>;
+  acceptedFriend$!: Observable<Friendship[]>;
 
-  requestedFriend$!: Observable<User[]>;
+  requestedFriend$!: Observable<Friendship[]>;
+
+  dataChange = new Subject();
 
   constructor(
     public authStore: AuthStore,
@@ -27,32 +43,58 @@ export class ProfileComponent {
     private router: Router,
     private userService: UserService,
     private chatService: ChatService,
-    private chattingService: ChattingService
+    private chattingService: ChattingService,
+    private onDestroyService: OnDestroyService
   ) {
-    this.viewProfileUser$ = this.activateRoute.data.pipe(
-      switchMap((data) =>
-        iif(() => !!data['user'], of(data['user']), authStore.user$)
+    this.loadUserProfile();
+  }
+
+  ngOnInit(): void {
+    this.dataChange
+      .pipe(
+        tap(() => this.loadUserProfile()),
+        takeUntil(this.onDestroyService)
       )
+      .subscribe();
+  }
+
+  loadUserProfile() {
+    this.viewProfileUser$ = this.activateRoute.paramMap.pipe(
+      map((param) => param.get('username')!),
+      switchMap((username: string) => {
+        return this.userService.getProfile(username);
+      }),
+      switchMap((user: User) =>
+        iif(() => !!user, of(user), this.authStore.user$)
+      ),
+      shareReplay(),
+      takeUntil(this.onDestroyService)
     );
 
     this.pendingFriend$ = this.viewProfileUser$.pipe(
       map(
         (user) =>
-          user.friends?.filter((f) => f.friendStatus === 'PENDING') as User[]
+          user.friendships?.filter(
+            (f) => f.status === 'PENDING'
+          ) as Friendship[]
       )
     );
 
     this.acceptedFriend$ = this.viewProfileUser$.pipe(
       map(
         (user) =>
-          user.friends?.filter((f) => f.friendStatus === 'ACCEPTED') as User[]
+          user.friendships?.filter(
+            (f) => f.status === 'ACCEPTED'
+          ) as Friendship[]
       )
     );
 
     this.requestedFriend$ = this.viewProfileUser$.pipe(
       map(
         (user) =>
-          user.friends?.filter((f) => f.friendStatus === 'REQUESTED') as User[]
+          user.friendships?.filter(
+            (f) => f.status === 'REQUESTED'
+          ) as Friendship[]
       )
     );
   }
@@ -64,15 +106,18 @@ export class ProfileComponent {
     return this.authStore.user$.pipe(
       map(
         (user) =>
-          user.friends?.findIndex(
-            (f) => f.id === friendId && f.friendStatus === friendStatus
+          user.friendships?.findIndex(
+            (f) => f.friend.id === friendId && f.status === friendStatus
           ) !== -1
       )
     );
   }
 
   addFriend(friendId: string) {
-    this.userService.addFriend(friendId).subscribe();
+    this.userService
+      .addFriend(friendId)
+      .pipe(switchMap(() => this.authStore.verifyUser()))
+      .subscribe();
   }
 
   logout() {
@@ -120,11 +165,17 @@ export class ProfileComponent {
   }
 
   acceptFriend(friendId: string) {
-    this.userService.acceptFriend(friendId).subscribe();
+    this.userService
+      .acceptFriend(friendId)
+      .pipe(switchMap(() => this.authStore.verifyUser()))
+      .subscribe();
   }
 
   declineFriend(friendId: string) {
-    this.userService.declineFriend(friendId).subscribe();
+    this.userService
+      .declineFriend(friendId)
+      .pipe(switchMap(() => this.authStore.verifyUser()))
+      .subscribe();
   }
 
   openChat(friendId: string, friendName: string) {
@@ -132,8 +183,8 @@ export class ProfileComponent {
       .pipe(
         switchMap((user) => {
           const payload = {
-            addMemberIds: [friendId],
-            name: user.fullName + ' and ' + friendName,
+            addParticipants: [friendId],
+            title: user.fullName + ' and ' + friendName,
             type: 'PRIVATE',
           };
           return this.chatService.createConversation(payload).pipe(

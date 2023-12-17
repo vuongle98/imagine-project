@@ -1,7 +1,7 @@
 <app-base-chat [rightAction]="rightAction" [currentChatInfo]="currentChatInfo">
   <div *ngIf="!currentChatInfo" class="list-chat-container">
     <div class="list-chat-item" *ngFor="let item of listChat" (click)="openChat(item)">
-      {{item.name}}
+      {{item.title}}
     </div>
   </div>
 

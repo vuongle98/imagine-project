@@ -8,6 +8,7 @@ export type User = {
   roles?: string[];
   token?: string;
   friends?: User[];
+  friendships?: Friendship[];
   friendStatus?: string;
   locked?: boolean;
   enabled?: boolean
@@ -16,7 +17,10 @@ export type User = {
 export type Friendship = {
   id: string;
   status: string;
-  updateTime: Date;
+  updateFrom: Date;
+  friendFrom: Date;
+  friend: User;
+  user: User;
 };
 
 export type LoginPayload = {

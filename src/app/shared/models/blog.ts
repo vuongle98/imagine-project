@@ -40,7 +40,7 @@ export type Post = {
   content: string;
   category: Category;
   creator: User;
-  createdDate: string;
+  createdAt: string;
   deletedAt: string;
   comments: Comment[];
   numLikes: number;

@@ -12,8 +12,8 @@ export type ChatMessage = {
 
 export type Conversation = {
   id: string;
-  name: string;
-  members?: string[];
+  title: string;
+  participants?: string[];
   timeStamp?: Date;
   deleted?: boolean;
 }

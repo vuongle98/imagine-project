@@ -36,7 +36,7 @@ export class ListChatComponent implements OnInit {
 
   listChat: Conversation[] = [
     {
-      name: 'public',
+      title: 'public',
       id: 'public',
     },
   ];

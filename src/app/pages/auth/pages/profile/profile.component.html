@@ -7,8 +7,7 @@
       <span class="user-fullname">{{user.fullName}}</span>
       <span class="user-username"><a routerLink="/auth/profile/{{user.username}}">@{{user.username}}</a></span>
       <ng-container *ngIf="isViewOtherProfile() | async">
-        <span
-          *ngIf="!(alreadyOrRequestedFriend(user.id) | async) && !(isPendingFriend(user.id) | async)"
+        <span *ngIf="!(alreadyOrRequestedFriend(user.id) | async) && !(isPendingFriend(user.id) | async)"
           (click)="addFriend(user.id)">Add
           friend</span>
         <div *ngIf="(isPendingFriend(user.id) | async)">
@@ -26,11 +25,14 @@
   <div class="user-friends">
     <!-- show friends, added quiz, post -->
     <ng-container *ngIf="!(isViewOtherProfile() | async)">
-      <app-friend [friends]="(requestedFriend$ | async) || []" [friendStatus]="'REQUESTED'"></app-friend>
+      <app-friend [friendships]="(requestedFriend$ | async) || []" (dataChange)="dataChange.next(true)"
+        [friendStatus]="'REQUESTED'"></app-friend>
 
-      <app-friend [friends]="(pendingFriend$ | async) || []" [friendStatus]="'PENDING'"></app-friend>
+      <app-friend [friendships]="(pendingFriend$ | async) || []" (dataChange)="dataChange.next(true)"
+        [friendStatus]="'PENDING'"></app-friend>
 
-      <app-friend [friends]="(acceptedFriend$ | async) || []" [friendStatus]="'ACCEPTED'"></app-friend>
+      <app-friend [friendships]="(acceptedFriend$ | async) || []" (dataChange)="dataChange.next(true)"
+        [friendStatus]="'ACCEPTED'"></app-friend>
     </ng-container>
 
   </div>
