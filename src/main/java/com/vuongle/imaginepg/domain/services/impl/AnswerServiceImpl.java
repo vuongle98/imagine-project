@@ -69,6 +69,10 @@ public class AnswerServiceImpl implements AnswerService {
             answer.setContent(command.getContent());
         }
 
+        if (Objects.nonNull(command.getCorrect())) {
+            answer.setCorrect(command.getCorrect());
+        }
+
         answer = answerRepository.save(answer);
         return ObjectData.mapTo(answer, AnswerDto.class);
     }

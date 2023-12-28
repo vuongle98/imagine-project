@@ -20,4 +20,6 @@ public class AnswerFilter implements Serializable {
     private List<UUID> inIds;
 
     private UUID userId;
+
+    private boolean correct;
 }

@@ -83,6 +83,9 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<UserConversation> userConversations = new HashSet<>();
 
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
+    private List<Conversation> conversations;
+
     @CreatedBy
     @Column(name = "created_by")
     private String createdBy;
@@ -101,6 +104,11 @@ public class User implements Serializable, UserDetails {
 
     public User(String username) {
         this.username = username;
+    }
+
+    public User(String username, String fullName) {
+        this.username = username;
+        this.fullName = fullName;
     }
 
     public User(

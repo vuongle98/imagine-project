@@ -69,7 +69,7 @@ public class TodoController {
     @SecurityRequirement(name = "Bearer authentication")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<TaskDto> create(
-            CreateTaskCommand command
+            @RequestBody CreateTaskCommand command
     ) {
         TaskDto task = todoService.create(command);
 
@@ -81,7 +81,7 @@ public class TodoController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<TaskDto> update(
             @PathVariable(value = "id") UUID id,
-            CreateTaskCommand command
+            @RequestBody CreateTaskCommand command
     ) {
         TaskDto task = todoService.update(id, command);
 

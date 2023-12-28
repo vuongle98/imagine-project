@@ -40,7 +40,7 @@ public class Conversation implements Serializable {
     @Enumerated(EnumType.STRING)
     private ChatType type = ChatType.PRIVATE;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "conversation_participants",
             joinColumns = @JoinColumn(name = "conversation_id"),
@@ -116,7 +116,11 @@ public class Conversation implements Serializable {
     }
 
     public boolean hasParticipant(UUID participantId) {
-        return participants.stream().anyMatch(p -> p.getId().equals(participantId));
+        return getParticipants().stream().anyMatch(p -> p.getId().equals(participantId));
+    }
+
+    public boolean hasParticipant(String username) {
+        return getParticipants().stream().anyMatch(p -> p.getUsername().equals(username));
     }
 
     public boolean isOwner() {

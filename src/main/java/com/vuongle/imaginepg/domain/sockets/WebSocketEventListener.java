@@ -1,24 +1,43 @@
 package com.vuongle.imaginepg.domain.sockets;
 
+import com.vuongle.imaginepg.application.dto.ChatMessageDto;
+import com.vuongle.imaginepg.application.dto.UserDto;
+import com.vuongle.imaginepg.application.queries.ChatMessageFilter;
+import com.vuongle.imaginepg.domain.entities.ChatMessage;
+import com.vuongle.imaginepg.domain.entities.Conversation;
 import com.vuongle.imaginepg.domain.entities.User;
+import com.vuongle.imaginepg.domain.entities.UserConversation;
+import com.vuongle.imaginepg.domain.mapper.UserMapper;
+import com.vuongle.imaginepg.domain.repositories.ChatMessageRepository;
+import com.vuongle.imaginepg.domain.repositories.ConversationRepository;
+import com.vuongle.imaginepg.domain.services.ChatMessageService;
 import com.vuongle.imaginepg.domain.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import java.security.Principal;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -32,6 +51,12 @@ public class WebSocketEventListener {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ConversationRepository conversationRepository;
+
+    @Autowired
+    private ChatMessageService messageService;
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
@@ -50,6 +75,7 @@ public class WebSocketEventListener {
     private int recentMessageLimit;
 
     @EventListener
+    @Transactional
     public void handleSessionSubscribeEvent(SessionSubscribeEvent event) {
 
         // TODO: check trùng user
@@ -74,12 +100,39 @@ public class WebSocketEventListener {
 
                     if (conversationStr.equals("public")) {
 
-                        messagingTemplate.convertAndSendToUser(user.getUsername(), simpDestination, "Hello");
+                        ChatMessageDto chatMessage = new ChatMessageDto();
+                        chatMessage.setContent("Welcome to public channel");
+                        chatMessage.setSender(new UserDto("admin", "admin"));
+
+                        messagingTemplate.convertAndSendToUser(user.getUsername(), simpDestination, chatMessage);
                         return;
                     }
+
+//                    UUID conversationId = UUID.fromString(conversationStr);
+//                    Conversation conversation = conversationRepository.getById(conversationId);
+//
+//                    if (!conversation.hasParticipant(user.getId())) {
+//                        return;
+//                    }
+//
+//                    ChatMessageFilter filter = new ChatMessageFilter();
+//                    filter.setConversationId(conversationId);
+//
+//                    Pageable pageable = PageRequest.of(0, 20, Sort.by("id").ascending());
+//
+//                    Page<ChatMessageDto> messages = messageService.findLatestMessage(filter, pageable);
+
+                    ChatMessageDto chatMessage = new ChatMessageDto();
+                    chatMessage.setContent("Welcome back");
+                    chatMessage.setSender(new UserDto("admin", "admin"));
+                    messagingTemplate.convertAndSendToUser(user.getUsername(), simpDestination, chatMessage);
                 }
 
                 if (token.getPrincipal() instanceof String username) {
+
+                    if (!conversationStr.equals("public")) {
+                        return;
+                    }
 
                     log.info("Public channel with username register");
                 }
@@ -89,7 +142,10 @@ public class WebSocketEventListener {
                     return;
                 }
                 // anonymous join to public channel
-                messagingTemplate.convertAndSendToUser("anonymous", simpDestination, "hello");
+                User anonymous = new User();
+                anonymous.setUsername("anonymous");
+                anonymous.setFullName("anonymous");
+                messagingTemplate.convertAndSendToUser("anonymous", simpDestination, new ChatMessageDto(UserMapper.mapToDto(anonymous), "Hello"));
             }
         }
     }

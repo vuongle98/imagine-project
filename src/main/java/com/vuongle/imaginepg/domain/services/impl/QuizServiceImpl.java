@@ -5,6 +5,7 @@ import com.vuongle.imaginepg.application.dto.QuizDto;
 import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.application.queries.QuizFilter;
+import com.vuongle.imaginepg.domain.entities.Answer;
 import com.vuongle.imaginepg.domain.entities.Question;
 import com.vuongle.imaginepg.domain.entities.Quiz;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;

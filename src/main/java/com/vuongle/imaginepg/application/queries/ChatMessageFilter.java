@@ -17,4 +17,6 @@ public class ChatMessageFilter implements Serializable {
     private UUID userId;
 
     private String likeContent;
+
+    private UUID conversationId;
 }

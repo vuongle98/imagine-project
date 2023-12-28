@@ -17,5 +17,5 @@ public class QuizDto {
 
     private String title;
 
-    private List<Question> questions;
+    private List<QuestionDto> questions;
 }

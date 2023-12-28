@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.domain.entities;
 
+import com.vuongle.imaginepg.domain.constants.CategoryType;
 import com.vuongle.imaginepg.shared.utils.Slugify;
 import jakarta.persistence.*;
 import lombok.*;
@@ -43,8 +44,14 @@ public class Category implements Serializable {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    private CategoryType type;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Set<Post> posts = new HashSet<>();
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+//    private Set<Question> questions = new HashSet<>();
 
     @Column(name = "deleted_at")
     private Instant deletedAt;

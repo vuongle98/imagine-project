@@ -1,5 +1,8 @@
 package com.vuongle.imaginepg.domain.entities;
 
+import com.vuongle.imaginepg.domain.constants.QuestionCategory;
+import com.vuongle.imaginepg.domain.constants.QuestionLevel;
+import com.vuongle.imaginepg.domain.constants.QuestionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,10 +30,31 @@ public class Question {
     private UUID id;
 
     @Column(nullable = false)
-    private String content;
+    private String title;
+
+    private String description;
+
+    private int countdown;
+
+    private QuestionLevel level;
+
+    private boolean mark;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "category_id", nullable = false)
+//    private Category category;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionCategory category;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
+
+    @ManyToMany(mappedBy = "questions")
+    private List<Quiz> quizzes;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

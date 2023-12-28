@@ -13,14 +13,17 @@ import com.vuongle.imaginepg.shared.utils.Context;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
 import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -108,5 +111,14 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         Specification<ChatMessage> specification = ChatMessageSpecifications.withFilter(filter);
 
         return ObjectData.mapListTo(messageRepository.findAll(specification), ChatMessageDto.class);
+    }
+
+    @Override
+    public Page<ChatMessageDto> findLatestMessage(ChatMessageFilter filter, Pageable pageable) {
+        Page<ChatMessageDto> messagePage = getAll(filter, pageable);
+        List<ChatMessageDto> messages = messagePage.getContent().stream().sorted(Comparator.comparing(ChatMessageDto::getCreatedAt)).collect(Collectors.toList());
+
+        return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
+
     }
 }

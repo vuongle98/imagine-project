@@ -41,7 +41,7 @@ public class QuestionController {
     @SecurityRequirement(name = "Bearer authentication")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<QuestionDto> createQuestion(
-            CreateQuestionCommand command
+            @RequestBody CreateQuestionCommand command
     ) {
         QuestionDto quiz = questionService.create(command);
 
@@ -53,7 +53,7 @@ public class QuestionController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<QuestionDto> updateQuestion(
             @PathVariable(value = "id") UUID id,
-            CreateQuestionCommand command
+            @RequestBody CreateQuestionCommand command
     ) {
         QuestionDto quiz = questionService.update(id, command);
 

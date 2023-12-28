@@ -16,4 +16,6 @@ public class AnswerDto implements Serializable {
     private UUID id;
     private String content;
 
+    private boolean isCorrect;
+
 }

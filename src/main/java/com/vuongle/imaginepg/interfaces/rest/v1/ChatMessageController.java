@@ -41,7 +41,7 @@ public class ChatMessageController {
     @SecurityRequirement(name = "Bearer authentication")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<ChatMessageDto> createMessage(
-            CreateChatMessageCommand command
+            @RequestBody CreateChatMessageCommand command
     ) {
         ChatMessageDto quiz = chatMessageService.create(command);
 
@@ -53,7 +53,7 @@ public class ChatMessageController {
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<ChatMessageDto> updateMessage(
             @PathVariable(value = "id") UUID id,
-            CreateChatMessageCommand command
+            @RequestBody CreateChatMessageCommand command
     ) {
         ChatMessageDto quiz = chatMessageService.update(id, command);
 

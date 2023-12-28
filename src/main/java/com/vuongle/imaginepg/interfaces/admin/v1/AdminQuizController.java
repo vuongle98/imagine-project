@@ -45,7 +45,7 @@ public class AdminQuizController {
     )
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<QuizDto> createQuiz(
-            CreateQuizCommand command
+            @RequestBody CreateQuizCommand command
     ) {
         QuizDto quiz = quizService.create(command);
 
@@ -59,7 +59,7 @@ public class AdminQuizController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<QuizDto> updateQuiz(
             @PathVariable(value = "id") UUID id,
-            CreateQuizCommand command
+            @RequestBody CreateQuizCommand command
     ) {
         QuizDto quiz = quizService.update(id, command);
 

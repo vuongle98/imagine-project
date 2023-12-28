@@ -12,4 +12,6 @@ import java.io.Serializable;
 public class CreateAnswerCommand implements Serializable {
 
     private String content;
+
+    private Boolean correct;
 }

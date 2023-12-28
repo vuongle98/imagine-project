@@ -6,6 +6,7 @@ import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.domain.entities.Answer;
+import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.Question;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.QuestionService;
@@ -32,12 +33,16 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final BaseRepository<Answer> answerRepository;
 
+    private final BaseRepository<Category> categoryRepository;
+
     public QuestionServiceImpl(
             BaseRepository<Question> questionRepository,
-            BaseRepository<Answer> answerRepository
+            BaseRepository<Answer> answerRepository,
+            BaseRepository<Category> categoryRepository
     ) {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
+        this.categoryRepository = categoryRepository;
     }
     @Override
     public QuestionDto getById(UUID id) {
@@ -77,8 +82,20 @@ public class QuestionServiceImpl implements QuestionService {
 
         Question question = getById(id, Question.class);
 
-        if (Objects.nonNull(command.getContent())) {
-            question.setContent(command.getContent());
+        if (Objects.nonNull(command.getTitle())) {
+            question.setTitle(command.getTitle());
+        }
+
+        if (Objects.nonNull(command.getLevel())) {
+            question.setLevel(command.getLevel());
+        }
+
+        if (Objects.nonNull(command.getCategory())) {
+            question.setCategory(command.getCategory());
+        }
+
+        if (Objects.nonNull(command.getType())) {
+            question.setType(command.getType());
         }
 
         if (Objects.nonNull(command.getAnswerIds())) {

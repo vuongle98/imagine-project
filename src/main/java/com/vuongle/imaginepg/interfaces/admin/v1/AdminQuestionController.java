@@ -45,7 +45,7 @@ public class AdminQuestionController {
     )
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<QuestionDto> createQuestion(
-            CreateQuestionCommand command
+            @RequestBody CreateQuestionCommand command
     ) {
         QuestionDto quiz = questionService.create(command);
 
@@ -59,7 +59,7 @@ public class AdminQuestionController {
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
     public ResponseEntity<QuestionDto> updateQuestion(
             @PathVariable(value = "id") UUID id,
-            CreateQuestionCommand command
+            @RequestBody CreateQuestionCommand command
     ) {
         QuestionDto quiz = questionService.update(id, command);
 
@@ -84,7 +84,7 @@ public class AdminQuestionController {
             name = "Bearer authentication"
     )
     @PreAuthorize("hasAnyAuthority('ADMIN', 'MODERATOR')")
-    public ResponseEntity<Void> delete(@PathVariable(value = "id") UUID id, @RequestParam(value = "force") boolean force) {
+    public ResponseEntity<Void> delete(@PathVariable(value = "id") UUID id, @RequestParam(value = "force", required = false) boolean force) {
         questionService.delete(id, force);
 
         return ResponseEntity.ok(null);

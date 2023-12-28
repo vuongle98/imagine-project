@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CategorySpecifications {
 
@@ -18,6 +19,10 @@ public class CategorySpecifications {
 
             if (StringUtils.isNotBlank(categoryFilter.getLikeName())) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), SqlUtil.getLikePattern(categoryFilter.getLikeName())));
+            }
+
+            if (Objects.nonNull(categoryFilter.getType())) {
+                predicates.add(criteriaBuilder.equal(root.get("type"), categoryFilter.getType()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
