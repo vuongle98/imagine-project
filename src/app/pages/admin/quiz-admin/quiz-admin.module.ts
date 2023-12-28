@@ -12,11 +12,16 @@ import { AdminSearchQuizComponent } from './components/admin-search-quiz/admin-s
 import { QuestionFormComponent } from './components/question-form/question-form.component';
 import { QuestionSelectComponent } from './components/quiz-form/question-select/question-select.component';
 import { QuizFormComponent } from './components/quiz-form/quiz-form.component';
+import { ListAdminAnswerComponent } from './pages/list-admin-answer/list-admin-answer.component';
+import { AdminSearchAnswerComponent } from './components/admin-search-answer/admin-search-answer.component';
+import { AnswerFormComponent } from './components/answer-form/answer-form.component';
+import { AnswerAdminTableComponent } from './components/answer-admin-table/answer-admin-table.component';
 
 @NgModule({
   declarations: [
     ListQuestionComponent,
     ListQuizComponent,
+    ListAdminAnswerComponent,
     QuizAdminTableComponent,
     QuestionAdminTableComponent,
     AdminSearchQuestionComponent,
@@ -24,6 +29,9 @@ import { QuizFormComponent } from './components/quiz-form/quiz-form.component';
     QuizFormComponent,
     QuestionFormComponent,
     QuestionSelectComponent,
+    AdminSearchAnswerComponent,
+    AnswerFormComponent,
+    AnswerAdminTableComponent
   ],
   imports: [CommonModule, QuizAdminRoutingModule, SharedModule],
 })

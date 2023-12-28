@@ -22,8 +22,8 @@ export class CategoryService extends AbstractService {
     super(httpClient);
   }
 
-  findCategories(params: CategoryQuery): Observable<Pageable<Category[]>> {
-    return this.get<Pageable<Category[]>>(this.apiEndpoint.category, {
+  findCategories(params: CategoryQuery): Observable<Pageable<Category>> {
+    return this.get<Pageable<Category>>(this.apiEndpoint.category, {
       queryParams: params,
     }).pipe(
       filter((res) => !!res),

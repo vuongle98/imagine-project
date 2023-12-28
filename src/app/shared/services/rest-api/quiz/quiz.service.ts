@@ -32,8 +32,8 @@ export class QuizService extends AbstractService {
     super(httpClient);
   }
 
-  findQuizs(params: QuizQueryParam): Observable<Pageable<Quiz[]>> {
-    return this.get<Pageable<Quiz[]>>(this.apiEndpoint.quiz, {
+  findQuizs(params: QuizQueryParam): Observable<Pageable<Quiz>> {
+    return this.get<Pageable<Quiz>>(this.apiEndpoint.quiz, {
       queryParams: params,
     }).pipe(shareReplay());
   }
@@ -58,10 +58,10 @@ export class QuizService extends AbstractService {
    * Retrieves a list of quizzes based on the provided query parameters.
    *
    * @param {QuizQueryParam} params - The query parameters used to filter the quizzes.
-   * @return {Observable<Pageable<Quiz[]>>} - An observable emitting a pageable list of quizzes.
+   * @return {Observable<Pageable<Quiz>>} - An observable emitting a pageable list of quizzes.
    */
-  adminFindQuizs(params: QuizQueryParam): Observable<Pageable<Quiz[]>> {
-    return this.get<Pageable<Quiz[]>>(this.apiEndpoint.adminQuiz, {
+  adminFindQuizs(params: QuizQueryParam): Observable<Pageable<Quiz>> {
+    return this.get<Pageable<Quiz>>(this.apiEndpoint.adminQuiz, {
       queryParams: params,
     });
   }

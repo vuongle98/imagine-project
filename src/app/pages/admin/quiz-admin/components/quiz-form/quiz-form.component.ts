@@ -50,7 +50,7 @@ export class QuizFormComponent implements OnInit {
       category: [QuizCategory[QuizCategory.GENERAL]],
       published: [false],
       mark: [false],
-      listQuestionId: [[]],
+      addQuestionIds: [[]],
     });
   }
 
@@ -98,7 +98,7 @@ export class QuizFormComponent implements OnInit {
 
   // patchQuestion(questions: Question[]) {
   //   this.createQuizForm.patchValue({
-  //     listQuestionId: questions.map((q) => q.id),
+  //     addQuestionIds: questions.map((q) => q.id),
   //   });
 
   //   console.log(this.createQuizForm.value);

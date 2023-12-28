@@ -1,0 +1,7 @@
+<app-base-page>
+  <app-admin-search-answer></app-admin-search-answer>
+
+  <app-answer-admin-table (onEditAnswer)="editAnswer($event)" [answerAdminDataSource]="answerAdminDataSource"
+  [totalRows]="totalRows" [currentPage]="currentPage" (onDeleteAnswer)="deleteAnswer($event)"
+  [listAnswer]="listAnswer"></app-answer-admin-table>
+</app-base-page>

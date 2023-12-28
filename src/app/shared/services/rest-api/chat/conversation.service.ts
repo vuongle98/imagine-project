@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ChatService extends AbstractService {
+export class ConversationService extends AbstractService {
   apiEndpoint = {
     conversations: 'api/conversations',
     conversationWithId: 'api/conversations/{id}',

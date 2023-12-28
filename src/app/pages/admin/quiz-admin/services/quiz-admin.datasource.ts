@@ -9,9 +9,9 @@ import { QuizService } from 'src/app/shared/services/rest-api/quiz/quiz.service'
 @Injectable({
   providedIn: 'root',
 })
-export class QuizAdminDataSource extends BaseDataSource<Pageable<Quiz[]>> {
-  override dataSubject: BehaviorSubject<Pageable<Quiz[]>> = new BehaviorSubject(
-    {} as Pageable<Quiz[]>
+export class QuizAdminDataSource extends BaseDataSource<Pageable<Quiz>> {
+  override dataSubject: BehaviorSubject<Pageable<Quiz>> = new BehaviorSubject(
+    {} as Pageable<Quiz>
   );
 
   constructor(

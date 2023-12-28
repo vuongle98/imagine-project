@@ -15,7 +15,7 @@ export class PostStore {
 
   latestPosts$ = this._latestPosts$.asObservable();
 
-  private _posts$ = new BehaviorSubject<Pageable<Post[]>>({} as Pageable<Post[]>);
+  private _posts$ = new BehaviorSubject<Pageable<Post>>({} as Pageable<Post>);
   posts$ = this._posts$.asObservable();
 
   constructor(
@@ -43,7 +43,7 @@ export class PostStore {
     );
   }
 
-  loadPosts(pageable: PostQuery): Observable<Pageable<Post[]>> {
+  loadPosts(pageable: PostQuery): Observable<Pageable<Post>> {
     return this.postService.searchPost(pageable).pipe(
       tap(posts => this._posts$.next(posts)),
       map(posts => posts)

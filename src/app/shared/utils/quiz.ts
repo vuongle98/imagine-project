@@ -42,15 +42,15 @@ export const listQuizCategory: any[] = [
 export const listDifficultLevel: any[] = [
   {
     name: 'Cấp 1',
-    value: 1,
+    value: 'EASY',
   },
   {
     name: 'Cấp 2',
-    value: 2,
+    value: 'MEDIUM',
   },
   {
     name: 'Cấp 3',
-    value: 3,
+    value: 'HARD',
   }
 ]
 

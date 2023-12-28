@@ -2,28 +2,14 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnDestroy,
-  Output,
+  Renderer2,
   ViewChild,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import { RxStompService } from 'src/app/shared/services/rx-stomp/rx-stomp.service';
-import { Message } from '@stomp/stompjs';
-import {
-  Subscription,
-  combineLatest,
-  debounceTime,
-  filter,
-  merge,
-  of,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, debounceTime, takeUntil, tap } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthStore } from 'src/app/shared/services/rest-api/auth/auth.store';
 import { MessageComponent } from './message/message.component';
@@ -31,9 +17,10 @@ import { OnDestroyService } from '@shared/services/common/on-destroyed.service';
 import { User } from '@shared/models/user';
 import { ChatMessage } from '@shared/models/chat';
 import { rxStompConfig } from '@shared/utils/rx-stomp-config';
-import { RxStompState } from '@stomp/rx-stomp';
 import { ChattingService } from '@shared/services/common/chatting.service';
 import { CHAT_INSTANCE } from '@shared/utils/constant';
+import { Pageable } from '@shared/models/utils';
+import { ChatDataSource } from './chat.datasource';
 
 @Component({
   selector: 'app-chat',
@@ -46,23 +33,30 @@ export class ChatComponent implements OnDestroy {
   @Input() currentUser!: User;
   @Input() isFullScreen = false;
 
-  receivedMessages: any[] = [];
-
   msgForm!: FormGroup;
 
   anonymousUserForm!: FormGroup;
+
+  currentMessagePage = 0;
+  isLastMessage = false;
+
+  _currentMessage$ = new BehaviorSubject<ChatMessage[]>([]);
+  currentMessage$ = this._currentMessage$.asObservable();
 
   @ViewChild('messageContainer', { read: ViewContainerRef })
   viewContainerRef!: ViewContainerRef;
 
   @ViewChild('lastMessage', { static: true }) lastMessage!: ElementRef;
 
+  @ViewChild('firstMessage', { static: true }) firstMessage!: ElementRef;
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthStore,
     private onDestroyService: OnDestroyService,
     private rxStompService: RxStompService,
-    private chattingService: ChattingService
+    private chattingService: ChattingService,
+    private chatDataSource: ChatDataSource
   ) {
     this.initMsgForm();
   }
@@ -84,7 +78,7 @@ export class ChatComponent implements OnDestroy {
         `/topic/${this.currentChatInfo.id}`,
       ])
       .pipe(
-        tap((message: ChatMessage | ChatMessage[]) =>
+        tap((message: Pageable<ChatMessage> | ChatMessage) =>
           this.processMessage(message)
         ),
         debounceTime(100),
@@ -93,6 +87,22 @@ export class ChatComponent implements OnDestroy {
       .subscribe(() => {
         this.scrollToBottom();
       });
+
+    this.chatDataSource.dataSubject.subscribe((data) => {
+      this.processMessage(data);
+    });
+  }
+
+  onScroll(isScrollTo: boolean): void {
+    if (this.isLastMessage || this.currentChatInfo.id === 'public') return;
+
+    this.chatDataSource.loadData({
+      conversationId: this.currentChatInfo.id,
+      page: this.currentMessagePage,
+      size: 20,
+      sort: 'createdAt,desc',
+    });
+    // fetch more messages
   }
 
   ngOnDestroy(): void {
@@ -136,17 +146,22 @@ export class ChatComponent implements OnDestroy {
     });
   }
 
-  processMessage(message: ChatMessage | ChatMessage[]) {
+  processMessage(message: Pageable<ChatMessage> | ChatMessage) {
     if (!message) {
       return;
     }
 
-    if (message instanceof Array) {
-      for (const mess of message) {
-        this.pushMessage(this.currentUser, mess);
+    if (message.content instanceof Array) {
+      for (let msg of message.content) {
+        msg = msg as ChatMessage;
+        this.pushMessageToTop(this.currentUser, msg);
       }
+
+      this.currentMessagePage++;
+      // @ts-ignore
+      this.isLastMessage = message.last;
     } else {
-      this.pushMessage(this.currentUser, message);
+      this.pushMessage(this.currentUser, message as ChatMessage);
     }
   }
 
@@ -159,10 +174,34 @@ export class ChatComponent implements OnDestroy {
     }
   }
 
+  pushMessageToTop(user: User, message: ChatMessage) {
+    if (user.username !== message.sender?.username) {
+      this.appendMessageToTop(message, 'left');
+    } else {
+      this.appendMessageToTop(message, 'right');
+      this.msgForm.reset();
+    }
+  }
+
   appendMessageUI(message: ChatMessage, side: string) {
     const messageRef = this.viewContainerRef.createComponent(MessageComponent);
     messageRef.instance.message = message;
     messageRef.instance.side = side;
+  }
+
+  appendMessageToTop(message: ChatMessage, side: string) {
+    const messageRef = this.viewContainerRef.createComponent(MessageComponent, {
+      index: 0,
+    });
+    messageRef.instance.message = message;
+    messageRef.instance.side = side;
+  }
+
+  scrollToTop() {
+    this.firstMessage.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   }
 
   scrollToBottom() {

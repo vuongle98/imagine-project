@@ -9,9 +9,9 @@ import { Pageable } from 'src/app/shared/models/utils';
 @Injectable({
   providedIn: 'root',
 })
-export class UserAdminDataSource extends BaseDataSource<Pageable<User[]>> {
-  override dataSubject: BehaviorSubject<Pageable<User[]>> = new BehaviorSubject(
-    {} as Pageable<User[]>
+export class UserAdminDataSource extends BaseDataSource<Pageable<User>> {
+  override dataSubject: BehaviorSubject<Pageable<User>> = new BehaviorSubject(
+    {} as Pageable<User>
   );
 
   constructor(

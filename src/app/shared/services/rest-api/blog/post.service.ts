@@ -26,8 +26,8 @@ export class PostService extends AbstractService {
     super(httpClient);
   }
 
-  searchPost(params: PostQuery): Observable<Pageable<Post[]>> {
-    return this.get<Pageable<Post[]>>(this.apiEndpoint.post, {
+  searchPost(params: PostQuery): Observable<Pageable<Post>> {
+    return this.get<Pageable<Post>>(this.apiEndpoint.post, {
       queryParams: params,
     });
   }
@@ -65,8 +65,8 @@ export class PostService extends AbstractService {
 
   // admin
 
-  adminSearchPost(params: PostQuery): Observable<Pageable<Post[]>> {
-    return this.get<Pageable<Post[]>>(this.apiEndpoint.adminPost, {
+  adminSearchPost(params: PostQuery): Observable<Pageable<Post>> {
+    return this.get<Pageable<Post>>(this.apiEndpoint.adminPost, {
       queryParams: params,
     });
   }

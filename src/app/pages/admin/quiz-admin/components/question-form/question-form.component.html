@@ -21,19 +21,19 @@
     </select>
   </app-form-item>
   <app-form-item>
-    <label for="countDown">Countdown</label>
-    <input type="number" formControlName="countDown" placeholder="Countdown value" />
+    <label for="countdown">Countdown</label>
+    <input type="number" formControlName="countdown" placeholder="Countdown value" />
   </app-form-item>
   <app-form-item>
-    <label for="difficultlyLevel">Difficultly level</label>
-    <select id="difficultlyLevel" formControlName="difficultlyLevel">
+    <label for="level">Difficultly level</label>
+    <select id="level" formControlName="level">
       <option *ngFor="let level of listdifficultLevel" [value]="level.value">{{level.name}}</option>
     </select></app-form-item>
   <app-form-item>
     <label for="mark">
       Mark
     </label>
-    <input type="checkbox" name="mark" formControlName="mark">
+    <input type="checkbox" id="mark" name="mark" formControlName="mark">
 
   </app-form-item>
   <app-form-item>
@@ -43,20 +43,10 @@
     <input type="checkbox" name="active" formControlName="active">
   </app-form-item>
 
-  <div *ngFor="let control of answers.controls">
-    <ng-container [formGroup]="control">
-      <label>Answer</label>
-      <input type="text" formControlName="answer" />
-      <label>Is correct</label>
-      <input type="checkbox" formControlName="correct">
-      <label (click)="removeAnswer(control, $event)">remove</label>
-    </ng-container>
-  </div>
+  <ng-select formControlName="answerIds" [items]="answers" [multiple]="true" bindLabel="content"
+    [closeOnSelect]="false" bindValue="id" [placeholder]="'Select answers'"
+    (scrollToEnd)="onScrollToEnd()"></ng-select>
 
-  <button class="add-button" type="button" (click)="addAnswer()">
-    <span nzType="plus"></span>
-    Add answer
-  </button>
 
   <div class="actions">
     <button vg-button>Save</button>

@@ -25,7 +25,7 @@ export class UserService extends AbstractService {
     super(httpClient);
   }
 
-  findUser(params: UserQueryParam): Observable<Pageable<User[]>> {
+  findUser(params: UserQueryParam): Observable<Pageable<User>> {
     return this.get(this.apiEndpoint.adminUser, {
       queryParams: params,
     });

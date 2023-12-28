@@ -1,5 +1,5 @@
 import { ApplicationRef, ComponentRef, Injectable } from '@angular/core';
-import { ChatService } from '../rest-api/chat/chat.service';
+import { ConversationService } from '../rest-api/chat/conversation.service';
 import { RxStompService } from '../rx-stomp/rx-stomp.service';
 import { BehaviorSubject, map, merge, tap } from 'rxjs';
 import { Modal } from '@shared/models/modal.model';
@@ -17,7 +17,7 @@ export class ChattingService {
   isHideChatPopup$ = this._isHideChatPopup.asObservable();
 
   constructor(
-    private chatService: ChatService,
+    private conversationService: ConversationService,
     private rxStompService: RxStompService,
     private appRef: ApplicationRef
   ) {}

@@ -71,6 +71,7 @@ import { ListPostComponent } from './modules/blog/list-post/list-post.component'
 import { PostCompactComponent } from './modules/blog/list-compact-post/post-compact/post-compact.component';
 import { PostComponent } from './modules/blog/post/post.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ScrollToTOpDirective } from './directives/scroll-to-top.directive';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -140,6 +141,7 @@ const DIRECTIVES = [
   DialogActionsDirective,
   OpenImageViewerDirective,
   SideDirective,
+  ScrollToTOpDirective
 ];
 const PIPES = [SecurePipe, TagUsername, FormatFileSizePipe];
 

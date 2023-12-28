@@ -1,19 +1,25 @@
-import { User } from "./user";
+import { User } from './user';
+import { BaseQueryParam } from './utils';
 
 export type ChatMessage = {
   id: string;
   content: string;
-  conversationId: string;
+  conversation: Conversation;
   sender: User;
   replyTo: string;
   fileId: string;
-  timeStamp: Date;
-}
+  createdAt: Date;
+};
 
 export type Conversation = {
   id: string;
   title: string;
   participants?: string[];
-  timeStamp?: Date;
+  createdAt?: Date;
   deleted?: boolean;
-}
+};
+
+export type ChatMessageQueryParam = {
+  likeContent?: string;
+  conversationId?: string;
+} & BaseQueryParam;

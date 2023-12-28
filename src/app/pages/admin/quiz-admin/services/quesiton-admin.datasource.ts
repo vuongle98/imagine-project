@@ -17,10 +17,10 @@ import { QuestionService } from 'src/app/shared/services/rest-api/quiz/question.
   providedIn: 'root',
 })
 export class QuestionAdminDataSource extends BaseDataSource<
-  Pageable<Question[]>
+  Pageable<Question>
 > {
-  override dataSubject: BehaviorSubject<Pageable<Question[]>> =
-    new BehaviorSubject({} as Pageable<Question[]>);
+  override dataSubject: BehaviorSubject<Pageable<Question>> =
+    new BehaviorSubject({} as Pageable<Question>);
 
   constructor(
     private questionService: QuestionService,

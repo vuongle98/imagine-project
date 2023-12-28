@@ -39,6 +39,11 @@ export type Answer = {
   correct: boolean;
 };
 
+export type AnswerFilter = {
+  id?: string;
+  likeAnswer?: string;
+} & BaseQueryParam;
+
 export enum QuestionType {
   YES_NO,
   MULTIPLE,

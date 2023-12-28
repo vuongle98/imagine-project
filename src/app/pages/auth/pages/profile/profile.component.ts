@@ -4,7 +4,7 @@ import { Friendship, User } from '@shared/models/user';
 import { ChattingService } from '@shared/services/common/chatting.service';
 import { OnDestroyService } from '@shared/services/common/on-destroyed.service';
 import { AuthStore } from '@shared/services/rest-api/auth/auth.store';
-import { ChatService } from '@shared/services/rest-api/chat/chat.service';
+import { ConversationService } from '@shared/services/rest-api/chat/conversation.service';
 import { UserService } from '@shared/services/rest-api/user/user.service';
 import {
   Observable,
@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private chatService: ChatService,
+    private conversationService: ConversationService,
     private chattingService: ChattingService,
     private onDestroyService: OnDestroyService
   ) {
@@ -187,7 +187,7 @@ export class ProfileComponent implements OnInit {
             title: user.fullName + ' and ' + friendName,
             type: 'PRIVATE',
           };
-          return this.chatService.createConversation(payload).pipe(
+          return this.conversationService.createConversation(payload).pipe(
             tap((chatInfo) => {
               console.log(chatInfo);
               this.chattingService.openChat(chatInfo);

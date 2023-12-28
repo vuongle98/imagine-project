@@ -30,10 +30,10 @@ export class QuestionService extends AbstractService {
    * Retrieves a list of questions based on the provided query parameters.
    *
    * @param {QuestionQueryParam} params - The query parameters for filtering the questions.
-   * @return {Observable<Pageable<Question[]>>} An observable that emits a pageable list of questions.
+   * @return {Observable<Pageable<Question>>} An observable that emits a pageable list of questions.
    */
-  findQuestions(params: QuestionQueryParam): Observable<Pageable<Question[]>> {
-    return this.get<Pageable<Question[]>>(this.apiEndpoint.question, {
+  findQuestions(params: QuestionQueryParam): Observable<Pageable<Question>> {
+    return this.get<Pageable<Question>>(this.apiEndpoint.question, {
       queryParams: params,
     }).pipe(
       filter((res) => !!res),
@@ -59,12 +59,12 @@ export class QuestionService extends AbstractService {
    * Retrieves a pageable list of questions based on the provided parameters.
    *
    * @param {QuestionQueryParam} params - The parameters for filtering the questions.
-   * @return {Observable<Pageable<Question[]>>} - An observable that emits a pageable list of questions.
+   * @return {Observable<Pageable<Question>>} - An observable that emits a pageable list of questions.
    */
   adminFindQuestions(
     params: QuestionQueryParam
-  ): Observable<Pageable<Question[]>> {
-    return this.get<Pageable<Question[]>>(this.apiEndpoint.adminQuestion, {
+  ): Observable<Pageable<Question>> {
+    return this.get<Pageable<Question>>(this.apiEndpoint.adminQuestion, {
       queryParams: params,
     }).pipe(
       filter((res) => !!res),

@@ -34,8 +34,8 @@ export class FileService extends AbstractService {
     return this.apiEndpoint.file + '/download/' + id;
   }
 
-  findFile(params: FileQuery): Observable<Pageable<FileInfo[]>> {
-    return this.get<Pageable<FileInfo[]>>(this.apiEndpoint.file, {
+  findFile(params: FileQuery): Observable<Pageable<FileInfo>> {
+    return this.get<Pageable<FileInfo>>(this.apiEndpoint.file, {
       queryParams: params,
     });
   }
@@ -58,8 +58,8 @@ export class FileService extends AbstractService {
     });
   }
 
-  findFileAdmin(params: FileQuery): Observable<Pageable<FileInfo[]>> {
-    return this.get<Pageable<FileInfo[]>>(this.apiEndpoint.fileAdmin, {
+  findFileAdmin(params: FileQuery): Observable<Pageable<FileInfo>> {
+    return this.get<Pageable<FileInfo>>(this.apiEndpoint.fileAdmin, {
       queryParams: params,
     });
   }

@@ -17,8 +17,6 @@ app-chat {
   width: 100%;
   height: 410px;
   max-height: 410px;
-  overflow-y: scroll;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -38,8 +36,8 @@ app-chat {
 }
 
 .chat {
-  width: 100%;
-  padding: var(--default-padding);
+  // width: 100%;
+  // padding: var(--default-padding);
 
   &-header {
     border-bottom: 1px solid var(--dark-color);
@@ -49,6 +47,11 @@ app-chat {
     align-items: center;
     min-height: 45px;
     background-color: violet;
+
+    &-info {
+      display: flex;
+      align-items: center;
+    }
 
     &-info * {
       margin: calc(0.5 * var(--default-padding));
@@ -72,23 +75,25 @@ app-chat {
 
   &-content {
     padding: var(--default-padding);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    overflow-wrap: break-word;
   }
 
   &-input {
     display: flex;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
     color: var(--dark-color);
     position: sticky;
     bottom: 0;
-    left: 1em;
-    right: 1em;
-    padding: calc(0.5 * var(--default-padding));
     background-color: violet;
   }
 
   &-input * {
     border: none;
-    border-radius: 0.5em;
+    border-radius: var(--default-border);
     font-size: 1em;
   }
 
@@ -96,10 +101,9 @@ app-chat {
     flex: 1;
     background: #ddd;
     border-radius: 0.5em;
-    min-height: 100%;
     width: 100%;
     overflow-y: auto;
-    padding: 0.4em 0.75em;
+    padding: var(--default-padding) var(--default-padding);
     color: var(--text-color);
     background-color: #3a3b3c;
   }
@@ -132,13 +136,13 @@ app-chat {
 .msg {
   display: flex;
   align-items: flex-end;
-  margin: calc(0.5 * var(--default-padding))
+  margin: calc(0.5 * var(--default-padding));
 
   &-content {
     min-width: 120px;
     padding: calc(0.5 * var(--default-padding));
-    border-radius: 0.75em;
-    background-color: var(--background-color);
+    border-radius: var(--default-border);
+    background-color: var(--primary-color);
     color: var(--text-color);
     display: flex;
     flex-direction: column;

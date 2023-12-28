@@ -14,11 +14,13 @@ import {
 } from '@shared/models/quiz';
 import { DIALOG_DATA } from '@shared/modules/dialog/constants';
 import { DialogRef } from '@shared/modules/dialog/dialog-ref';
+import { AnswerService } from '@shared/services/rest-api/blog/answer.service';
 import {
   listDifficultLevel,
   listQuestionType,
   listQuizCategory,
 } from '@shared/utils/quiz';
+import { BehaviorSubject, debounceTime, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-question-form',
@@ -32,35 +34,26 @@ export class QuestionFormComponent implements OnInit {
   listQuizCategory = listQuizCategory;
   listdifficultLevel = listDifficultLevel;
 
-  /**
-   * Returns the 'answers' property of the 'createQuestionForm' as a FormArray of FormGroups.
-   *
-   * @return {FormArray<FormGroup>} - The 'answers' property as a FormArray of FormGroups.
-   */
-  get answers() {
-    return this.createQuestionForm.get('answers') as FormArray<FormGroup>;
-  }
+  answers: Answer[] = [];
+
+  currentAnswerKeyword = '';
+
+  searchAnswerChange$ = new BehaviorSubject('');
 
   constructor(
     private fb: FormBuilder,
     @Inject(DIALOG_DATA) private data: Question,
-    private dialogRef: DialogRef
+    private dialogRef: DialogRef,
+    private answerService: AnswerService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.onSearchAnswer('');
 
     if (this.data) {
       console.log(this.data);
       this.createQuestionForm.patchValue(this.data);
-
-      const { answers } = this.data;
-
-      answers.forEach((answer) => {
-        this.addAnswer(answer);
-      });
-    } else {
-      this.addAnswer();
     }
   }
 
@@ -70,35 +63,32 @@ export class QuestionFormComponent implements OnInit {
       codeDescription: [''],
       type: [QuestionType[QuestionType.YES_NO]],
       category: [QuizCategory[QuizCategory.GENERAL]],
-      answers: this.fb.array([]),
+      answerIds: [[]],
       mark: [false],
-      difficultlyLevel: [listDifficultLevel[0]],
-      countDown: [30],
+      level: [listDifficultLevel[0]],
+      countdown: [30],
       active: [true],
     });
   }
 
-  addAnswer(answer?: Answer, e?: MouseEvent) {
-    if (e) {
-      e.preventDefault();
-    }
+  onSearchAnswer(value: string) {
+    this.currentAnswerKeyword = value;
 
-    this.answers.push(
-      new FormGroup({
-        answer: new FormControl(answer?.answer || '', Validators.required),
-        correct: new FormControl(answer?.correct || false),
-      })
-    );
+    this.searchAnswerChange$
+      .asObservable()
+      .pipe(
+        debounceTime(300),
+        switchMap(() =>
+          this.answerService.adminSearchAnswer({ likeAnswer: value })
+        ),
+        tap((res) => {
+          this.answers = res.content;
+        })
+      )
+      .subscribe();
   }
 
-  removeAnswer(control: FormGroup, e: MouseEvent) {
-    e.preventDefault();
-
-    if (this.answers.controls.length > 1) {
-      const index = this.answers.controls.indexOf(control);
-      this.answers.removeAt(index);
-    }
-  }
+  onScrollToEnd() {}
 
   onSubmit() {
     this.dialogRef.close({

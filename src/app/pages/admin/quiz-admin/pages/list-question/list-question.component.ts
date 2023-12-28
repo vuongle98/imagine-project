@@ -1,23 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { QuestionAdminDataSource } from '../../services/quesiton-admin.datasource';
-import {
-  Question,
-  QuizCategory,
-  QuestionQueryParam,
-  QuestionType,
-} from 'src/app/shared/models/quiz';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import {
-  listDifficultLevel,
-  listQuizCategory,
-  listQuestionType,
-} from '../../../../../shared/utils/quiz';
+import { Question } from 'src/app/shared/models/quiz';
+import { FormBuilder } from '@angular/forms';
 import { QuestionService } from 'src/app/shared/services/rest-api/quiz/question.service';
 import { Observable, filter, iif, of, switchMap, tap } from 'rxjs';
 import { AdminSearchQuestionComponent } from '../../components/admin-search-question/admin-search-question.component';

@@ -10,11 +10,11 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class PostAdminDataSource
-  extends BaseDataSource<Pageable<Post[]>>
+  extends BaseDataSource<Pageable<Post>>
   implements OnDestroy
 {
-  override dataSubject: BehaviorSubject<Pageable<Post[]>> = new BehaviorSubject(
-    {} as Pageable<Post[]>
+  override dataSubject: BehaviorSubject<Pageable<Post>> = new BehaviorSubject(
+    {} as Pageable<Post>
   );
 
   constructor(

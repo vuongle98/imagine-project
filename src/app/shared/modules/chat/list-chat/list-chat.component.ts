@@ -16,7 +16,7 @@ import { Conversation } from '@shared/models/chat';
 import { User } from '@shared/models/user';
 import { ChattingService } from '@shared/services/common/chatting.service';
 import { AuthStore } from '@shared/services/rest-api/auth/auth.store';
-import { ChatService } from '@shared/services/rest-api/chat/chat.service';
+import { ConversationService } from '@shared/services/rest-api/chat/conversation.service';
 import { RxStompService } from '@shared/services/rx-stomp/rx-stomp.service';
 import { CHAT_INSTANCE } from '@shared/utils/constant';
 import { Observable, map, of, skip, switchMap, take } from 'rxjs';
@@ -44,7 +44,7 @@ export class ListChatComponent implements OnInit {
   @ViewChild('appChat') appchat!: ElementRef;
 
   constructor(
-    private chatService: ChatService,
+    private conversationService: ConversationService,
     private authStore: AuthStore,
     private chattingService: ChattingService
   ) {}
@@ -56,7 +56,7 @@ export class ListChatComponent implements OnInit {
       .pipe(
         switchMap((isLoggedIn) => {
           if (isLoggedIn) {
-            return this.chatService
+            return this.conversationService
               .findConversations()
               .pipe(map((res) => res.content));
           }
@@ -74,7 +74,6 @@ export class ListChatComponent implements OnInit {
     if (!chat_instance) {
       sessionStorage.setItem(CHAT_INSTANCE, 'true');
       this.currentChatInfo = chat;
-
     } else {
       this.currentChatInfo = undefined;
     }

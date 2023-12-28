@@ -11,11 +11,11 @@ import { BehaviorSubject, Observable, map, of, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class FileAdminDataSource
-  extends BaseDataSource<Pageable<FileInfo[]>>
+  extends BaseDataSource<Pageable<FileInfo>>
   implements OnDestroy
 {
-  override dataSubject: BehaviorSubject<Pageable<FileInfo[]>> =
-    new BehaviorSubject({} as Pageable<FileInfo[]>);
+  override dataSubject: BehaviorSubject<Pageable<FileInfo>> =
+    new BehaviorSubject({} as Pageable<FileInfo>);
 
   constructor(
     private fileService: FileService,

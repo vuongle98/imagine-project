@@ -16,7 +16,7 @@
     <label for="published">Published</label>
   </div>
 
-  <!-- <select multiple placeHolder="Select questions" formControlName="listQuestionId">
+  <!-- <select multiple placeHolder="Select questions" formControlName="addQuestionIds">
     <ng-container *ngFor="let o of questionList">
       <option value="{{o.id}}">{{o.title}}</option>
     </ng-container>
@@ -26,7 +26,7 @@
     </option>
   </select> -->
 
-  <ng-select formControlName="listQuestionId" [items]="questionList" [multiple]="true" bindLabel="title"
+  <ng-select formControlName="addQuestionIds" [items]="questionList" [multiple]="true" bindLabel="title"
     [closeOnSelect]="false" bindValue="id" [placeholder]="'Select questions'"
     (scrollToEnd)="onScrollToEnd()"></ng-select>
 

@@ -8,10 +8,10 @@
       <div class="msg-info-time">{{time | date:'HH:mm'}}</div>
     </div> -->
     <div class="msg-text">{{message.content}}</div>
-    <div style="font-size: 12px; align-self: flex-end;">
+    <div class="text-muted" style="font-size: 12px; display: flex; justify-content: flex-end;">
       <span [routerLink]="['/auth/profile/', message.sender.username]"
         routerLinkActive="router-link-active">{{message.sender.fullName}}</span> -
-      <span>{{message.timeStamp | date:'HH:mm'}}</span>
+      <span>{{message.createdAt | date:'dd:MM:yyyy HH:mm'}}</span>
     </div>
   </div>
 </div>

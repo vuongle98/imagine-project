@@ -9,12 +9,12 @@
   <table-column header="Answers" key="answers">
     <ng-template tableCell let-row>
       <ul>
-        <li answer-correct [is-correct]="item.correct" *ngFor="let item of row.data.answers; index as i">{{item.answer}}
+        <li answer-correct [is-correct]="item.correct" *ngFor="let item of row.data.answers; index as i">{{item.content}}
         </li>
       </ul>
     </ng-template>
   </table-column>
-  <table-column header="Countdown" key="countDown"></table-column>
+  <table-column header="Countdown" key="countdown"></table-column>
   <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
     <ng-template tableCell let-row>
       <ng-container *ngFor="let action of row.actions">

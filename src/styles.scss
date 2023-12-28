@@ -42,9 +42,9 @@ body * {
 app-base-layout {
   height: 100%;
   width: 100%;
-  display: grid;
-  gap: calc(var(--default-gap) * 2);
-  grid-template-rows: 80px 1fr;
+  // display: grid;
+  // gap: calc(var(--default-gap) * 2);
+  // grid-template-rows: 80px 1fr;
 }
 
 app-base-page {

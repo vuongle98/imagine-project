@@ -1,0 +1,16 @@
+<app-table [rows]="listAnswer" [actions]="actions" [page]="currentPage" [pageSize]="pageSize" [totalRows]="totalRows"
+  (pageChange)="onPageChange($event)">
+  <table-column header="No" key="no">
+    <ng-template tableCell let-row>{{row.index}}</ng-template>
+  </table-column>
+  <table-column header="Correct" key="correct"></table-column>
+  <table-column header="Content" key="content"></table-column>
+  <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
+    <ng-template tableCell let-row>
+      <ng-container *ngFor="let action of row.actions">
+        <button vg-button color="primary" (click)="action.action(row.data)">{{action.title}}</button>
+      </ng-container>
+    </ng-template>
+  </table-column>
+
+</app-table>

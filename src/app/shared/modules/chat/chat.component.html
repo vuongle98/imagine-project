@@ -1,9 +1,11 @@
-<div #parent class="chat chat-content">
+<div #parent class="chat chat-content" checkScrollToTop (scrolledToDiv)="onScroll($event)">
+  <div id="topElement" class="first-msg" #firstMessage></div>
   <ng-template #messageContainer></ng-template>
-  <div class="last-msg" #lastMessage></div>
+  <div (click)="scrollToTop()" class="last-msg" #lastMessage></div>
 </div>
 
-<form focusInput *ngIf="!currentUser?.username" class="chat chat-input" [formGroup]="anonymousUserForm" (submit)="anonymousLogin()">
+<form focusInput *ngIf="!currentUser?.username" class="chat chat-input" [formGroup]="anonymousUserForm"
+  (submit)="anonymousLogin()">
   <input formControlName="username" class="chat-input-msg" type="text" placeholder="Enter your name">
   <span class="btn btn-send" (click)="anonymousLogin()">
     <!-- <i class="fa fa-paper-plane" aria-hidden="true"></i> -->

@@ -1,5 +1,5 @@
 export type Pageable<T> = {
-  content: T;
+  content: T[];
   size: number;
   number: number;
   last: boolean;
