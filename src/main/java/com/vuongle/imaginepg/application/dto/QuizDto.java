@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.application.dto;
 
+import com.vuongle.imaginepg.domain.constants.QuestionLevel;
 import com.vuongle.imaginepg.domain.entities.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,13 @@ public class QuizDto {
 
     private String title;
 
+    private String description;
+
     private List<QuestionDto> questions;
+
+    private FileDto coverImage;
+
+    private QuestionLevel level;
+
+    private boolean published;
 }

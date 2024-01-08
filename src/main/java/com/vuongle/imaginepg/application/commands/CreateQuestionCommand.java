@@ -29,7 +29,7 @@ public class CreateQuestionCommand implements Serializable {
 
     private boolean mark;
 
-    private QuestionType type;
+    private QuestionType type = QuestionType.YES_NO;
 
     private QuestionCategory category;
 }

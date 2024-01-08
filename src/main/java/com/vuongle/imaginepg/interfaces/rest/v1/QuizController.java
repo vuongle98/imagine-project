@@ -1,6 +1,8 @@
 package com.vuongle.imaginepg.interfaces.rest.v1;
 
 import com.vuongle.imaginepg.application.commands.CreateQuizCommand;
+import com.vuongle.imaginepg.application.commands.SubmitAnswer;
+import com.vuongle.imaginepg.application.dto.AnswerQuizResult;
 import com.vuongle.imaginepg.application.dto.QuizDto;
 import com.vuongle.imaginepg.application.queries.QuizFilter;
 import com.vuongle.imaginepg.domain.services.QuizService;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -69,5 +72,17 @@ public class QuizController {
         QuizDto quiz = quizService.getById(id);
 
         return ResponseEntity.ok(quiz);
+    }
+
+    @PostMapping("/{id}/answer")
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
+    public ResponseEntity<AnswerQuizResult> answerQuiz(
+            @PathVariable(value = "id") UUID id,
+            @RequestBody List<SubmitAnswer> commands
+            ) {
+         AnswerQuizResult result = quizService.answerQuiz(id, commands);
+
+        return ResponseEntity.ok(result);
     }
 }

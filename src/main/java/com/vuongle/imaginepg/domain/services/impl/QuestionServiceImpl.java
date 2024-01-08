@@ -2,9 +2,11 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateQuestionCommand;
 import com.vuongle.imaginepg.application.dto.QuestionDto;
+import com.vuongle.imaginepg.application.exceptions.DataNotValidException;
 import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
+import com.vuongle.imaginepg.domain.constants.QuestionType;
 import com.vuongle.imaginepg.domain.entities.Answer;
 import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.Question;
@@ -68,6 +70,12 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = ObjectData.mapTo(command, Question.class);
 
         List<Answer> answers = getAnswers(command.getAnswerIds());
+
+        if (question.getType().equals(QuestionType.YES_NO)) {
+            if (answers.stream().filter(Answer::isCorrect).count() > 1) {
+                throw new DataNotValidException("YES NO question can not has more than 1 correct answer");
+            }
+        }
 
         question.setAnswers(answers);
         question.setUser(Context.getUser());

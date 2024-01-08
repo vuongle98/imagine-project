@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.domain.entities;
 
+import com.vuongle.imaginepg.application.commands.SubmitAnswer;
 import com.vuongle.imaginepg.domain.constants.QuestionCategory;
 import com.vuongle.imaginepg.domain.constants.QuestionLevel;
 import com.vuongle.imaginepg.domain.constants.QuestionType;
@@ -16,6 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -75,4 +77,17 @@ public class Question {
     @LastModifiedBy
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
+
+    public int checkAnswer(SubmitAnswer answer) {
+        int correct = 0;
+        List<Answer> correctAnswers = answers.stream().filter(Answer::isCorrect).toList();
+
+        for (Answer ans: correctAnswers) {
+            if (answer.getAnswerIds().stream().anyMatch(ansId -> ansId.equals(ans.getId()))) {
+                correct ++;
+            }
+        }
+
+        return correct;
+    }
 }

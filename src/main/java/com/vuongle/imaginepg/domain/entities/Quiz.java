@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.domain.entities;
 
+import com.vuongle.imaginepg.domain.constants.QuestionLevel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,8 @@ public class Quiz {
     @Column(nullable = false)
     private String title;
 
+    private String description;
+
     @ManyToMany
     @JoinTable(
             name = "quiz_questions",
@@ -42,7 +45,9 @@ public class Quiz {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-//    private File image;
+    @ManyToOne
+    @JoinColumn(name = "file_cover_id")
+    private File coverImage;
 
     private Instant deletedAt;
 
@@ -62,6 +67,8 @@ public class Quiz {
     @Column(name = "last_modified_by")
     private String lastModifiedBy;
 
+    private QuestionLevel level;
+
     public void addQuestion(Question question) {
         if (this.questions == null) {
             this.questions = new ArrayList<>();
@@ -75,7 +82,12 @@ public class Quiz {
             this.questions = new ArrayList<>();
         }
 
-        this.questions.addAll(questions);
+        for (Question question: questions) {
+            if (this.questions.stream().noneMatch(q -> q.getId().equals(question.getId()))) {
+                this.questions.add(question);
+            }
+        }
+//        this.questions.addAll(questions);
     }
 
     public void removeQuestion(UUID id) {

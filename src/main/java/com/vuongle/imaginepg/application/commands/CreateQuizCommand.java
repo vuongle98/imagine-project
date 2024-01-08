@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.application.commands;
 
+import com.vuongle.imaginepg.domain.constants.QuestionLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,12 @@ import java.util.UUID;
 public class CreateQuizCommand implements Serializable {
 
     private String title;
+    private String description;
     private List<UUID> addQuestionIds;
     private List<UUID> removeQuestionIds;
+    private QuestionLevel level;
+    private boolean mark;
+    private boolean published;
+
+    private UUID fileId;
 }

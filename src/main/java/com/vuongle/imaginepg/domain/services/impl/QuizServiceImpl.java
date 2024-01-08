@@ -1,14 +1,20 @@
 package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateQuizCommand;
+import com.vuongle.imaginepg.application.commands.SubmitAnswer;
+import com.vuongle.imaginepg.application.dto.AnswerQuizResult;
+import com.vuongle.imaginepg.application.dto.QuestionDto;
 import com.vuongle.imaginepg.application.dto.QuizDto;
+import com.vuongle.imaginepg.application.exceptions.DataNotValidException;
 import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.application.queries.QuizFilter;
 import com.vuongle.imaginepg.domain.entities.Answer;
+import com.vuongle.imaginepg.domain.entities.File;
 import com.vuongle.imaginepg.domain.entities.Question;
 import com.vuongle.imaginepg.domain.entities.Quiz;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
+import com.vuongle.imaginepg.domain.services.FileService;
 import com.vuongle.imaginepg.domain.services.QuizService;
 import com.vuongle.imaginepg.infrastructure.specification.QuestionSpecifications;
 import com.vuongle.imaginepg.infrastructure.specification.QuizSpecifications;
@@ -22,9 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -34,12 +39,16 @@ public class QuizServiceImpl implements QuizService {
 
     private final BaseRepository<Question> questionRepository;
 
+    private final FileService fileService;
+
     public QuizServiceImpl(
             BaseRepository<Quiz> quizRepository,
-            BaseRepository<Question> questionRepository
+            BaseRepository<Question> questionRepository,
+            FileService fileService
     ) {
         this.quizRepository = quizRepository;
         this.questionRepository = questionRepository;
+        this.fileService = fileService;
     }
 
     @Override
@@ -63,11 +72,23 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public QuizDto create(CreateQuizCommand command) {
 
+        // validate no duplicate question
+
+        Set<UUID> questionIds = new HashSet<>(command.getAddQuestionIds());
+
+        if (command.getAddQuestionIds().size() > questionIds.size()) {
+            throw new DataNotValidException("Contain duplicate questions");
+        }
+
         Quiz quiz = ObjectData.mapTo(command, Quiz.class);
 
         quiz.setUser(Context.getUser());
 
-        quiz.setQuestions(getQuestions(command.getAddQuestionIds()));
+        List<Question> questions = getQuestions(command.getAddQuestionIds());
+
+        quiz.setQuestions(questions);
+
+        quiz.setCoverImage(fileService.getById(command.getFileId(), File.class));
 
         quiz = quizRepository.save(quiz);
         return ObjectData.mapTo(quiz, QuizDto.class);
@@ -75,6 +96,12 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public QuizDto update(UUID id, CreateQuizCommand command) {
+
+        Set<UUID> questionIds = new HashSet<>(command.getAddQuestionIds());
+
+        if (command.getAddQuestionIds().size() > questionIds.size()) {
+            throw new DataNotValidException("Contain duplicate questions");
+        }
 
         Quiz quiz = getById(id, Quiz.class);
 
@@ -88,6 +115,18 @@ public class QuizServiceImpl implements QuizService {
 
         if (Objects.nonNull(command.getTitle())) {
             quiz.setTitle(command.getTitle());
+        }
+
+        if (Objects.nonNull(command.getFileId())) {
+            quiz.setCoverImage(fileService.getById(command.getFileId(), File.class));
+        }
+
+        if (Objects.nonNull(command.getDescription())) {
+            quiz.setDescription(command.getDescription());
+        }
+
+        if (Objects.nonNull(command.getLevel())) {
+            quiz.setLevel(command.getLevel());
         }
 
         quiz = quizRepository.save(quiz);
@@ -121,6 +160,34 @@ public class QuizServiceImpl implements QuizService {
         Specification<Quiz> specification = QuizSpecifications.withFilter(filter);
 
         return ObjectData.mapListTo(quizRepository.findAll(specification), QuizDto.class);
+    }
+
+    @Override
+    public AnswerQuizResult answerQuiz(UUID quizId, List<SubmitAnswer> answers) {
+
+        AnswerQuizResult result = new AnswerQuizResult();
+
+        Quiz quiz = getById(quizId, Quiz.class);
+
+        int totalCorrect = 0;
+
+        for (SubmitAnswer answer: answers) {
+            for (Question question: quiz.getQuestions()) {
+                if (question.getId().equals(answer.getQuestionId())) {
+                    int correctNum = question.checkAnswer(answer);
+                    totalCorrect += correctNum;
+
+                    answer.setCorrectAnswerIds(question.getAnswers().stream().filter(Answer::isCorrect).map(Answer::getId).collect(Collectors.toList()));
+                    answer.setQuestion(ObjectData.mapTo(question, QuestionDto.class));
+                }
+            }
+        }
+
+        result.setTotalAnswers(answers.size());
+        result.setNumOfCorrectAnswers(totalCorrect);
+        result.setAnswers(answers);
+
+        return result;
     }
 
     private List<Question> getQuestions(List<UUID> ids) {
