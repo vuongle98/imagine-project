@@ -72,6 +72,7 @@ import { PostCompactComponent } from './modules/blog/list-compact-post/post-comp
 import { PostComponent } from './modules/blog/post/post.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ScrollToTOpDirective } from './directives/scroll-to-top.directive';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 const COMPONENTS = [
   LoadingComponent,
@@ -117,6 +118,7 @@ const COMPONENTS = [
   ListPostComponent,
   PostCompactComponent,
   PostComponent,
+  FileUploadComponent
 ];
 
 const DIRECTIVES = [

@@ -17,6 +17,7 @@
 
     &-image {
       min-height: 200px;
+      max-height: 600px;
     }
   }
 
@@ -31,7 +32,11 @@
   }
 
   &-content {
+    // background-color: var(--background-color);
     padding: calc(var(--default-padding) * 2);
+
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
   }
 
   &-category {

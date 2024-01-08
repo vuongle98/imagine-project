@@ -11,7 +11,7 @@
     <div class="text-muted" style="font-size: 12px; display: flex; justify-content: flex-end;">
       <span [routerLink]="['/auth/profile/', message.sender.username]"
         routerLinkActive="router-link-active">{{message.sender.fullName}}</span> -
-      <span>{{message.createdAt | date:'dd:MM:yyyy HH:mm'}}</span>
+      <span>{{message.createdAt | date:'HH:mm dd-MM'}}</span>
     </div>
   </div>
 </div>

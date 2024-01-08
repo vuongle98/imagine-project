@@ -4,6 +4,10 @@
 
   <input type="text" formControlName="description" placeholder="Quiz description" />
 
+  <div>
+    <app-file-upload [parentForm]="createQuizForm"></app-file-upload>
+  </div>
+
   <select name="category" formControlName="category">
     <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
   </select>

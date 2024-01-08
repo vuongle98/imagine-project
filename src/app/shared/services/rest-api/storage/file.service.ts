@@ -12,11 +12,11 @@ export class FileService extends AbstractService {
   apiEndpoint = {
     file: 'api/file',
     fileWithId: 'api/file/{id}',
-    fileDownloadWithId: 'api/file/download/{id}',
+    fileDownloadWithId: 'api/file/{id}/download',
 
     fileAdmin: 'api/admin/file',
     fileAdminWithId: 'api/admin/file/{id}',
-    fileAdminDownloadWithId: 'api/admin/file/download/{id}',
+    fileAdminDownloadWithId: 'api/admin/file/{id}/download',
   };
 
   constructor(private httpClient: HttpClient) {

@@ -46,6 +46,7 @@ export class QuizFormComponent implements OnInit {
     this.createQuizForm = this.fb.group({
       title: [''],
       description: [''],
+      fileId: [''],
       level: [QuizLevel[QuizLevel.EASY]],
       category: [QuizCategory[QuizCategory.GENERAL]],
       published: [false],
@@ -94,6 +95,10 @@ export class QuizFormComponent implements OnInit {
   onScrollToEnd() {
     // append new data to currnet list
     console.log('end');
+  }
+
+  onFileSelected(event: any) {
+    console.log(event);
   }
 
   // patchQuestion(questions: Question[]) {

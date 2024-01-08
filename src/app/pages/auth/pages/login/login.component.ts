@@ -35,7 +35,7 @@ export class LoginComponent {
         ]),
       ],
       password: ['', Validators.required],
-      remember: [''],
+      // remember: [''],
     });
   }
 

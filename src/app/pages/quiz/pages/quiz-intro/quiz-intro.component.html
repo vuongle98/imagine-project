@@ -1,22 +1,21 @@
-<app-base-page>
-  <div class="intro-card">
-    <img [attr.src]="quiz.image?.id | secure | async" />
-    <div class="intro-card-content">
-      <div class="intro-card-title">{{quiz.title}}</div>
-      <div class="intro-card-meta text-muted text-italic">
-        <span>{{quiz.category || 'GENERAL'}}</span>
-        <span>&#183;</span>
-        <span [quiz-level]="quiz.level">{{quiz.level || 'EASY'}}</span>
-        <span>&#183;</span>
-        <span>{{quiz.createdBy || 'Someone'}}</span>
-        <span>&#183;</span>
-        <span>{{quiz.questions.length}} questions</span>
-      </div>
-      <div class="intro-card-description text-muted">{{quiz.description}}</div>
-      <div style="display: flex; justify-content: flex-end; gap: 1em">
-        <button routerLink="/quiz" vg-button color="secondary" size="large">Exit</button>
-        <button (click)="emitPlaying()" vg-button color="success" size="large">Start</button>
-      </div>
+<div class="intro-card" *ngIf="quiz">
+  <img [attr.src]="quiz.coverImage.id! | secure | async" />
+  <div class="intro-card-content">
+    <div class="intro-card-title">{{quiz.title}}</div>
+    <div class="intro-card-meta text-muted text-italic">
+      <span>{{quiz.category || 'GENERAL'}}</span>
+      <span>&#183;</span>
+      <span [quiz-level]="quiz.level">{{quiz.level || 'EASY'}}</span>
+      <span>&#183;</span>
+      <span>{{quiz.createdBy || 'Someone'}}</span>
+      <span>&#183;</span>
+      <span>{{quiz.questions.length}} questions</span>
+    </div>
+    <div class="intro-card-description text-muted">{{quiz.description}}</div>
+    <div style="display: flex; justify-content: flex-end; gap: 1em">
+      <button routerLink="/quiz" vg-button color="secondary" size="large">Exit</button>
+      <button (click)="emitPlaying()" vg-button color="success" size="large">Start</button>
     </div>
   </div>
-</app-base-page>
+</div>
+

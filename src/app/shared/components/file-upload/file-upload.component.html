@@ -1,0 +1,8 @@
+<form [formGroup]="parentForm">
+  <input class="file-input" type="file" (change)="onFileSelected($event)" #fileUpload
+    style="display: none;" accept="image/*" />
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <button type="button" vg-button color="primary" class="upload-btn" (click)="fileUpload.click()">Chọn file</button>
+    <span>{{selectedFile?.name}}</span>
+  </div>
+</form>

@@ -1,3 +1,4 @@
+import { FileInfo } from './file';
 import { User } from './user';
 import { BaseQueryParam } from './utils';
 
@@ -8,7 +9,7 @@ export type Quiz = {
   title: string;
   imagePath: string;
   description: string;
-  image: any;
+  coverImage: FileInfo;
   category: QuizCategory;
   level: QuizLevel;
   createdDate: Date;
@@ -35,7 +36,7 @@ export type Question = {
 
 export type Answer = {
   id: string;
-  answer: string;
+  content: string;
   correct: boolean;
 };
 

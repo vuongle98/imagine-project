@@ -5,7 +5,7 @@
   <div class="card-container">
     <ng-container *ngFor="let item of quiz$ | async | slice:4:9; index as i">
       <ng-template #coverTemplate>
-        <img class="quiz-cover-image" alt="quiz cover" [attr.src]="item.image?.id | secure | async" />
+        <img class="quiz-cover-image" alt="quiz cover" [attr.src]="item?.coverImage?.id! | secure | async" />
         <img class="play" src="../../../../../assets/icons/play-button.png" alt="">
       </ng-template>
       <app-card [quiz-level]="item.level" class="card" vg-card [cardPlay]="true" [useLink]="true"
@@ -20,7 +20,8 @@
   <div class="card-container">
     <ng-container *ngFor="let item of quiz$ | async; index as i">
       <ng-template #coverTemplate>
-        <img class="quiz-cover-image" alt="quiz cover" [attr.src]="item.image?.id | secure | async" loading="lazy" />
+        <img class="quiz-cover-image" alt="quiz cover" [attr.src]="item?.coverImage?.id! | secure | async"
+          loading="lazy" />
         <img class="play" src="../../../../../assets/icons/play-button.png" alt="">
       </ng-template>
       <app-card [quiz-level]="item.level" class="card" vg-card [cardPlay]="true" [useLink]="true"

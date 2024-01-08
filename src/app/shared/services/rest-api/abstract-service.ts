@@ -176,6 +176,10 @@ export abstract class AbstractService {
       return result;
     }
 
+    if (requestBody.data instanceof FormData) {
+      return requestBody.data;
+    }
+
     // If type is multipart/form-data
     const formData: FormData = new FormData();
     for (const property in requestBody.data) {
@@ -183,7 +187,7 @@ export abstract class AbstractService {
         requestBody.data.hasOwnProperty(property) &&
         requestBody.data[property] !== null
       ) {
-        if (property === 'files') {
+        if (property === 'files' || property === 'file') {
           for (const file of requestBody.data[property]) {
             formData.append(property, file);
           }

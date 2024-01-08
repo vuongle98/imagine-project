@@ -19,7 +19,7 @@
         <p class="answer" *ngFor="let questionAnswer of answerItem.question?.answers" answer-correct
           [is-incorrect]="answerItem.answerIds.includes(questionAnswer.id)"
           [is-correct]="answerItem.correctAnswerIds.includes(questionAnswer.id)">
-          {{questionAnswer.answer}}
+          {{questionAnswer.content}}
         </p>
       </div>
     </div>
