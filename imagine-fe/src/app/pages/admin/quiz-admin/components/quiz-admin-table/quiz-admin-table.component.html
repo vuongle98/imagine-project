@@ -1,0 +1,57 @@
+<!-- <table class="table" border="0" cellspacing="0">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Question</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [quiz-level]="item.level" *ngFor="let item of listQuiz; index as i">
+      <td>{{ (currentPage * 10) + (i+1) }}</td>
+      <td>{{item.title}}</td>
+      <td>{{item.description}}</td>
+      <td>{{item.category}}</td>
+      <td>
+        <ng-container>
+          <p class="quesiton-item" *ngFor="let question of item.questions|slice:0:3">{{question.title}}</p>
+        </ng-container>
+      </td>
+      <td>
+        <button vg-button color="primary" (click)="editQuiz(item)">Edit</button>
+        <button vg-button color="warning" (click)="deleteQuiz(item)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+
+<app-table [rows]="listQuiz" [actions]="actions" [page]="currentPage" [pageSize]="pageSize" [totalRows]="totalRows"
+  (pageChange)="onPageChange($event)">
+
+  <!-- <table-column [header]="column.title" [key]="column.dataProperty" *ngFor="let column of dataTable.columns"></table-column> -->
+
+  <table-column header="No" key="no">
+    <!-- <ng-template tableHeader>Test</ng-template> -->
+    <ng-template tableCell let-row>{{row.index}}</ng-template>
+  </table-column>
+  <table-column header="Title" key="title"></table-column>
+  <table-column header="Description" key="description"></table-column>
+  <table-column header="Category" key="category"></table-column>
+  <table-column header="Questions" key="quesitons">
+    <ng-template tableCell let-row>
+      <p class="quesiton-item" *ngFor="let question of $any(row.data.questions|slice:0:3)">{{question.title}}</p>
+    </ng-template>
+  </table-column>
+  <table-column header="Countdown" key="countDown"></table-column>
+  <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
+    <!-- <ng-template tableCell let-row>
+      <ng-container *ngFor="let action of row">
+        <button vg-button color="primary" (click)="action.action(row)">{{action.title}}</button>
+      </ng-container>
+    </ng-template> -->
+  </table-column>
+
+</app-table>

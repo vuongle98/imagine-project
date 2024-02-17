@@ -1,0 +1,40 @@
+.left-side {
+  flex: 1;
+}
+
+.spacer {
+  flex: 0.5;
+}
+
+.main-content {
+  flex: 3;
+  gap: 1em;
+}
+
+.right-side {
+  flex: 1;
+
+  .section {
+    margin-bottom: calc(2 * var(--default-margin));
+  }
+}
+
+@media only screen and (max-width: 1360px) {
+  .spacer {
+    flex: 0;
+  }
+
+  .left-side {
+    flex: 0;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .main-content {
+    flex: 1;
+  }
+
+  .right-side {
+    flex: 1;
+  }
+}

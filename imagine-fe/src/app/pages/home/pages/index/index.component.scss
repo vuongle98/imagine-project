@@ -1,0 +1,10 @@
+.caregory-title {
+  font-size: calc(3 * var(--default-margin));
+  font-weight: bold;
+  margin: var(--default-margin) 0;
+}
+
+app-list-post {
+  gap: 1em;
+  display: grid;
+}

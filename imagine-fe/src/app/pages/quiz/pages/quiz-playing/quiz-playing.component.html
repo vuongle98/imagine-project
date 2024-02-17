@@ -1,0 +1,30 @@
+<app-base-page>
+  <ng-container *ngIf="(quiz$ | async) as quiz">
+    <app-quiz-intro [quiz]="quiz" *ngIf="!isPlaying && !isCheckout"
+      (startPlaying)="isPlaying = $event"></app-quiz-intro>
+
+    <app-quiz-checkout *ngIf="!isPlaying && isCheckout" [quizResult]="quizResult" [quiz]="quiz"></app-quiz-checkout>
+
+
+    <div class="question-container" *ngIf="isPlaying && !isCheckout">
+      <ng-container *ngFor="let question of quiz.questions; index as i">
+        <app-question-item-custom *ngIf="displayItemIndex === i" [index]="i+1" [question]="question"
+          [size]="quiz.questions.length" (timeOverChange)="timeOverChange($event)"></app-question-item-custom>
+      </ng-container>
+
+
+      <div class="actions">
+        <!-- <button vg-button [disabled]="displayItemIndex == 0" (click)="pre()">Pre</button> -->
+        <button vg-button color="secondary" (click)="isPlaying = false; isCheckout = false">Exit</button>
+
+        <button vg-button color="warning" (click)="done(quiz.questions)">
+          Done
+        </button>
+        <button vg-button color="info" [disabled]="displayItemIndex == quiz.questions.length - 1"
+          (click)="next()">Next</button>
+        <button *ngIf="!isPlaying" vg-button (click)="viewAnswer()">Review the answer</button>
+      </div>
+    </div>
+
+  </ng-container>
+</app-base-page>

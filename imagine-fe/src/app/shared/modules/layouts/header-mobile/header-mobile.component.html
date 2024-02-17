@@ -1,0 +1,27 @@
+<div class="header-nav">
+
+  <div class="btn-pluss">
+    <img routerLink="/" class="brand-logo" src="assets/avatar/bear.png" alt="logo">
+    <ul>
+      <li>
+        <a routerLinkActive="active" routerLink="/home">Home</a>
+      </li>
+      <li>
+        <a routerLinkActive="active" routerLink="/quiz">Quiz</a>
+      </li>
+      <li><a routerLinkActive="active" routerLink="/calculator">Calculator</a></li>
+      <!-- <li>
+        <a routerLinkActive="active" routerLink="/chat">Chat</a>
+      </li> -->
+      <li>
+        <a routerLinkActive="active" [routerLink]="['/auth/profile/', (auth.user$ | async)?.username]">Profile</a>
+      </li>
+      <li>
+        <a routerLinkActive="active" routerLink="/admin"
+          *ngIf="(auth.isAdmin$ | async) && (auth.isLoggedIn$ | async)">Admin</a>
+      </li>
+      <li *ngIf="auth.isLoggedOut$ | async"><a routerLinkActive="active" routerLink="/auth/login">Login</a></li>
+      <li *ngIf="auth.isLoggedIn$ | async"><a routerLinkActive="active" (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
+</div>

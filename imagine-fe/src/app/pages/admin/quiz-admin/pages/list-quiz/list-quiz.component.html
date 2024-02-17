@@ -1,0 +1,7 @@
+<app-base-page>
+  <app-admin-search-quiz></app-admin-search-quiz>
+
+  <app-quiz-admin-table [quizAdminDataSource]="quizAdminDataSource" [listQuiz]="listQuiz" [totalRows]="totalRows"
+    [currentPage]="currentPage" (onDeleteQuiz)="deleteQuiz($event)"
+    (onEditQuiz)="openEdit($event)"></app-quiz-admin-table>
+</app-base-page>

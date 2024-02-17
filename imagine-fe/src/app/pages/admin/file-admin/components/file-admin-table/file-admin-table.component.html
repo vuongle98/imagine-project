@@ -1,0 +1,26 @@
+<app-table [rows]="listFile" [actions]="actions" [page]="currentPage" [pageSize]="pageSize" [totalRows]="totalRows"
+  (pageChange)="onPageChange($event)">
+  <table-column header="No" key="no">
+    <ng-template tableCell let-row>{{row.index}}</ng-template>
+  </table-column>
+  <table-column header="File name" key="fileName">
+    <!-- <ng-template tableCell let-row>
+      <span *ngIf="isImage(row.data)" [openImageViewer]="row.data">{{row.data.fileName}}</span></ng-template> -->
+  </table-column>
+  <table-column header="Extension" key="extension"></table-column>
+  <table-column header="Size" key="size">
+    <ng-template tableCell let-row>{{row.data.size | fileSize:false}}</ng-template>
+  </table-column>
+  <table-column header="Creator" key="creator">
+    <ng-template tableCell let-row>{{row.data.creator?.fullName}}</ng-template>
+  </table-column>
+  <table-column header="Actions" key="actions" [dataType]="DataType.ACTIONS">
+    <ng-template tableCell let-row>
+      <ng-container *ngFor="let action of row.actions">
+        <button style="margin-right: 8px" *ngIf="action?.show(row.data)" vg-button color="primary"
+          (click)="action.action(row.data)">{{action.title}}</button>
+      </ng-container>
+    </ng-template>
+  </table-column>
+
+</app-table>

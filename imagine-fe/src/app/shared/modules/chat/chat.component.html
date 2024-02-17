@@ -1,0 +1,25 @@
+<div #parent class="chat chat-content" checkScrollToTop (scrolledToDiv)="onScroll($event)">
+  <div id="topElement" class="first-msg" #firstMessage></div>
+  <ng-template #messageContainer></ng-template>
+  <div (click)="scrollToTop()" class="last-msg" #lastMessage></div>
+</div>
+
+<form focusInput *ngIf="!currentUser?.username" class="chat chat-input" [formGroup]="anonymousUserForm"
+  (submit)="anonymousLogin()">
+  <input formControlName="username" class="chat-input-msg" type="text" placeholder="Enter your name">
+  <span class="btn btn-send" (click)="anonymousLogin()">
+    <!-- <i class="fa fa-paper-plane" aria-hidden="true"></i> -->
+    <img src="assets/icons/paper-plane.png" alt="send message">
+  </span>
+</form>
+
+<form focusInput *ngIf="currentUser?.username" class="chat chat-input" [formGroup]="msgForm" (submit)="onSendMessage()">
+  <span class="btn btn-send btn-attachment" (click)="attachFile()">
+    <img src="assets/icons/attachment.png" alt="attachment">
+  </span>
+  <input formControlName="message" class="chat-input-msg" type="text" placeholder="Enter your message">
+  <span class="btn btn-send" (click)="onSendMessage()">
+    <!-- <i class="fa fa-paper-plane" aria-hidden="true"></i> -->
+    <img src="assets/icons/paper-plane.png" alt="send message">
+  </span>
+</form>

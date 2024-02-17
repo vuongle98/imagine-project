@@ -1,0 +1,22 @@
+<div class="login-form">
+  <div>LOGIN</div>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-item">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" formControlName="username" placeholder="Username" />
+    </div>
+    <div class="form-item">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" formControlName="password" placeholder="Password" />
+    </div>
+    <!-- <div class="form-item form-remember">
+      <label for="remember">Remember me</label>
+      <input type="checkbox" id="remember" name="remember" formControlName="remember" />
+    </div> -->
+    <div class="form-item form-actions">
+      <button vg-button color="info" type="submit" [disabled]="!loginForm.valid">Login</button>
+      Or
+      <a routerLink="/auth/register">Register now!</a>
+    </div>
+  </form>
+</div>

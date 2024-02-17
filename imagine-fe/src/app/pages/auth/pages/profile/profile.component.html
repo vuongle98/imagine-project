@@ -1,0 +1,41 @@
+<div class="profile-content" *ngIf="(viewProfileUser$ | async) as user">
+
+  <!-- row 1 - user info -->
+  <div class="user">
+    <img class="avatar" src="assets/avatar/bear.png" alt="avatar">
+    <div class="user-info">
+      <span class="user-fullname">{{user.fullName}}</span>
+      <span class="user-username"><a routerLink="/auth/profile/{{user.username}}">@{{user.username}}</a></span>
+      <ng-container *ngIf="isViewOtherProfile() | async">
+        <span *ngIf="!(alreadyOrRequestedFriend(user.id) | async) && !(isPendingFriend(user.id) | async)"
+          (click)="addFriend(user.id)">Add
+          friend</span>
+        <div *ngIf="(isPendingFriend(user.id) | async)">
+          <span (click)="acceptFriend(user.id)">Accept</span>
+          <span (click)="declineFriend(user.id)">Decline</span>
+        </div>
+        <div (click)="openChat(user.id, user.fullName || '')">Chat</div>
+      </ng-container>
+
+      <span class="user-action" *ngIf="!(isViewOtherProfile() | async)" (click)="logout()">Logout</span>
+    </div>
+
+  </div>
+
+  <div class="user-friends">
+    <!-- show friends, added quiz, post -->
+    <ng-container *ngIf="!(isViewOtherProfile() | async)">
+      <app-friend [friendships]="(requestedFriend$ | async) || []" (dataChange)="dataChange.next(true)"
+        [friendStatus]="'REQUESTED'"></app-friend>
+
+      <app-friend [friendships]="(pendingFriend$ | async) || []" (dataChange)="dataChange.next(true)"
+        [friendStatus]="'PENDING'"></app-friend>
+
+      <app-friend [friendships]="(acceptedFriend$ | async) || []" (dataChange)="dataChange.next(true)"
+        [friendStatus]="'ACCEPTED'"></app-friend>
+    </ng-container>
+
+  </div>
+
+  <a routerLink="/">Home</a>
+</div>

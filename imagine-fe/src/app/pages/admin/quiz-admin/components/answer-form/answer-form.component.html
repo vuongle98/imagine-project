@@ -1,0 +1,11 @@
+<form class="quiz-form" [formGroup]="createAnswerForm" *ngIf="createAnswerForm" (ngSubmit)="onSubmit()">
+
+  <input type="text" formControlName="content" placeholder="Answer content" />
+  <input name="mark" formControlName="correct" type="checkbox">
+  <label for="mark">Correct</label>
+
+  <div class="actions">
+    <button vg-button>Save</button>
+  </div>
+
+</form>

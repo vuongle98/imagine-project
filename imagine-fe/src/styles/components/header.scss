@@ -1,0 +1,77 @@
+.header {
+
+  &-top {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--default-padding);
+    align-items: center;
+
+    flex-wrap: wrap;
+    gap: var(--default-gap);
+
+    .brand {
+      &-logo {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    &-search {
+      input {
+        border: none;
+        color: var(--dark-color);
+        border-radius: 0.5em;
+        padding: 0.35em 1em;
+      }
+    }
+
+    :focus {
+      outline: none;
+    }
+  }
+
+  &-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: visibility 0.5s, opacity 0.5s linear;
+    .show-menu {
+      display: none;
+    }
+  }
+
+  & ul {
+    padding: 0;
+  }
+}
+
+app-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--background-color);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+app-header-mobile {
+  z-index: 1000;
+
+}
+
+@media only screen and (max-width: 600px) {
+  .header-nav {
+    .menu {
+      flex-direction: column;
+    }
+
+    .show-menu {
+      display: block;
+    }
+  }
+}

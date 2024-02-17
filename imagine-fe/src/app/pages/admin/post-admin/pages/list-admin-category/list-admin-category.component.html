@@ -1,0 +1,6 @@
+<app-base-page>
+  <app-admin-search-category-form></app-admin-search-category-form>
+  <app-admin-category-table [categoryAdminDataSource]="categoryAdminDataSource" [listCategory]="listCategory"
+    [totalRows]="totalRows" [currentPage]="currentPage" (onDeleteCategory)="deleteCategory($event)"
+    (onEditCategory)="updateCategory($event)" (onRecoverCategory)="recoverCategory($event)"></app-admin-category-table>
+</app-base-page>

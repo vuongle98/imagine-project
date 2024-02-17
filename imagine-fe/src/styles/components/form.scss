@@ -1,0 +1,45 @@
+input, label {
+  padding: var(--default-padding);
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: calc(0.5 * var(--default-padding));
+}
+
+input[type=checkbox] {
+  width: auto !important;
+  padding: var(--default-padding);
+}
+
+select {
+  padding: var(--default-padding);
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.form {
+  &-item {
+    margin: calc(0.5 * var(--default-padding));
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-remember {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  &-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  &-actions * {
+    margin: calc(0.5 * var(--default-padding));
+  }
+}

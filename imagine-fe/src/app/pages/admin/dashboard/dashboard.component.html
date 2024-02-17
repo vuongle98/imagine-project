@@ -1,0 +1,27 @@
+<app-base-page>
+  <div *ngIf="(statisticData$ | async) as statisticData"
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px">
+    <app-statistic-card title="Quizs" [item]="statisticData.quizStatistic" link="/admin/quiz"></app-statistic-card>
+    <app-statistic-card title="Users" [item]="statisticData.userStatistic" link="/admin/user"></app-statistic-card>
+    <app-statistic-card title="Questions" [item]="statisticData.questionStatistic"
+      link="/admin/quiz/question"></app-statistic-card>
+      <app-statistic-card title="Answers" [item]="statisticData.questionStatistic"
+      link="/admin/quiz/answer"></app-statistic-card>
+    <app-statistic-card title="Files" [item]="statisticData.fileStatistic" link="/admin/file"></app-statistic-card>
+    <app-statistic-card title="Posts" [item]="statisticData.postStatistic" link="/admin/post"></app-statistic-card>
+    <app-statistic-card title="Category" [item]="statisticData.fileStatistic"
+      link="/admin/post/category"></app-statistic-card>
+  </div>
+
+</app-base-page>
+
+<!-- file chart -->
+<!-- <div style="display: flex; justify-content: stretch;" *ngIf="(statisticData$ | async) as statisticData">
+  <app-chart-display style="flex: 1" [chartType]="chartType" [chartOptions]="chartOptions"
+    [chartData]="initChart(statisticData.fileStatistic)"></app-chart-display>
+  <div style="flex: 1"></div>
+  <app-chart-display style="flex: 1" [chartType]="chartType" [chartOptions]="chartOptions"
+    [chartData]="initChart(statisticData.fileStatistic)"></app-chart-display>
+  <div style="flex: 1"></div>
+
+</div> -->

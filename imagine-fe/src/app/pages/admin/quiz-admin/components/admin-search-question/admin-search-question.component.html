@@ -1,0 +1,21 @@
+<form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+  <input type="text" formControlName="likeQuestion" placeholder="Question content" />
+
+  <select name="type" formControlName="type">
+    <option *ngFor="let type of listQuestionType" [value]="type.value">{{type.name}}</option>
+  </select>
+
+
+  <select name="category" formControlName="category">
+    <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
+  </select>
+
+  <input name="mark" formControlName="mark" type="checkbox">
+  <label for="mark">Có đánh dấu</label>
+
+  <button vg-button>Search</button>
+
+  <button vg-button type="button" (click)="searchForm.reset()">Reset form</button>
+  <button vg-button type="button" (click)="emitCreate.emit()">Create</button>
+</form>

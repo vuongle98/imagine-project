@@ -1,0 +1,15 @@
+<form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+  <input type="text" formControlName="likeTitle" placeholder="Quiz title" />
+
+  <input type="text" formControlName="likeDescription" placeholder="Quiz description" />
+
+  <select name="category" formControlName="category">
+    <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
+  </select>
+
+  <button vg-button>Search</button>
+
+  <button vg-button type="button" (click)="searchForm.reset()">Reset form</button>
+  <button vg-button type="button" (click)="emitCreate.emit()">Create</button>
+</form>

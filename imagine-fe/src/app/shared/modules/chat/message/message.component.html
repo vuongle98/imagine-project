@@ -1,0 +1,17 @@
+<div class="msg msg-{{side}}">
+  <div class="msg msg-avatar" *ngIf="side == 'left'" (click)="viewProfile()">
+    <img style="width: 30px; height: 30px;" src="assets/avatar/bear.png" alt="">
+  </div>
+  <div class="msg-content">
+    <!-- <div class="msg-info">
+      <div class="msg-info-name">{{name}}</div>
+      <div class="msg-info-time">{{time | date:'HH:mm'}}</div>
+    </div> -->
+    <div class="msg-text">{{message.content}}</div>
+    <div class="text-muted" style="font-size: 12px; display: flex; justify-content: flex-end;">
+      <span [routerLink]="['/auth/profile/', message.sender.username]"
+        routerLinkActive="router-link-active">{{message.sender.fullName}}</span> -
+      <span>{{message.createdAt | date:'HH:mm dd-MM'}}</span>
+    </div>
+  </div>
+</div>

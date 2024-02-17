@@ -1,0 +1,23 @@
+<form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+  <app-form-item>
+    <input type="text" formControlName="likeUsername" placeholder="Username" />
+  </app-form-item>
+  <app-form-item>
+    <input type="text" formControlName="likeFullName" placeholder="Full name" />
+  </app-form-item>
+  <app-form-item>
+    <input type="text" formControlName="likeEmail" placeholder="Email" /></app-form-item>
+  <app-form-item>
+    <select formControlName="role">
+      <option value="">All</option>
+      <option value="ADMIN">Admin</option>
+      <option value="USER">User</option>
+    </select>
+  </app-form-item>
+
+  <button vg-button>Search</button>
+
+  <button vg-button type="button" (click)="searchForm.reset()">Reset form</button>
+  <button vg-button type="button" (click)="emitCreate.emit()">Create</button>
+</form>

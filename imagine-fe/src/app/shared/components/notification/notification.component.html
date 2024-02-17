@@ -1,0 +1,17 @@
+<div class="notification-container">
+  <div (click)="close(notification)" *ngFor="let notification of notifications" [ngClass]="getNotificationClass(notification)">
+    <ng-container *ngTemplateOutlet="notificationTemplate; context: {notification: notification}"></ng-container>
+  </div>
+</div>
+
+<ng-template #notificationTemplate let-notification="notification">
+  <div class="notification-title">
+    <div>
+      {{notification.title}}
+    </div>
+    <button *ngIf="notification.config?.showCloseButton" vg-button btn-type="icon" (click)="close(notification)">close</button>
+  </div>
+  <div class="notification-message">
+    {{notification.message}}
+  </div>
+</ng-template>

@@ -1,0 +1,11 @@
+<ng-container *ngIf="totalPage > 1">
+  <span>Page {{ page + 1 }} of {{ totalPage }}</span>
+</ng-container>
+
+<button vg-button color="primary" [disabled]="page === 0" (click)="first()">First Page</button>
+<button vg-button color="primary" [disabled]="page === 0" (click)="prev()">Prev</button>
+<input type="number" min="0" max="{{ totalPage - 1 }}" [(ngModel)]="page" (ngModelChange)="toPage($event)">
+<button vg-button color="primary" [disabled]="page === (totalPage - 1)" (click)="next()">Next</button>
+
+<!-- last page -->
+<button vg-button color="primary" [disabled]="page === (totalPage - 1)" (click)="last()">Last Page</button>

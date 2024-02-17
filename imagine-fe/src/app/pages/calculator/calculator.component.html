@@ -1,0 +1,39 @@
+<div class="calculator">
+  <div class="title">Simple calculator</div>
+
+  <div class="display-data">
+    <div>{{displayValue}}</div>
+    <div>{{result}}</div>
+  </div>
+
+  <div id="errors">{{error}}</div>
+  <div class="buttons-container">
+    <div class="row">
+      <!-- <button value="(" (click)="clickButton('(')">(</button>
+      <button value=")" (click)="clickButton(')')">)</button> -->
+      <button class="btn op" value="%" (click)="clickButton('%')">%</button>
+      <button class="btn ac" value="AC" (click)="clickAC()">AC</button>
+    </div>
+    <div class="row">
+      <button class="btn number" *ngFor="let item of ['7', '8', '9']" value="{{item}}"
+        (click)="clickButton(item)">{{item}}</button>
+      <button class="btn op" value="/" (click)="clickButton('/')">/</button>
+    </div>
+    <div class="row">
+      <button class="btn number" *ngFor="let item of ['4', '5', '6']" value="{{item}}"
+        (click)="clickButton(item)">{{item}}</button>
+      <button class="btn op" value="*" (click)="clickButton('*')">X</button>
+    </div>
+    <div class="row">
+      <button class="btn number" *ngFor="let item of ['1', '2', '3']" value="{{item}}"
+        (click)="clickButton(item)">{{item}}</button>
+      <button class="btn op" value="-" (click)="clickButton('-')">-</button>
+    </div>
+    <div class="row">
+      <button class="btn number" value="0" (click)="clickButton('0')">0</button>
+      <button class="btn number" value="." (click)="clickButton('.')">.</button>
+      <button class="btn op" value="=" (click)="clickCal()">=</button>
+      <button class="btn op" value="+" (click)="clickButton('+')">+</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,3 @@
+<div class="post-container" *ngFor="let post of posts">
+  <app-post-compact class="post"  routerLink="{{'/post/detail/' + post.id}}" [post]="post"></app-post-compact>
+</div>

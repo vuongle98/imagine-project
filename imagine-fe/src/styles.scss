@@ -1,0 +1,71 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/cdk/overlay-prebuilt.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "./styles/colors.scss";
+@import "./styles/common.scss";
+@import "./styles/components/card.scss";
+@import "./styles/components/button.scss";
+@import "./styles/components/question.scss";
+@import "./styles/components/table.scss";
+@import "./styles/components/quiz.scss";
+@import "./styles/components/chat.scss";
+@import "./styles/components/nav.scss";
+@import "./styles/components/menu.scss";
+@import "./styles/components/header.scss";
+@import "./styles/components/dropdown.scss";
+@import "./styles/components/profile.scss";
+@import "./styles/components/auth.scss";
+@import "./styles/components/common.scss";
+@import "./styles/components/form.scss";
+@import "./styles/components/dialog.scss";
+@import "./styles/components/layout.scss";
+@import "./styles/components/blog.scss";
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+  color: var(--text-color);
+  background-color: var(--app-background-color);
+  margin: 0;
+}
+
+body * {
+  font-family: "Space Mono", monospace;
+  word-spacing: -5px;
+}
+
+app-base-layout {
+  height: 100%;
+  width: 100%;
+  // display: grid;
+  // gap: calc(var(--default-gap) * 2);
+  // grid-template-rows: 80px 1fr;
+}
+
+app-base-page {
+  margin: var(--default-margin);
+}
+
+
+app-blog-layout {
+  margin: var(--default-margin);
+}
+
+
+app-no-base-layout {
+  height: 100vh;
+  width: 100%;
+}
+
+app-calculator {
+  height: calc(100vh - 100px);
+}
+
+app-quiz-intro {
+  height: calc(100vh - 100px);
+}

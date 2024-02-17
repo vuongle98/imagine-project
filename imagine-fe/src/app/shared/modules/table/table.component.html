@@ -1,0 +1,49 @@
+<table class="table" #table [border]="0" [cellSpacing]="0">
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns">
+        <ng-container *ngIf="column.tplHeader">
+          <ng-container *ngTemplateOutlet="column.tplHeader.template"></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="!column.tplHeader">{{column.header}}</ng-container>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="rows.length > 0; else noRows">
+      <tr *ngFor="let data of rows; let i=index">
+        <td *ngFor="let column of columns">
+          <!-- {{ (page * 10) +(i+1)}} -->
+          <ng-container *ngIf="column.tplCell">
+            <ng-container
+              *ngTemplateOutlet="column.tplCell.template; context: {$implicit: {data, index: (page *10)+ (i+1), actions}}"></ng-container>
+          </ng-container>
+          <ng-container *ngIf="!column.tplCell">
+            <ng-container [ngSwitch]="column.dataType">
+              <ng-container *ngSwitchCase="DataType.DATE">
+                {{data[column.key] | date:'dd/MM/yyyy'}}
+              </ng-container>
+              <ng-container *ngSwitchCase="DataType.ACTIONS">
+                <ng-container *ngFor="let action of actions">
+                  <button style="margin-right: 8px" *ngIf="action?.show(data)" vg-button color="primary"
+                    (click)="action.action(data)">{{action.title}}</button>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngSwitchDefault>{{data[column.key]}}</ng-container>
+            </ng-container>
+          </ng-container>
+        </td>
+      </tr>
+    </ng-container>
+
+    <ng-template #noRows>
+      <tr>
+        <td class="no-rows" [colSpan]="columns.length">Not found any data</td>
+      </tr>
+    </ng-template>
+
+  </tbody>
+</table>
+<app-pagination *ngIf="totalPages > 1" [page]="page" [totalPage]="totalPages"
+  (pageChange)="page = $event; pageChange.emit($event)"></app-pagination>

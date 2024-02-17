@@ -1,0 +1,14 @@
+app-post-compact {
+  display: flex;
+  align-items: center;
+}
+
+.post-container {
+  margin-bottom: var(--default-margin);
+}
+
+
+.post {
+  cursor: pointer;
+  padding: var(--default-padding);
+}

@@ -1,0 +1,55 @@
+.select-search {
+  position: relative;
+  width: 300px;
+}
+
+.select-search input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.select-search .options-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.select-search .options-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.select-search .options-container ul li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.select-search .options-container ul li:hover {
+  background-color: #f2f2f2;
+}
+
+.select-search .options-container ul li .selected {
+  font-weight: bold;
+}
+
+.select-search .selected-options {
+  margin-top: 8px;
+}
+
+.select-search .selected-options span {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 4px 8px;
+  background-color: #f2f2f2;
+  border-radius: 4px;
+}

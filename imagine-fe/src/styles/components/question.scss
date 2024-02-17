@@ -1,0 +1,16 @@
+.answer {
+  &-correct {
+    background-color: #5cb85c;
+    border: 1px solid #ccc;
+  }
+
+  &-incorrect {
+    background-color: #d9534f;
+    border: 1px solid #ccc;
+  }
+}
+
+app-list-question {
+  display: grid;
+  gap: 8px;
+}

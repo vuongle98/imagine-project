@@ -1,0 +1,35 @@
+<app-blog-layout>
+  <div class="left-side">
+    <div class="section">
+    </div>
+  </div>
+  <!-- <ng-template side="left">
+    <div>test</div>
+  </ng-template> -->
+  <div class="spacer"></div>
+  <div class="main-content">
+    <div class="post-container">
+      <div class="caregory-title">Lastest Posts</div>
+      <app-list-post [posts]="(latestPosts$ | async)!"></app-list-post>
+      <div style="text-align: center; margin: var(--default-margin);">Load more</div>
+      <!-- load more -->
+    </div>
+    <!-- <div class="post-container">
+      <div class="caregory-title">Posts</div>
+      <app-list-post [columns]="2" [posts]="(featuredPosts$ | async)!"></app-list-post>
+    </div> -->
+  </div>
+  <div class="spacer"></div>
+
+  <div class="right-side">
+    <div class="section">
+      <div class="caregory-title">Featured posts</div>
+      <app-list-compact-post [posts]="(featuredPosts$ | async)!"></app-list-compact-post>
+    </div>
+
+    <div class="section">
+      <div class="caregory-title">Latest posts</div>
+      <app-list-compact-post [posts]="(latestPosts$ | async)!"></app-list-compact-post>
+    </div>
+  </div>
+</app-blog-layout>

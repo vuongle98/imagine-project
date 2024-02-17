@@ -1,0 +1,22 @@
+.friend {
+  &-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: calc(0.5 * var(--default-padding));
+  }
+
+  &-action {
+    margin: calc(0.5 * var(--default-padding));
+    cursor: pointer;
+    padding: calc(0.5 * var(--default-padding));
+
+    &:hover {
+      background-color: #4d4d4d;
+    }
+  }
+
+  &-container {
+    margin: calc(0.5 * var(--default-padding));
+  }
+
+}

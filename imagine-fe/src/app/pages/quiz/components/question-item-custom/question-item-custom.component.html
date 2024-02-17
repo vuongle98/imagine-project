@@ -1,0 +1,18 @@
+<div class="question-card">
+  <div class="question-header">
+    <div class="header-left-space">
+      {{index}}/{{size}}
+    </div>
+    <div class="header-right-space">
+      {{this.counter}}/{{question.countDown || 30}}s
+    </div>
+  </div>
+  <div class="question-content">
+    <div class="question-title">{{question.title}}</div>
+    <div class="question-description" [innerHTML]="question.codeDescription"></div>
+    <div class="question-meta">
+      <app-answer-item nz-col nzSpan="24" [answer]="answer" [question]="question"
+        *ngFor="let answer of question.answers; index as i" [index]="i"></app-answer-item>
+    </div>
+  </div>
+</div>

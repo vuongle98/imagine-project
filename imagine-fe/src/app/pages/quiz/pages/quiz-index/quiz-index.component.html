@@ -1,0 +1,45 @@
+<app-base-page>
+  <div class="title">
+    <h3>Recently added</h3>
+  </div>
+  <div class="card-container">
+    <ng-container *ngFor="let item of quiz$ | async | slice:4:9; index as i">
+      <ng-template #coverTemplate>
+        <img class="quiz-cover-image" alt="quiz cover" [attr.src]="item?.coverImage?.id! | secure | async" />
+        <img class="play" src="../../../../../assets/icons/play-button.png" alt="">
+      </ng-template>
+      <app-card [quiz-level]="item.level" class="card" vg-card [cardPlay]="true" [useLink]="true"
+        routerLink="{{'playing/' + item.id}}" [cover]="coverTemplate" [item]="item">
+        <app-card-title class="card-title" [title]="item.title" [description]="item.description"></app-card-title>
+      </app-card>
+    </ng-container>
+  </div>
+  <div class="title">
+    <h3>All quiz</h3>
+  </div>
+  <div class="card-container">
+    <ng-container *ngFor="let item of quiz$ | async; index as i">
+      <ng-template #coverTemplate>
+        <img class="quiz-cover-image" alt="quiz cover" [attr.src]="item?.coverImage?.id! | secure | async"
+          loading="lazy" />
+        <img class="play" src="../../../../../assets/icons/play-button.png" alt="">
+      </ng-template>
+      <app-card [quiz-level]="item.level" class="card" vg-card [cardPlay]="true" [useLink]="true"
+        routerLink="{{'playing/' + item.id}}" [cover]="coverTemplate" [item]="item">
+        <app-card-title class="card-title" [title]="item.title" [description]="item.description"></app-card-title>
+      </app-card>
+    </ng-container>
+  </div>
+  <div class="load-more-button">
+    <button vg-button [disabled]="(quizStore.isLastPage$ | async) || (loadingService.loading$ | async)"
+      [loading]="loadingService.loading$ | async" (click)="loadMore()">Xem thêm</button>
+  </div>
+</app-base-page>
+
+<ng-template #helloButton let-item="item">
+  <button routerLink="{{item?.id}}" vg-button color="success" size="medium">hello</button>
+  <button routerLink="{{item?.id}}" vg-button color="warning" size="large">hello</button>
+  <button routerLink="{{item?.id}}" vg-button color="error" size="small">hello</button>
+</ng-template>
+
+<!-- https://picsum.photos/500/300 -->

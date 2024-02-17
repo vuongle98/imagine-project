@@ -1,0 +1,34 @@
+app-base-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--default-gap);
+  height: 100%;
+}
+
+app-form-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--default-gap);
+
+  label {
+    flex: 1;
+  }
+  input {
+    flex: 4;
+    width: auto;
+  }
+}
+
+app-blog-layout {
+  display: flex;
+  flex-direction: row;
+  gap: calc(2 * var(--default-margin));
+}
+
+@media only screen and (max-width: 800px) {
+  app-blog-layout {
+    display: flex;
+    flex-direction: column;
+  }
+}

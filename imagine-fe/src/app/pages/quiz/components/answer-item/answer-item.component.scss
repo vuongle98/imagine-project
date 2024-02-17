@@ -1,0 +1,41 @@
+.answer-item label {
+  display: inline-block;
+  width: 100%;
+  padding: var(--default-padding) calc(0.5 * var(--default-padding));
+  font-family: sans-serif, Arial;
+  border: 1px solid var(--second-color);
+  border-radius: 10px;
+  background-color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.answer-item input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.answer-item input[type="radio"]:checked + label {
+  background-color: var(--info-color);
+}
+
+.answer-item input[type="radio"]:hover + label {
+  cursor: pointer;
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.answer-item input[type="radio"]:focus + input[type="radio"]:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  // box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.index {
+  margin-right: 10px;
+  border-radius: 50%;
+  padding: 10px;
+  width: 50px;
+  height: 50px;
+}

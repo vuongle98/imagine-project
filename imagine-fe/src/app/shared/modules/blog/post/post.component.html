@@ -1,0 +1,22 @@
+<ng-template #coverTemplate>
+  <img *ngIf="item.file?.id; else defaultCover" class="quiz-cover-image" alt="quiz cover"
+    [attr.src]="item.file?.id | secure | async" loading="lazy" />
+  <ng-template #defaultCover>
+    <img class="quiz-cover-image" alt="quiz cover" src="../../../../../assets/img/tech.jpg" />
+  </ng-template>
+</ng-template>
+<app-card *ngIf="item" class="card" vg-card [cardPlay]="true" [useLink]="true" routerLink="{{'/post/detail/' + item.id}}"
+  [cover]="coverTemplate" [item]="item">
+  <app-card-category class="card-category text-muted" [cateName]="item.category.name"></app-card-category>
+  <app-card-title class="card-title" [title]="item.title" [description]="item.description"></app-card-title>
+  <app-card-extra style="display: flex; flex-direction: row; justify-content: space-between; font-size: 14px;">
+    <div>
+      <span class="text-muted">{{item.creator.fullName}}</span>
+      |
+      <span class="text-muted">{{item.createdAt | date: 'dd/MM/yyyy'}}</span>
+    </div>
+    <div>
+      <span class="text-muted">{{item.numLikes}} likes</span>
+    </div>
+  </app-card-extra>
+</app-card>

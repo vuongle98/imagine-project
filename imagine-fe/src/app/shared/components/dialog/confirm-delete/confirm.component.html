@@ -1,0 +1,12 @@
+<div dialogBody *ngIf="data">
+  {{data.dialogData.description}}
+
+  <div class="force-delete" *ngIf="data.askForce">
+    <label for="askForce">Force delete?</label>
+    <input [(ngModel)]="isForce" id="askForce" name="askForce" type="checkbox">
+  </div>
+</div>
+<div dialogActions>
+  <button vg-button dialogClose>Close</button>
+  <button vg-button color="warning" (click)="confirm()">Confirm</button>
+</div>

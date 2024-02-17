@@ -1,0 +1,25 @@
+.dropdown {
+  display: inline-block;
+
+  &-item {
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    padding : 0.5em;
+
+    & * {
+      padding: var(--default-padding);
+      list-style-type: none;
+      background-color: var(--dark-color);
+
+      &:hover {
+        background-color: var(--primary-color);
+      }
+    }
+  }
+
+  &:hover .dropdown-item {
+    display: block;
+  }
+}

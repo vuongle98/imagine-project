@@ -1,0 +1,17 @@
+.quiz-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  max-width: 800px;
+
+  * {
+    margin: var(--default-margin);
+    box-sizing: border-box;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--default-gap);
+  }
+}

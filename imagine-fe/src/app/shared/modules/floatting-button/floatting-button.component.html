@@ -1,0 +1,4 @@
+<div [ngStyle]="position" class="sticky-btn animate-btn enter" [ngClass]="{ 'expand': isShow }">
+  <i style="padding: 10px;" (click)="toggleShow()" *ngIf="!isShow" class="fa fa-{{iconName}}" aria-hidden="true"></i>
+  <ng-content></ng-content>
+</div>

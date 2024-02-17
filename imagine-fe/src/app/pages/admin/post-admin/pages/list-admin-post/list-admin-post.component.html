@@ -1,0 +1,8 @@
+<app-base-page>
+  <app-admin-search-post-form></app-admin-search-post-form>
+  <app-admin-post-table [postAdminDataSource]="postAdminDataSource" [listPost]="listPost"
+    [totalRows]="totalRows" [currentPage]="currentPage" (onDeletePost)="deletePost($event)"
+    (onEditPost)="updatePost($event)" (onRecoverPost)="recoverPost($event)"
+    (onSetFeaturePost)="setFeaturePost($event)"
+    (onUnsetFeaturePost)="unsetFeaturePost($event)"></app-admin-post-table>
+</app-base-page>

@@ -1,0 +1,54 @@
+<form dialogBody class="quesiton-form" *ngIf="createQuestionForm" [formGroup]="createQuestionForm"
+  (ngSubmit)="onSubmit()">
+  <app-form-item>
+    <label for="title">Title</label>
+    <input type="text" formControlName="title" placeholder="Question title" />
+  </app-form-item>
+  <app-form-item>
+    <label for="description">Code description</label>
+    <input type="text" formControlName="codeDescription" placeholder="Question code description" />
+  </app-form-item>
+  <app-form-item>
+    <label for="type">Type</label>
+    <select id="type" formControlName="type">
+      <option *ngFor="let type of listQuestionType" [value]="type.value">{{type.name}}</option>
+    </select>
+  </app-form-item>
+  <app-form-item>
+    <label for="category">Category</label>
+    <select id="category" formControlName="category">
+      <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
+    </select>
+  </app-form-item>
+  <app-form-item>
+    <label for="countdown">Countdown</label>
+    <input type="number" formControlName="countdown" placeholder="Countdown value" />
+  </app-form-item>
+  <app-form-item>
+    <label for="level">Difficultly level</label>
+    <select id="level" formControlName="level">
+      <option *ngFor="let level of listdifficultLevel" [value]="level.value">{{level.name}}</option>
+    </select></app-form-item>
+  <app-form-item>
+    <label for="mark">
+      Mark
+    </label>
+    <input type="checkbox" id="mark" name="mark" formControlName="mark">
+
+  </app-form-item>
+  <app-form-item>
+    <label for="active">
+      Active
+    </label>
+    <input type="checkbox" name="active" formControlName="active">
+  </app-form-item>
+
+  <ng-select formControlName="answerIds" [items]="answers" [multiple]="true" bindLabel="content"
+    [closeOnSelect]="false" bindValue="id" [placeholder]="'Select answers'"
+    (scrollToEnd)="onScrollToEnd()"></ng-select>
+
+
+  <div class="actions">
+    <button vg-button>Save</button>
+  </div>
+</form>

@@ -1,0 +1,12 @@
+<div class="answer-item">
+  <input type="radio" id="{{answer.id}}" [value]="answer.id" [(ngModel)]="question.checkValue">
+  <label for="{{answer.id}}">
+    <div>
+      <!-- <span class="index noselect">{{listAlphabet[index]}}</span> -->
+      <span class="noselect">
+        {{answer.content}}
+      </span>
+
+    </div>
+  </label>
+</div>

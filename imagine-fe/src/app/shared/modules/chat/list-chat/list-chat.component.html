@@ -1,0 +1,17 @@
+<app-base-chat [rightAction]="rightAction" [currentChatInfo]="currentChatInfo">
+  <div *ngIf="!currentChatInfo" class="list-chat-container">
+    <div class="list-chat-item" *ngFor="let item of listChat" (click)="openChat(item)">
+      {{item.title}}
+    </div>
+  </div>
+
+  <app-chat [ngClass]="{ 'chat-fullscreen': isFullScreen }" #appChat [currentUser]="currentUser"
+    [currentChatInfo]="currentChatInfo" *ngIf="currentChatInfo"></app-chat>
+</app-base-chat>
+
+<ng-template #rightAction>
+  <div>
+    <i *ngIf="currentChatInfo" (click)="closeChat()" class="btn-icon fa fa-arrow-left" aria-hidden="true"></i>
+    <i *ngIf="!isFullScreen" (click)="onClose()" class="btn-icon fa fa-times" aria-hidden="true"></i>
+  </div>
+</ng-template>

@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.scroll-top {
+  position: fixed;
+  z-index: 1000;
+  right: 10px;
+  bottom: 80px;
+}

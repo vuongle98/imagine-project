@@ -1,0 +1,78 @@
+.calculator {
+  padding: calc(2 * var(--default-padding));
+
+  background: linear-gradient(
+    -35deg,
+    rgba(65, 65, 65, 0.678) 0%,
+    rgba(#333, 0.55) 100%
+  );
+  backdrop-filter: blur(10px);
+  border-radius: 0.5em;
+  // box-shadow: -5px 5px 30px -10px rgba(65, 65, 65, 0.678);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.title {
+  font-size: 1.5em;
+  text-align: center;
+  margin: calc(2 * var(--default-padding));
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  margin: 5px;
+  border: 0px;
+  padding: 0.6em;
+  flex: 1;
+}
+
+.number {
+  background-color: rgb(18, 187, 130);
+}
+
+.number:hover {
+  background-color: rgb(9, 104, 80);
+}
+
+.op {
+  background-color: chocolate;
+}
+
+.op:hover {
+  background-color: rgb(134, 58, 3);
+}
+
+.display-data {
+  border: 1px solid aqua;
+  height: 40px;
+  background-color: #575757;
+  border-radius: 6px;
+  padding: 0 5px;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#errors {
+  background-color: rgba(224, 102, 65, 0.801);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.ac {
+  background-color: chartreuse;
+}
+
+.ac:hover {
+  background-color: rgb(43, 143, 3);
+}

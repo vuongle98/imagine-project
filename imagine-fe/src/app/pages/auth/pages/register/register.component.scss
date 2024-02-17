@@ -1,0 +1,29 @@
+.register-form {
+  background-color: var(--primary-color);
+  padding: calc(2 * var(--default-padding));
+  border-radius: 1em;
+  text-align: center;
+  width: 300px;
+
+  background: linear-gradient(
+    -35deg,
+    rgba(65, 65, 65, 0.678) 0%,
+    rgba(#333, 0.55) 100%
+  );
+  backdrop-filter: blur(10px);
+  border-radius: 0.5em;
+  // box-shadow: -5px 5px 30px -10px rgba(65, 65, 65, 0.678);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  input {
+    width: 100%;
+  }
+
+}
+
+
+@media screen and (max-width: 400px) {
+  .register-form {
+    width: 100%;
+  }
+}

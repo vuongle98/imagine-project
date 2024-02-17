@@ -1,0 +1,44 @@
+<form class="quiz-form" [formGroup]="createQuizForm" *ngIf="createQuizForm" (ngSubmit)="onSubmit()">
+
+  <input type="text" formControlName="title" placeholder="Quiz title" />
+
+  <input type="text" formControlName="description" placeholder="Quiz description" />
+
+  <div>
+    <app-file-upload [parentForm]="createQuizForm"></app-file-upload>
+  </div>
+
+  <select name="category" formControlName="category">
+    <option *ngFor="let category of listQuizCategory" [value]="category.value">{{category.name}}</option>
+  </select>
+  <select name="level" formControlName="level">
+    <option *ngFor="let level of listQuizLevel" [value]="level.value">{{level.name}}</option>
+  </select>
+
+  <div>
+    <input id="published" type="checkbox" name="published" formControlName="published">
+    <label for="published">Published</label>
+  </div>
+
+  <!-- <select multiple placeHolder="Select questions" formControlName="addQuestionIds">
+    <ng-container *ngFor="let o of questionList">
+      <option value="{{o.id}}">{{o.title}}</option>
+    </ng-container>
+    <option>
+      <span class="loading-icon"></span>
+      Loading Data...
+    </option>
+  </select> -->
+
+  <ng-select formControlName="addQuestionIds" [items]="questionList" [multiple]="true" bindLabel="title"
+    [closeOnSelect]="false" bindValue="id" [placeholder]="'Select questions'"
+    (scrollToEnd)="onScrollToEnd()"></ng-select>
+
+  <!-- <app-question-select [listQuestion]="questionList"
+  [selectedQuestions]="[{'id': '64ca7fa4f988c151e2bd1894'}]"
+    (selectedQuestionsChange)="patchQuestion($event)"></app-question-select> -->
+
+  <div class="actions">
+    <button vg-button>Save</button>
+  </div>
+</form>
