@@ -7,7 +7,12 @@ plugins {
 }
 
 group = 'com.vuongle'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
+
+bootJar {
+    archiveBaseName= 'imagine-be'
+    version = '1.0.0'
+}
 
 java {
     sourceCompatibility = '17'

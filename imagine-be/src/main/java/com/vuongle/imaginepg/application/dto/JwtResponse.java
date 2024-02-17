@@ -13,6 +13,7 @@ public class JwtResponse implements Serializable {
 
     private String token;
 
+    @Builder.Default
     private String type = "Bearer";
 
     private UserDto user;

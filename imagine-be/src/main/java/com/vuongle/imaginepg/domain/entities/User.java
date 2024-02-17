@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
         name = "app_user"
 )
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class User implements Serializable, UserDetails {
 
     @Id
