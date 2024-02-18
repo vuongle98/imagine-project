@@ -1,7 +1,7 @@
 services:
   be:
     image: imagine-be:latest
-    build: imagine-pg-be
+    build: imagine-be
     ports:
       - "8080:8080"
     container_name: be
@@ -12,15 +12,18 @@ services:
       - SPRING_DATASOURCE_USERNAME=imagine
       - SPRING_DATASOURCE_PASSWORD=imagine
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SERVER_PORT=8080
+      - SERVER_ADDRESS=0.0.0.0
   fe:
     image: imagine-fe:latest
     build: imagine-fe
     container_name: fe
     ports:
-      - "4200:80"
+      - "80:80"
   db:
     image: 'postgres:alpine3.18'
     container_name: db
     environment:
       - POSTGRES_USER=imagine
       - POSTGRES_PASSWORD=imagine
+      - POSTGRES_DB=imagine

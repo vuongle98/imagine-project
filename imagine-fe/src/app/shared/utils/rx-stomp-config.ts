@@ -5,7 +5,7 @@ import { RxStompConfig } from "@stomp/rx-stomp";
 export const rxStompConfig: RxStompConfig = {
 
   // Which server?
-  brokerURL: 'ws://localhost:8080/ws',
+  brokerURL: 'ws://127.0.0.1:8080/ws',
 
   // Headers
   // Typical keys: login, passcode, host
