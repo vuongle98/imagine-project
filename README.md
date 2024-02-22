@@ -44,3 +44,4 @@ To run the application locally, follow these steps:
 4. Install Docker and Docker Compose if not already installed.
 5. Run `docker-compose up` to start the application.
 Access the application in your web browser at the specified port.
+6. Using user admin/admin to login to the system
