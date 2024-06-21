@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth/")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -24,9 +24,6 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    @SecurityRequirement(
-            name = "Bearer authentication"
-    )
     public ResponseEntity<JwtResponse> login(
             @RequestBody @Valid LoginCommand command
     ) {
@@ -35,9 +32,6 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    @SecurityRequirement(
-            name = "Bearer authentication"
-    )
     public ResponseEntity<UserDto> signUp(
             @RequestBody @Valid RegisterCommand registerCommand
     ) {
@@ -53,5 +47,12 @@ public class AuthController {
         UserProfile response = authService.verify();
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+      String response = authService.test();
+
+      return ResponseEntity.ok(response);
     }
 }

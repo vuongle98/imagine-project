@@ -22,13 +22,19 @@ export class FileUploadComponent {
     const uploadForm = new FormData();
     uploadForm.append('file', this.selectedFile);
 
-    this.fileService
-      .uploadFile(uploadForm)
-      .pipe(
-        tap((res: FileInfo) => {
-          this.parentForm.patchValue({ fileId: res?.id });
-        })
-      )
-      .subscribe();
+    this.fileService.uploadFileWithChunk(this.selectedFile, 1024 * 1024 * 10).pipe(
+      tap((res: FileInfo) => {
+        this.parentForm.patchValue({ fileId: res?.id });
+      })
+    ).subscribe();
+
+    // this.fileService
+    //   .uploadFile(uploadForm)
+    //   .pipe(
+    //     tap((res: FileInfo) => {
+    //       this.parentForm.patchValue({ fileId: res?.id });
+    //     })
+    //   )
+    //   .subscribe();
   }
 }

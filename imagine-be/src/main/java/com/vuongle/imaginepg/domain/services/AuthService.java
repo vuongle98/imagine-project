@@ -14,4 +14,6 @@ public interface AuthService {
 
     UserProfile verify();
 
+    String test();
+
 }

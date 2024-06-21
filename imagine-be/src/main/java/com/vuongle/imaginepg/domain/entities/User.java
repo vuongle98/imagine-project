@@ -87,6 +87,9 @@ public class User implements Serializable, UserDetails {
     @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
     private List<Conversation> conversations;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ShortenUrl> urlShortens;
+
     @CreatedBy
     @Column(name = "created_by")
     private String createdBy;

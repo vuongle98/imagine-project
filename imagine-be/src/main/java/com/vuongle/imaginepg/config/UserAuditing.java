@@ -3,12 +3,14 @@ package com.vuongle.imaginepg.config;
 import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.shared.utils.Context;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.Optional;
 
 @Component
+@EnableJpaAuditing
 public class UserAuditing implements AuditorAware<String> {
 
     @Override

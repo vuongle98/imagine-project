@@ -29,6 +29,8 @@ public class TodoController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer authentication")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<TaskDto>> searchTask(
         TaskFilter taskFilter,
         Pageable pageable

@@ -1,5 +1,6 @@
 package com.vuongle.imaginepg.interfaces.rest.v1;
 
+import com.vuongle.imaginepg.application.commands.FileUploadCommand;
 import com.vuongle.imaginepg.application.dto.FileDto;
 import com.vuongle.imaginepg.application.queries.FileFilter;
 import com.vuongle.imaginepg.domain.services.FileService;
@@ -62,6 +63,35 @@ public class FileController {
 
         return ResponseEntity.ok(fileInfo);
     }
+
+    @PostMapping("/chunk")
+    public ResponseEntity<Boolean> uploadStream(
+      @RequestParam(value = "file") MultipartFile file,
+      @RequestParam(value = "chunk") int chunk,
+      @RequestParam(value = "totalChunks") int totalChunks,
+      @RequestParam(value = "identifier") String identifier
+      ) throws IOException {
+
+      FileUploadCommand command = new FileUploadCommand();
+      command.setFile(file);
+      command.setChunk(chunk);
+      command.setIdentifier(identifier);
+      command.setTotalChunks(totalChunks);
+
+      Boolean upload = fileService.uploadFileChunk(command);
+
+      return ResponseEntity.ok(upload);
+    }
+
+  @PostMapping("/chunk/merge")
+  public ResponseEntity<FileDto> mergeChunk(
+    @RequestBody FileUploadCommand command
+  ) throws IOException {
+
+    FileDto fileInfo = fileService.mergeFileChunk(command);
+
+    return ResponseEntity.ok(fileInfo);
+  }
 
     @GetMapping("/{id}/download")
     @SecurityRequirement(name = "Bearer authentication")

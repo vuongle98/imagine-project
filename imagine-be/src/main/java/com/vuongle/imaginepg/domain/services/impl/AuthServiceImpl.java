@@ -103,4 +103,9 @@ public class AuthServiceImpl implements AuthService {
 
         return UserMapper.mapToProfile(user);
     }
+
+    @Override
+    public String test() {
+      return "Hello";
+    }
 }

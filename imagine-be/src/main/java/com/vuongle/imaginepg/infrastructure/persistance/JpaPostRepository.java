@@ -14,4 +14,7 @@ public interface JpaPostRepository extends JpaRepository<Post, UUID>, BaseReposi
     default List<Post> saveAllPosts(Iterable<Post> post) {
         return saveAllAndFlush(post);
     }
+
+    @Override
+    void deleteById(UUID uuid);
 }

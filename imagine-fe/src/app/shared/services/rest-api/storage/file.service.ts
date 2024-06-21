@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, concatMap, defer, delay, expand, finalize, from, map, of, switchMap, takeWhile } from 'rxjs';
 import { AbstractService } from '../abstract-service';
 import { HttpClient } from '@angular/common/http';
 import { FileInfo, FileQuery } from '@shared/models/file';
@@ -11,6 +11,8 @@ import { Pageable } from '@shared/models/utils';
 export class FileService extends AbstractService {
   apiEndpoint = {
     file: 'api/file',
+    fileChunk: 'api/file/chunk',
+    fileChunkMerge: 'api/file/chunk/merge',
     fileWithId: 'api/file/{id}',
     fileDownloadWithId: 'api/file/{id}/download',
 
@@ -43,6 +45,98 @@ export class FileService extends AbstractService {
   uploadFile(formData: FormData): Observable<any> {
     return this.post(this.apiEndpoint.file, {
       requestBody: { type: 'multipart/form-data', data: formData },
+    });
+  }
+
+  uploadFileWithChunk(file: File, chunkSize: number): Observable<any> {
+    const identifier = this.hashString(file.name);
+    const totalChunks = Math.ceil(file.size / chunkSize);
+    return this.handleUploadChunks(file, chunkSize);
+  }
+
+  handleUploadChunks(file: File, chunkSize: number) {
+
+    const totalChunks = Math.ceil(file.size / chunkSize);
+    const identifier = this.hashString(file.name).toString();
+
+    let currentChunk = 0;
+
+    const uploadChunk = (): Observable<any> => {
+      if (currentChunk >= totalChunks) {
+        return of({ done: true });
+      }
+
+      const start = currentChunk * chunkSize;
+      const end = Math.min(start + chunkSize, file.size);
+      const chunk = file.slice(start, end);
+
+      const formData = this.makeChunkFormData(chunk, currentChunk, totalChunks, identifier);
+
+      return this.uploadChunk(formData).pipe(map(res => {
+        currentChunk++;
+        return { done: false, res };
+      }));
+    }
+
+    return of({}).pipe(
+      expand(() => uploadChunk()),
+      takeWhile(res => !res.done, true),
+      finalize(() => {
+        this.mergeChunk({
+          identifier,
+          'contentType': file.type,
+          'totalChunks': totalChunks,
+          'fileName': file.name,
+          'size': file.size
+        }).subscribe()
+      })
+    )
+    // const hashCode = (s: string) => s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0);
+  }
+
+  makeChunks(file: File, chunkIndex: number, chunkSize: number, timeLoop: number): Blob[] {
+    const chunks: Blob[] = [];
+
+    for (let time = 0; time < timeLoop; time++) {
+      const chunkFile = file.slice(chunkIndex * chunkSize, (chunkIndex + 1) * chunkIndex);
+      chunks.push(chunkFile);
+      chunkIndex++;
+    }
+
+    return chunks;
+  }
+
+  makeChunkFormData(chunk: Blob, chunkIndex: number, totalChunks: number, identifier: string) {
+    const formData = new FormData();
+    formData.append('file', chunk);
+    formData.append('chunk', (chunkIndex + 1).toString());
+    formData.append('totalChunks', totalChunks.toString());
+    formData.append('identifier', identifier.toString());
+
+    return formData
+  }
+
+  hashString(input: string) {
+    let hash = 0, i, chr;
+    if (input.length === 0) return hash;
+
+    for (i = 0; i < input.length; i++) {
+      chr = input.charCodeAt(i);
+      hash = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  uploadChunk(formData: FormData): Observable<any> {
+    return this.post(this.apiEndpoint.fileChunk, {
+      requestBody: { type: 'multipart/form-data', data: formData },
+    });
+  }
+
+  mergeChunk(data: any) {
+    return this.post(this.apiEndpoint.fileChunkMerge, {
+      requestBody: { type: 'application/json', data },
     });
   }
 

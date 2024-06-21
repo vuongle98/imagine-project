@@ -13,6 +13,10 @@ public interface FileService extends BaseService<FileDto, FileUploadCommand, Fil
 
     FileDto uploadFile(MultipartFile file) throws IOException;
 
+    Boolean uploadFileChunk(FileUploadCommand command) throws IOException;
+
+    FileDto mergeFileChunk(FileUploadCommand command) throws IOException;
+
     Resource downloadFile(UUID id) throws IOException;
 
 }
