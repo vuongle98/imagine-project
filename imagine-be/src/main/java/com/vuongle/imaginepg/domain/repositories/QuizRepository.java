@@ -19,5 +19,5 @@ public interface QuizRepository {
     List<Quiz> findAll(Specification<Quiz> spec);
 
     Page<Quiz> findAll(Specification<Quiz> spec, Pageable pageable);
-    
+
 }

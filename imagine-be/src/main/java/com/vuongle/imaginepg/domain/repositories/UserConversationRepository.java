@@ -1,6 +1,5 @@
 package com.vuongle.imaginepg.domain.repositories;
 
-import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.UserConversation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

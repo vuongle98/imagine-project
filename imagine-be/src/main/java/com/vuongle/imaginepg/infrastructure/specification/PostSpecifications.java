@@ -31,13 +31,15 @@ public class PostSpecifications {
                 predicates.add(criteriaBuilder.equal(root.get("category_id"), postFilter.getCategoryId()));
             }
 
+            predicates.add(criteriaBuilder.equal(root.get("featured"), postFilter.isFeatured()));
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 
     private static Specification<Post> likeTitle(String title) {
         return (root, query, criteriaBuilder) ->
-            criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), SqlUtil.getLikePattern(title));
+                criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), SqlUtil.getLikePattern(title));
     }
 
     private static Specification<Post> likeContent(String content) {

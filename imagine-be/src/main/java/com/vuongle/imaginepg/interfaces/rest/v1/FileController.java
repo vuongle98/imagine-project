@@ -66,32 +66,32 @@ public class FileController {
 
     @PostMapping("/chunk")
     public ResponseEntity<Boolean> uploadStream(
-      @RequestParam(value = "file") MultipartFile file,
-      @RequestParam(value = "chunk") int chunk,
-      @RequestParam(value = "totalChunks") int totalChunks,
-      @RequestParam(value = "identifier") String identifier
-      ) throws IOException {
+            @RequestParam(value = "file") MultipartFile file,
+            @RequestParam(value = "chunk") int chunk,
+            @RequestParam(value = "totalChunks") int totalChunks,
+            @RequestParam(value = "identifier") String identifier
+    ) throws IOException {
 
-      FileUploadCommand command = new FileUploadCommand();
-      command.setFile(file);
-      command.setChunk(chunk);
-      command.setIdentifier(identifier);
-      command.setTotalChunks(totalChunks);
+        FileUploadCommand command = new FileUploadCommand();
+        command.setFile(file);
+        command.setChunk(chunk);
+        command.setIdentifier(identifier);
+        command.setTotalChunks(totalChunks);
 
-      Boolean upload = fileService.uploadFileChunk(command);
+        Boolean upload = fileService.uploadFileChunk(command);
 
-      return ResponseEntity.ok(upload);
+        return ResponseEntity.ok(upload);
     }
 
-  @PostMapping("/chunk/merge")
-  public ResponseEntity<FileDto> mergeChunk(
-    @RequestBody FileUploadCommand command
-  ) throws IOException {
+    @PostMapping("/chunk/merge")
+    public ResponseEntity<FileDto> mergeChunk(
+            @RequestBody FileUploadCommand command
+    ) throws IOException {
 
-    FileDto fileInfo = fileService.mergeFileChunk(command);
+        FileDto fileInfo = fileService.mergeFileChunk(command);
 
-    return ResponseEntity.ok(fileInfo);
-  }
+        return ResponseEntity.ok(fileInfo);
+    }
 
     @GetMapping("/{id}/download")
     @SecurityRequirement(name = "Bearer authentication")

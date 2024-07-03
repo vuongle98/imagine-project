@@ -2,8 +2,6 @@ package com.vuongle.imaginepg.shared.utils;
 
 import org.springframework.util.DigestUtils;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.util.Base64;
 import java.util.Locale;
@@ -11,27 +9,26 @@ import java.util.regex.Pattern;
 
 public class StringUtils {
 
-    public static String removeAccents(String text) {
-        String temp = Normalizer.normalize(text, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        temp = pattern.matcher(temp).replaceAll("");
-        return temp.replaceAll("đ", "d");
-    }
+    private static final Pattern NON_LATIN = Pattern.compile("[^\\w-]");
 //    {
 //        return Normalizer
 //                .normalize(text, Normalizer.Form.NFD)
 //                .replaceAll("[^\\p{ASCII}]", "").replaceAll("[?!@#$%^&*()=+{}:;\\.\\,\\'\\?\\>\\<\\/\"|\\[\\]]\\\\*", "");
 //
 //    }
+    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
+    public static String removeAccents(String text) {
+        String temp = Normalizer.normalize(text, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        temp = pattern.matcher(temp).replaceAll("");
+        return temp.replaceAll("đ", "d");
+    }
 
     public static String preprocessFilePath(String text) {
         text = text.replaceAll("[^a-zA-Z0-9-_. ]", " ");
         return text;
     }
-
-    private static final Pattern NON_LATIN = Pattern.compile("[^\\w-]");
-    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
 
     public static String toSlug(String input) {
         String noWhitespace = WHITESPACE.matcher(input).replaceAll("-");
@@ -41,15 +38,15 @@ public class StringUtils {
     }
 
     public static String toMD5(String text) {
-      return DigestUtils.md5DigestAsHex(text.getBytes());
+        return DigestUtils.md5DigestAsHex(text.getBytes());
     }
 
     public static String toBase64(String text) {
-      return Base64.getEncoder().encodeToString(text.getBytes());
+        return Base64.getEncoder().encodeToString(text.getBytes());
     }
 
     public static String base64ToString(String base64Text) {
-      return new String(Base64.getDecoder().decode(base64Text));
+        return new String(Base64.getDecoder().decode(base64Text));
     }
 
 }

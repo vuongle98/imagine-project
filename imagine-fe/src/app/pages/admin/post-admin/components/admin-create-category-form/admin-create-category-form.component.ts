@@ -30,7 +30,7 @@ export class AdminCreateCategoryFormComponent {
 
   onSubmit() {
     this.dialogRef.close({
-      id: this.data?.id,
+      id: this.data?.id || null,
       ...this.createCategoryForm.value,
     });
   }

@@ -33,7 +33,7 @@ public class Quiz {
 
     private String description;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "quiz_questions",
             joinColumns = @JoinColumn(name = "quiz_id"),
@@ -41,15 +41,17 @@ public class Quiz {
     )
     private List<Question> questions;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_cover_id")
     private File coverImage;
 
     private Instant deletedAt;
+
+    private Instant publishedAt;
 
     @CreatedBy
     @Column(name = "created_by")
@@ -82,7 +84,7 @@ public class Quiz {
             this.questions = new ArrayList<>();
         }
 
-        for (Question question: questions) {
+        for (Question question : questions) {
             if (this.questions.stream().noneMatch(q -> q.getId().equals(question.getId()))) {
                 this.questions.add(question);
             }
@@ -99,7 +101,7 @@ public class Quiz {
     public void removeQuestions(List<UUID> ids) {
         if (this.questions == null) return;
 
-        for (var id: ids) {
+        for (var id : ids) {
             removeQuestion(id);
         }
     }

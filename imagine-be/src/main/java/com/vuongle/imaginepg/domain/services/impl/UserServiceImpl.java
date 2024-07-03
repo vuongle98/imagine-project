@@ -1,6 +1,5 @@
 package com.vuongle.imaginepg.domain.services.impl;
 
-import com.vuongle.imaginepg.application.commands.RegisterCommand;
 import com.vuongle.imaginepg.application.commands.UpdateFriendshipCommand;
 import com.vuongle.imaginepg.application.commands.UpdateUserCommand;
 import com.vuongle.imaginepg.application.dto.UserDto;
@@ -11,7 +10,6 @@ import com.vuongle.imaginepg.application.exceptions.UserNotFoundException;
 import com.vuongle.imaginepg.application.queries.UserFilter;
 import com.vuongle.imaginepg.domain.constants.FriendStatus;
 import com.vuongle.imaginepg.domain.constants.UserRole;
-import com.vuongle.imaginepg.domain.entities.Friendship;
 import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.domain.mapper.UserMapper;
 import com.vuongle.imaginepg.domain.repositories.UserRepository;
@@ -94,7 +92,8 @@ public class UserServiceImpl implements UserService {
 
         if (Context.getUser() == null) throw new UserNotFoundException("Current user not found");
 
-        if (!Context.getUser().getId().equals(id) && !Context.hasModifyPermission()) throw new NoPermissionException("Cannot update other profile");
+        if (!Context.getUser().getId().equals(id) && !Context.hasModifyPermission())
+            throw new NoPermissionException("Cannot update other profile");
 
         if (Objects.nonNull(command.getEmail())) {
             // check email existed
@@ -114,7 +113,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (Objects.nonNull(command.getFriendshipData())) {
-            for (var friendShip: command.getFriendshipData()) {
+            for (var friendShip : command.getFriendshipData()) {
                 switch (friendShip.getStatus()) {
                     case REQUESTED -> addFriend(existedUser, friendShip.getFriendId());
                     case ACCEPTED -> acceptFriend(existedUser, friendShip.getFriendId());

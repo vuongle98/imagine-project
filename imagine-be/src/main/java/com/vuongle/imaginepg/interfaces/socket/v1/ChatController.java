@@ -30,21 +30,18 @@ public class ChatController {
 
     private final ConversationRepository conversationRepository;
 
-    private final ChatMessageService messageService;
-
     public ChatController(
             ChatMessageRepository messageRepository,
-            ConversationRepository conversationRepository,
-            ChatMessageService messageService
+            ConversationRepository conversationRepository
     ) {
         this.messageRepository = messageRepository;
         this.conversationRepository = conversationRepository;
-        this.messageService = messageService;
     }
 
     @MessageMapping("/chat/public")
     @SendTo("/topic/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+    @Transactional
+    public ChatMessageDto sendMessage(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) headerAccessor.getUser();
 
@@ -63,9 +60,13 @@ public class ChatController {
             throw new DataNotFoundException("No sender");
         }
 
-        messageRepository.save(chatMessage);
+        // hardcode
+        Conversation conversation = conversationRepository.getById(UUID.fromString("6fcb90f5-56d7-495e-adb8-d4691e334f2c"));
+        chatMessage.setConversation(conversation);
 
-        return chatMessage;
+        chatMessage = messageRepository.save(chatMessage);
+
+        return ObjectData.mapTo(chatMessage, ChatMessageDto.class);
     }
 
     @MessageMapping("/chat/{conversationId}")

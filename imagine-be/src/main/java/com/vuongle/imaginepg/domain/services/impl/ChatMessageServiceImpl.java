@@ -93,7 +93,6 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
         if (force) {
             messageRepository.deleteById(id);
-            return;
         }
 
     }

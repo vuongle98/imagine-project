@@ -1,12 +1,11 @@
 package com.vuongle.imaginepg.application.dto;
 
-import com.vuongle.imaginepg.domain.entities.Post;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter

@@ -2,13 +2,8 @@ package com.vuongle.imaginepg.domain.sockets;
 
 import com.vuongle.imaginepg.application.dto.ChatMessageDto;
 import com.vuongle.imaginepg.application.dto.UserDto;
-import com.vuongle.imaginepg.application.queries.ChatMessageFilter;
-import com.vuongle.imaginepg.domain.entities.ChatMessage;
-import com.vuongle.imaginepg.domain.entities.Conversation;
 import com.vuongle.imaginepg.domain.entities.User;
-import com.vuongle.imaginepg.domain.entities.UserConversation;
 import com.vuongle.imaginepg.domain.mapper.UserMapper;
-import com.vuongle.imaginepg.domain.repositories.ChatMessageRepository;
 import com.vuongle.imaginepg.domain.repositories.ConversationRepository;
 import com.vuongle.imaginepg.domain.services.ChatMessageService;
 import com.vuongle.imaginepg.domain.services.UserService;
@@ -16,10 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
@@ -33,11 +24,7 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import java.security.Principal;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -57,6 +44,8 @@ public class WebSocketEventListener {
 
     @Autowired
     private ChatMessageService messageService;
+    @Value("${imagine.app.recent-message-limit}")
+    private int recentMessageLimit;
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
@@ -65,14 +54,10 @@ public class WebSocketEventListener {
         User user = getUser(event.getUser());
 
         if (Objects.isNull(user)) {
-            return;
         }
         // set user online
 //        userService.setUserOnline(user.getId(), true);
     }
-
-    @Value("${imagine.app.recent-message-limit}")
-    private int recentMessageLimit;
 
     @EventListener
     @Transactional
@@ -183,6 +168,7 @@ public class WebSocketEventListener {
             messagingTemplate.convertAndSend("/topic/public", "bye");
         }
     }
+
     private boolean isUserLoggedIn(String username) {
         return simpUserRegistry.getUsers().stream().anyMatch(u -> u.getName().equals(username));
 

@@ -5,9 +5,11 @@ import com.vuongle.imaginepg.application.dto.PostDto;
 import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.PostFilter;
 import com.vuongle.imaginepg.domain.entities.Category;
+import com.vuongle.imaginepg.domain.entities.File;
 import com.vuongle.imaginepg.domain.entities.Post;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.repositories.PostRepository;
+import com.vuongle.imaginepg.domain.services.FileService;
 import com.vuongle.imaginepg.domain.services.PostService;
 import com.vuongle.imaginepg.infrastructure.specification.PostSpecifications;
 import com.vuongle.imaginepg.shared.utils.Context;
@@ -31,13 +33,16 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
 
+    private final FileService fileService;
+
     private final BaseRepository<Category> categoryRepository;
 
     public PostServiceImpl(
-            PostRepository postRepository,
+            PostRepository postRepository, FileService fileService,
             BaseRepository<Category> categoryRepository
     ) {
         this.postRepository = postRepository;
+        this.fileService = fileService;
         this.categoryRepository = categoryRepository;
     }
 
@@ -52,7 +57,8 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.getById(id);
 
         // check permission
-        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(post, Post.class)) {
+
+        if (Objects.isNull(post.getPublishedAt()) && !Context.hasModifyPermission() && !ValidateResource.isOwnResource(post, Post.class)) {
             throw new NoPermissionException("No permission");
         }
 
@@ -66,6 +72,11 @@ public class PostServiceImpl implements PostService {
         post.setSlug(Slugify.toSlug(post.getTitle()));
         Category category = categoryRepository.getById(command.getCategoryId());
         post.setCategory(category);
+
+        if (Objects.nonNull(command.getFileId())) {
+            File file = fileService.getById(command.getFileId(), File.class);
+            post.setFile(file);
+        }
 
         post.setCreator(Context.getUser());
 
@@ -93,6 +104,14 @@ public class PostServiceImpl implements PostService {
 
         if (Objects.nonNull(command.getDescription())) {
             existedPost.setDescription(command.getDescription());
+        }
+
+        if (Objects.nonNull(command.getFeatured())) {
+            existedPost.setFeatured(command.getFeatured());
+        }
+
+        if (Objects.nonNull(command.getPublish())) {
+            existedPost.setPublishedAt(Instant.now());
         }
 
         existedPost = postRepository.save(existedPost);

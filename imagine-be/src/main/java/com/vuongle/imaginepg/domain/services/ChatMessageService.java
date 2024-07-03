@@ -6,8 +6,6 @@ import com.vuongle.imaginepg.application.queries.ChatMessageFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface ChatMessageService extends BaseService<ChatMessageDto, CreateChatMessageCommand, ChatMessageFilter> {
 
     Page<ChatMessageDto> findLatestMessage(ChatMessageFilter filter, Pageable pageable);

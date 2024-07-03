@@ -1,7 +1,6 @@
 package com.vuongle.imaginepg.application.queries;
 
 import com.vuongle.imaginepg.domain.constants.CategoryType;
-import com.vuongle.imaginepg.domain.entities.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

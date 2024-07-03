@@ -4,7 +4,6 @@ import com.vuongle.imaginepg.domain.constants.Gender;
 import com.vuongle.imaginepg.domain.constants.UserRole;
 import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.domain.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

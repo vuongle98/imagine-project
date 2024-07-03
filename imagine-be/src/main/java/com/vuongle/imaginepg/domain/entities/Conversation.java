@@ -30,7 +30,7 @@ public class Conversation implements Serializable {
 
     private String title;
 
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ChatMessage> messages = new ArrayList<>();
 
     private Instant deletedAt;
@@ -40,7 +40,7 @@ public class Conversation implements Serializable {
     @Enumerated(EnumType.STRING)
     private ChatType type = ChatType.PRIVATE;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "conversation_participants",
             joinColumns = @JoinColumn(name = "conversation_id"),
@@ -48,13 +48,13 @@ public class Conversation implements Serializable {
     )
     private List<User> participants;
 
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<UserConversation> userConversations = new HashSet<>();
 
     @Transient // To avoid persistence
     private UserConversation settings;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // creator
 
@@ -110,7 +110,7 @@ public class Conversation implements Serializable {
     public void removeParticipants(List<UUID> userIds) {
         if (participants == null) return;
 
-        for (var id: userIds) {
+        for (var id : userIds) {
             removeParticipant(id);
         }
     }

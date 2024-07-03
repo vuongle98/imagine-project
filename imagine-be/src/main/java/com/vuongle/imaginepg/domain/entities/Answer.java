@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,14 +29,13 @@ public class Answer {
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Question question;
+    @ManyToMany(mappedBy = "answers", fetch = FetchType.LAZY)
+    private List<Question> questions;
 
     @Column(nullable = false)
     private boolean isCorrect;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

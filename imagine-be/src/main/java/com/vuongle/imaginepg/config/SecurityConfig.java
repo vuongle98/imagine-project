@@ -49,8 +49,6 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/auth**")
                         .permitAll()
-                  .requestMatchers("/api/auth/test")
-                  .permitAll()
                         .anyRequest()
                         .authenticated())
                 .httpBasic(Customizer.withDefaults());

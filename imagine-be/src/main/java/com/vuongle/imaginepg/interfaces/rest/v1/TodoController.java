@@ -4,7 +4,6 @@ import com.vuongle.imaginepg.application.commands.CreateTaskCommand;
 import com.vuongle.imaginepg.application.dto.TaskDto;
 import com.vuongle.imaginepg.application.exceptions.UserNotFoundException;
 import com.vuongle.imaginepg.application.queries.TaskFilter;
-import com.vuongle.imaginepg.domain.entities.Task;
 import com.vuongle.imaginepg.domain.services.TodoService;
 import com.vuongle.imaginepg.shared.utils.Context;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -20,7 +19,7 @@ import java.util.UUID;
 @RequestMapping("/api/task")
 public class TodoController {
 
-    private TodoService todoService;
+    private final TodoService todoService;
 
     public TodoController(
             TodoService todoService
@@ -32,8 +31,8 @@ public class TodoController {
     @SecurityRequirement(name = "Bearer authentication")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<TaskDto>> searchTask(
-        TaskFilter taskFilter,
-        Pageable pageable
+            TaskFilter taskFilter,
+            Pageable pageable
     ) {
         Page<TaskDto> taskPage = todoService.getAll(taskFilter, pageable);
 

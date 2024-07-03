@@ -92,7 +92,7 @@ export class QuestionFormComponent implements OnInit {
 
   onSubmit() {
     this.dialogRef.close({
-      id: this.data?.id,
+      id: this.data?.id || null,
       ...this.createQuestionForm.value,
     });
   }

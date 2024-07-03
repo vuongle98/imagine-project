@@ -24,6 +24,8 @@ public interface PostRepository {
 
     void deleteById(UUID id);
 
+    void delete(Post post);
+
     void deleteByCategoryId(UUID categoryId);
 
 }

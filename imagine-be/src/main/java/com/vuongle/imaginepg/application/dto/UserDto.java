@@ -1,16 +1,15 @@
 package com.vuongle.imaginepg.application.dto;
 
 import com.vuongle.imaginepg.domain.constants.UserRole;
-import com.vuongle.imaginepg.domain.entities.Friendship;
 import com.vuongle.imaginepg.domain.entities.User;
-import com.vuongle.imaginepg.shared.utils.ObjectData;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

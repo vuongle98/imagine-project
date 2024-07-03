@@ -1,11 +1,11 @@
 package com.vuongle.imaginepg.application.dto;
 
 import com.vuongle.imaginepg.domain.constants.QuestionLevel;
-import com.vuongle.imaginepg.domain.entities.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,5 +26,5 @@ public class QuizDto {
 
     private QuestionLevel level;
 
-    private boolean published;
+    private Instant publishedAt;
 }

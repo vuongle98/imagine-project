@@ -17,17 +17,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AuditLogValue {
 
-  @Id
-  private UUID id;
+    @Id
+    private UUID id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "audit_id", nullable = false)
-  private AuditLog auditLog;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "audit_id", nullable = false)
+    private AuditLog auditLog;
 
-  private String fieldName;
+    private String fieldName;
 
-  private String PreviousValue;
+    private String PreviousValue;
 
-  private String NewValue;
+    private String NewValue;
 
 }

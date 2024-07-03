@@ -19,5 +19,5 @@ public interface TagRepository {
     List<Tag> findAll(Specification<Tag> spec);
 
     Page<Tag> findAll(Specification<Tag> spec, Pageable pageable);
-    
+
 }

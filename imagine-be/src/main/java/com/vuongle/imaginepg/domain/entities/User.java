@@ -34,6 +34,9 @@ import java.util.stream.Collectors;
 @Builder
 public class User implements Serializable, UserDetails {
 
+    @Enumerated(EnumType.STRING)
+    protected Set<UserRole> roles = Set.of(UserRole.USER);
+
     @Id
     @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -59,35 +62,28 @@ public class User implements Serializable, UserDetails {
     private String address;
 
     private boolean locked;
-
     private boolean enabled = true;
-
     private boolean online;
-
     private Instant lastActive;
-
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    protected Set<UserRole> roles = Set.of(UserRole.USER);
-
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<PostLike> likes;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private Set<Friendship> friendships = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<UserConversation> userConversations = new HashSet<>();
 
-    @ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Conversation> conversations;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ShortenUrl> urlShortens;
 
     @CreatedBy
@@ -209,7 +205,7 @@ public class User implements Serializable, UserDetails {
 
 //            friend.getFriendships().add(new Friendship(friend, this, FriendStatus.PENDING));
         } else {
-            for (var friendShip: friendships) {
+            for (var friendShip : friendships) {
                 if (friendShip.getFriend().getId().equals(friend.getId()) &&
                         (friendShip.getStatus().equals(FriendStatus.REJECTED) || friendShip.getStatus().equals(FriendStatus.REJECTED_REQUEST))) {
                     friendShip.setStatus(FriendStatus.REQUESTED);
@@ -233,7 +229,7 @@ public class User implements Serializable, UserDetails {
             friendship.setFriendFrom(Instant.now());
             friendships.add(friendship);
         } else {
-            for (var friendShip: friendships) {
+            for (var friendShip : friendships) {
                 if (friendShip.getFriend().getId().equals(friend.getId()) &&
                         (friendShip.getStatus().equals(FriendStatus.REJECTED) || friendShip.getStatus().equals(FriendStatus.REJECTED_REQUEST))) {
                     friendShip.setStatus(FriendStatus.PENDING);
@@ -254,7 +250,7 @@ public class User implements Serializable, UserDetails {
 
         if (friendships.stream().anyMatch(f -> f.getFriend().getId().equals(friend.getId()) &&
                 (f.getStatus().equals(FriendStatus.PENDING) || f.getStatus().equals(FriendStatus.REQUESTED)))) {
-            for (var friendShip: friendships) {
+            for (var friendShip : friendships) {
                 if (friendShip.getFriend().getId().equals(friend.getId())) {
                     friendShip.setStatus(FriendStatus.ACCEPTED);
                     friendShip.setUpdateFrom(Instant.now());

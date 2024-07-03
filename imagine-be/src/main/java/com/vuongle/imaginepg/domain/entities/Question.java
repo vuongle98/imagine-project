@@ -17,7 +17,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -52,13 +51,18 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionCategory category;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "question_answers",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "answer_id")
+    )
     private List<Answer> answers;
 
-    @ManyToMany(mappedBy = "questions")
+    @ManyToMany(mappedBy = "questions", fetch = FetchType.LAZY)
     private List<Quiz> quizzes;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -82,9 +86,9 @@ public class Question {
         int correct = 0;
         List<Answer> correctAnswers = answers.stream().filter(Answer::isCorrect).toList();
 
-        for (Answer ans: correctAnswers) {
+        for (Answer ans : correctAnswers) {
             if (answer.getAnswerIds().stream().anyMatch(ansId -> ansId.equals(ans.getId()))) {
-                correct ++;
+                correct++;
             }
         }
 

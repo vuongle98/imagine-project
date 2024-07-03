@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,8 +31,8 @@ public class AdminPostController {
             name = "Bearer authentication"
     )
     public ResponseEntity<Page<PostDto>> searchPost(
-        PostFilter postFilter,
-        Pageable pageable
+            PostFilter postFilter,
+            Pageable pageable
     ) {
         Page<PostDto> postPageable = postService.getAll(postFilter, pageable);
         return ResponseEntity.ok(postPageable);

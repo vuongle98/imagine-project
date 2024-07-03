@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -101,11 +102,17 @@ public class AuthServiceImpl implements AuthService {
             throw new UserNotFoundException("User not found");
         }
 
-        return UserMapper.mapToProfile(user);
+        Optional<User> userInfo = userRepository.findByUsername(user.getUsername());
+
+        if (userInfo.isPresent()) {
+            return UserMapper.mapToProfile(userInfo.get());
+        }
+
+        throw new UserNotFoundException("Not found user " + user.getUsername());
     }
 
     @Override
     public String test() {
-      return "Hello";
+        return "Hello";
     }
 }

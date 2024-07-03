@@ -62,7 +62,7 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepository.getById(id);
 
         // check permission
-        if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(quiz, Quiz.class)) {
+        if (Objects.isNull(quiz.getPublishedAt()) && !Context.hasModifyPermission() && !ValidateResource.isOwnResource(quiz, Quiz.class)) {
             throw new NoPermissionException("No permission");
         }
 
@@ -171,8 +171,8 @@ public class QuizServiceImpl implements QuizService {
 
         int totalCorrect = 0;
 
-        for (SubmitAnswer answer: answers) {
-            for (Question question: quiz.getQuestions()) {
+        for (SubmitAnswer answer : answers) {
+            for (Question question : quiz.getQuestions()) {
                 if (question.getId().equals(answer.getQuestionId())) {
                     int correctNum = question.checkAnswer(answer);
                     totalCorrect += correctNum;

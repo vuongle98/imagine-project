@@ -1,10 +1,7 @@
 package com.vuongle.imaginepg.infrastructure.specification;
 
 import com.vuongle.imaginepg.application.queries.ChatMessageFilter;
-import com.vuongle.imaginepg.application.queries.CommentFilter;
-import com.vuongle.imaginepg.domain.entities.Answer;
 import com.vuongle.imaginepg.domain.entities.ChatMessage;
-import com.vuongle.imaginepg.domain.entities.Comment;
 import com.vuongle.imaginepg.shared.utils.SqlUtil;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
@@ -31,7 +28,11 @@ public class ChatMessageSpecifications {
             }
 
             if (Objects.nonNull(filter.getUserId())) {
-                predicates.add(criteriaBuilder.equal(root.get("user_id"), filter.getUserId()));
+                predicates.add(criteriaBuilder.equal(root.get("user").get("id"), filter.getUserId()));
+            }
+
+            if (Objects.nonNull(filter.getConversationId())) {
+                predicates.add(criteriaBuilder.equal(root.get("conversation").get("id"), filter.getConversationId()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

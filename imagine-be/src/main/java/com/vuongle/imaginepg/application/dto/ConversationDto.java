@@ -19,9 +19,9 @@ public class ConversationDto implements Serializable {
 
     private List<UserDto> participants;
 
-    private boolean allowJoinRequests;
+    private Boolean allowJoinRequests;
 
-    private boolean allowMessageEditing;
+    private Boolean allowMessageEditing;
 
     private UserConversationDto settings;
 }

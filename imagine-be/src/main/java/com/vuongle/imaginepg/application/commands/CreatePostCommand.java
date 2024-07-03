@@ -1,6 +1,5 @@
 package com.vuongle.imaginepg.application.commands;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +15,11 @@ public class CreatePostCommand implements Serializable {
     private String title;
     private String content;
     private UUID categoryId;
+    private UUID fileId;
 
     private String description;
+
+    private Boolean featured;
+
+    private Boolean publish;
 }

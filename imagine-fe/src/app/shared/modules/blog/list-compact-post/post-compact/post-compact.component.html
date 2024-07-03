@@ -1,2 +1,8 @@
-<img class="avatar" src="../../../../../assets/avatar/bear.png" alt="">
+<img #coverTemplate *ngIf="post.file?.id; else defaultCover" class="avatar" alt="quiz cover"
+    [attr.src]="post.file?.id | secure | async" loading="lazy" />
+
+<ng-template #defaultCover>
+    <img class="avatar" alt="quiz cover" src="../../../../../assets/img/tech.jpg" />
+</ng-template>
+
 <span>{{post.title | slice: 0: 40}}</span>

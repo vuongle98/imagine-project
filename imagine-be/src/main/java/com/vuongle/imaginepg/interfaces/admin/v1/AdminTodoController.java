@@ -4,7 +4,6 @@ import com.vuongle.imaginepg.application.commands.CreateTaskCommand;
 import com.vuongle.imaginepg.application.dto.TaskDto;
 import com.vuongle.imaginepg.application.queries.TaskFilter;
 import com.vuongle.imaginepg.domain.services.TodoService;
-import com.vuongle.imaginepg.shared.utils.Context;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +31,8 @@ public class AdminTodoController {
             name = "Bearer authentication"
     )
     public ResponseEntity<Page<TaskDto>> searchTask(
-        TaskFilter taskFilter,
-        Pageable pageable
+            TaskFilter taskFilter,
+            Pageable pageable
     ) {
         Page<TaskDto> taskPage = todoService.getAll(taskFilter, pageable);
 

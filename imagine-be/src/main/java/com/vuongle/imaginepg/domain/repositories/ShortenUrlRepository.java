@@ -10,13 +10,13 @@ import java.util.UUID;
 
 public interface ShortenUrlRepository {
 
-  ShortenUrl save(ShortenUrl category);
+    ShortenUrl save(ShortenUrl category);
 
-  ShortenUrl getById(UUID id);
+    ShortenUrl getById(UUID id);
 
-  void deleteById(UUID id);
+    void deleteById(UUID id);
 
-  List<ShortenUrl> findAll(Specification<ShortenUrl> spec);
+    List<ShortenUrl> findAll(Specification<ShortenUrl> spec);
 
-  Page<ShortenUrl> findAll(Specification<ShortenUrl> spec, Pageable pageable);
+    Page<ShortenUrl> findAll(Specification<ShortenUrl> spec, Pageable pageable);
 }

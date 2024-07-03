@@ -80,8 +80,8 @@ public class QuizController {
     public ResponseEntity<AnswerQuizResult> answerQuiz(
             @PathVariable(value = "id") UUID id,
             @RequestBody List<SubmitAnswer> commands
-            ) {
-         AnswerQuizResult result = quizService.answerQuiz(id, commands);
+    ) {
+        AnswerQuizResult result = quizService.answerQuiz(id, commands);
 
         return ResponseEntity.ok(result);
     }

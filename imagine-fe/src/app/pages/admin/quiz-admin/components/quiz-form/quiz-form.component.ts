@@ -85,7 +85,7 @@ export class QuizFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close({ id: this.data?.id, ...this.createQuizForm.value });
+    this.dialogRef.close({ id: this.data?.id || null, ...this.createQuizForm.value });
   }
 
   filterOptions(value: any) {

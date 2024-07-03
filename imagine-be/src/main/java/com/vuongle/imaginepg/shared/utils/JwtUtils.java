@@ -40,7 +40,7 @@ public class JwtUtils {
     }
 
     public String generateToken(String username) {
-      return generateToken(new HashMap<>(), username);
+        return generateToken(new HashMap<>(), username);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
@@ -54,16 +54,16 @@ public class JwtUtils {
                 .compact();
     }
 
-  public String generateToken(Map<String, Object> extraClaims, String username) {
-    return Jwts
-      .builder()
-      .setClaims(extraClaims)
-      .setSubject(username)
-      .setIssuedAt(new Date(System.currentTimeMillis()))
-      .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-      .signWith(key(), SignatureAlgorithm.HS256)
-      .compact();
-  }
+    public String generateToken(Map<String, Object> extraClaims, String username) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(username)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(key(), SignatureAlgorithm.HS256)
+                .compact();
+    }
 
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));

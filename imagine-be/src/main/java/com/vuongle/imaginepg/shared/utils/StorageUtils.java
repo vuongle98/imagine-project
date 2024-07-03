@@ -63,14 +63,14 @@ public class StorageUtils {
             buildedString = splitByDot.get(0);
         }
 
-        return buildFileName(buildedString)  + "." + ext;
+        return buildFileName(buildedString) + "." + ext;
     }
 
     public static String buildPathFromName(String name, String ext) {
         name = StringUtils.removeAccents(name);
         name = StringUtils.preprocessFilePath(name);
         name = name.replace("-", "");
-        return buildFileName(name)  + "." + ext;
+        return buildFileName(name) + "." + ext;
     }
 
     private static String buildFileName(String name) {

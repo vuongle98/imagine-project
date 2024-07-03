@@ -36,7 +36,7 @@ export class AnswerFormComponent {
 
   onSubmit() {
     this.dialogRef.close({
-      id: this.data?.id,
+      id: this.data?.id || null,
       ...this.createAnswerForm.value,
     });
   }

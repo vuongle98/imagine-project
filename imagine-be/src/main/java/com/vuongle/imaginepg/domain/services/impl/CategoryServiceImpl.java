@@ -110,7 +110,7 @@ public class CategoryServiceImpl implements CategoryService {
         Specification<Post> specification = PostSpecifications.withFilter(postFilter);
         List<Post> posts = postRepository.findAll(specification);
 
-        for (var post: posts) {
+        for (var post : posts) {
             post.setDeletedAt(Instant.now());
         }
 

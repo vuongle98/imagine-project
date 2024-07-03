@@ -84,7 +84,6 @@ public class AnswerServiceImpl implements AnswerService {
 
         if (force) {
             answerRepository.deleteById(id);
-            return;
         }
 
 

@@ -35,17 +35,15 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final BaseRepository<Answer> answerRepository;
 
-    private final BaseRepository<Category> categoryRepository;
 
     public QuestionServiceImpl(
             BaseRepository<Question> questionRepository,
-            BaseRepository<Answer> answerRepository,
-            BaseRepository<Category> categoryRepository
+            BaseRepository<Answer> answerRepository
     ) {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
-        this.categoryRepository = categoryRepository;
     }
+
     @Override
     public QuestionDto getById(UUID id) {
         return getById(id, QuestionDto.class);

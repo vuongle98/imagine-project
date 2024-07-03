@@ -5,7 +5,6 @@ import com.vuongle.imaginepg.application.dto.UserDto;
 import com.vuongle.imaginepg.application.dto.UserProfile;
 import com.vuongle.imaginepg.domain.entities.Friendship;
 import com.vuongle.imaginepg.domain.entities.User;
-import com.vuongle.imaginepg.shared.utils.ObjectData;
 
 import java.util.Set;
 import java.util.stream.Collectors;

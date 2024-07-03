@@ -17,17 +17,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class LoginLog {
 
-  @Id
-  private UUID id;
+    @Id
+    private UUID id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-  private Instant createdAt;
+    private Instant createdAt;
 
-  private String clientIp;
+    private String clientIp;
 
-  private String userAgent;
+    private String userAgent;
 
 }

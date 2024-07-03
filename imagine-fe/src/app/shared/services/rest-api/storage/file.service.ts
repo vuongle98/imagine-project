@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, concatMap, defer, delay, expand, finalize, from, map, of, switchMap, takeWhile } from 'rxjs';
+import { Observable, concatMap, defer, delay, expand, finalize, from, map, of, switchMap, takeWhile, toArray } from 'rxjs';
 import { AbstractService } from '../abstract-service';
 import { HttpClient } from '@angular/common/http';
 import { FileInfo, FileQuery } from '@shared/models/file';
@@ -81,15 +81,15 @@ export class FileService extends AbstractService {
     return of({}).pipe(
       expand(() => uploadChunk()),
       takeWhile(res => !res.done, true),
-      finalize(() => {
+      toArray(),
+      switchMap(() =>
         this.mergeChunk({
           identifier,
           'contentType': file.type,
           'totalChunks': totalChunks,
           'fileName': file.name,
           'size': file.size
-        }).subscribe()
-      })
+        }))
     )
     // const hashCode = (s: string) => s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0);
   }

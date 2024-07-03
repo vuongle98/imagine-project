@@ -1,8 +1,6 @@
 package com.vuongle.imaginepg.domain.repositories;
 
-import com.vuongle.imaginepg.application.dto.CategoryDto;
 import com.vuongle.imaginepg.domain.entities.Category;
-import jakarta.annotation.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

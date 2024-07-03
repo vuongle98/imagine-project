@@ -1,7 +1,8 @@
 package com.vuongle.imaginepg.application.dto;
 
 import com.vuongle.imaginepg.domain.constants.TaskColor;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

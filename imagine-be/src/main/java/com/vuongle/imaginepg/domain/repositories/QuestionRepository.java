@@ -19,5 +19,5 @@ public interface QuestionRepository {
     List<Question> findAll(Specification<Question> spec);
 
     Page<Question> findAll(Specification<Question> spec, Pageable pageable);
-    
+
 }

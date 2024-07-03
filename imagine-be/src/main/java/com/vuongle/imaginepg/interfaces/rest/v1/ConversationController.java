@@ -2,7 +2,6 @@ package com.vuongle.imaginepg.interfaces.rest.v1;
 
 import com.vuongle.imaginepg.application.commands.CreateConversationCommand;
 import com.vuongle.imaginepg.application.dto.ConversationDto;
-import com.vuongle.imaginepg.application.queries.ConversationFilter;
 import com.vuongle.imaginepg.domain.services.ConversationService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;

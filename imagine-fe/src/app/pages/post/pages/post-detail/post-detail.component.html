@@ -12,7 +12,7 @@
       <div class="post-title">
         {{post.title}}
       </div>
-      <div class="post-meta text-muted" style="text-align: end;">
+      <div class="post-meta text-muted">
         <span>{{post.createdAt | date:'dd/MM/yyyy'}}</span>
         -
         <span>by <a routerLink="/auth/profile/{{post.creator.username}}">{{post.creator.fullName}}</a></span>
@@ -22,7 +22,7 @@
       <div class="post-content" [innerHTML]="getPostContent(post.content)"></div>
     </ng-container>
   </div>
-  <div class="spacer"></div>
+  <!-- <div class="spacer"></div> -->
 
   <div class="right-side">
     <div class="section">

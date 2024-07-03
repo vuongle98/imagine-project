@@ -1,6 +1,5 @@
 package com.vuongle.imaginepg.shared.utils;
 
-import com.vuongle.imaginepg.application.exceptions.UserNotFoundException;
 import com.vuongle.imaginepg.domain.entities.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,12 +16,12 @@ public class Context {
 
         Authentication context = SecurityContextHolder.getContext().getAuthentication();
 
-        if (!(context.getPrincipal() instanceof User)) {
+        if (!(context.getPrincipal() instanceof User user)) {
 //            throw new UserNotFoundException("User not found");
             return new User("admin");
         }
 
-        return (User) context.getPrincipal();
+        return user;
     }
 
     public static boolean hasModifyPermission() {

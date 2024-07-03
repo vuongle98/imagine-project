@@ -19,20 +19,20 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AuditLog implements Serializable {
 
-  @Id
-  private UUID id;
+    @Id
+    private UUID id;
 
-  private EventType type;
+    private EventType type;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "creator_id", nullable = false)
-  private User creator;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id", nullable = false)
+    private User creator;
 
-  private String tableName;
+    private String tableName;
 
-  private String recordId;
+    private String recordId;
 
-  private Instant createdAt;
+    private Instant createdAt;
 
-  private String description;
+    private String description;
 }

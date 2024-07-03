@@ -30,8 +30,8 @@ public class PostController {
     @SecurityRequirement(name = "Bearer authentication")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN', 'MODERATOR')")
     public ResponseEntity<Page<PostDto>> searchPost(
-        PostFilter postFilter,
-        Pageable pageable
+            PostFilter postFilter,
+            Pageable pageable
     ) {
         Page<PostDto> postPageable = postService.getAll(postFilter, pageable);
         return ResponseEntity.ok(postPageable);

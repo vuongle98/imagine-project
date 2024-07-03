@@ -13,62 +13,62 @@ import java.util.UUID;
 public class ShortenUrlServiceImpl implements ShortenUrlService {
 
 
-  private final BaseRepository<ShortenUrl> shortenUrlRepository;
+    private final BaseRepository<ShortenUrl> shortenUrlRepository;
 
-  public ShortenUrlServiceImpl(BaseRepository<ShortenUrl> shortenUrlRepository) {
-    this.shortenUrlRepository = shortenUrlRepository;
-  }
-
-  @Override
-  public String shortUrl(UUID userId, String originalUrl, String customAlias, Instant expireDate) {
-
-    if (!validateUrl(originalUrl)) {
-      throw new RuntimeException("URL not valid.");
+    public ShortenUrlServiceImpl(BaseRepository<ShortenUrl> shortenUrlRepository) {
+        this.shortenUrlRepository = shortenUrlRepository;
     }
 
-    // encode url
-    String encoded = encodeUrl(originalUrl);
+    @Override
+    public String shortUrl(UUID userId, String originalUrl, String customAlias, Instant expireDate) {
 
-    // validate in DB
+        if (!validateUrl(originalUrl)) {
+            throw new RuntimeException("URL not valid.");
+        }
 
-    // save to db
-    User user = Context.getUser();
-    ShortenUrl shortenUrl = new ShortenUrl();
-    shortenUrl.setOriginalUrl(originalUrl);
-    shortenUrl.setHashed(encoded);
-    shortenUrl.setCreatedDate(Instant.now());
-    shortenUrl.setExpiredDate(expireDate);
-    shortenUrl.setUser(user);
+        // encode url
+        String encoded = encodeUrl(originalUrl);
 
-    shortenUrlRepository.save(shortenUrl);
+        // validate in DB
 
-    return encoded;
-  }
+        // save to db
+        User user = Context.getUser();
+        ShortenUrl shortenUrl = new ShortenUrl();
+        shortenUrl.setOriginalUrl(originalUrl);
+        shortenUrl.setHashed(encoded);
+        shortenUrl.setCreatedDate(Instant.now());
+        shortenUrl.setExpiredDate(expireDate);
+        shortenUrl.setUser(user);
 
-  @Override
-  public void deleteUrl(UUID userId, String urlKey) {
+        shortenUrlRepository.save(shortenUrl);
 
-  }
+        return encoded;
+    }
 
-  private String encodeUrl(String url) {
-    String md5Encoded = StringUtils.toMD5(url);
-    return StringUtils.toBase64(md5Encoded).substring(0, 8);
-  }
+    @Override
+    public void deleteUrl(UUID userId, String urlKey) {
 
-  private boolean validateUrl(String url) {
-    return true;
-  }
+    }
 
-  private String sanitizeURL(String url) {
-    if (url.startsWith("http://"))
-			url = url.substring(7);
+    private String encodeUrl(String url) {
+        String md5Encoded = StringUtils.toMD5(url);
+        return StringUtils.toBase64(md5Encoded).substring(0, 8);
+    }
 
-		if (url.startsWith("https://"))
-			url = url.substring(8);
+    private boolean validateUrl(String url) {
+        return true;
+    }
 
-    if (url.charAt(url.length() - 1) == '/')
-			url = url.substring(0, url.length() - 1);
+    private String sanitizeURL(String url) {
+        if (url.startsWith("http://"))
+            url = url.substring(7);
 
-    return url;
-  }
+        if (url.startsWith("https://"))
+            url = url.substring(8);
+
+        if (url.charAt(url.length() - 1) == '/')
+            url = url.substring(0, url.length() - 1);
+
+        return url;
+    }
 }

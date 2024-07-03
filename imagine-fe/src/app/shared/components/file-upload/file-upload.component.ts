@@ -23,7 +23,7 @@ export class FileUploadComponent {
     uploadForm.append('file', this.selectedFile);
 
     this.fileService.uploadFileWithChunk(this.selectedFile, 1024 * 1024 * 10).pipe(
-      tap((res: FileInfo) => {
+      tap((res: FileInfo) => {        
         this.parentForm.patchValue({ fileId: res?.id });
       })
     ).subscribe();

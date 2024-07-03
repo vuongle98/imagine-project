@@ -90,6 +90,7 @@ export class FileAdminIndexComponent
     this.dialogService.open(ImageViewerComponent, {
       header: 'Preview image',
       data: file,
+      overlayConfig: {maxWidth: '50vw'}
     });
   }
 }

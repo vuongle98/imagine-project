@@ -42,10 +42,13 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+    implementation 'org.jsoup:jsoup:1.17.2'
+
+
     implementation 'org.apache.commons:commons-fileupload2-jakarta:2.0.0-M1'
 
 
-  compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
 

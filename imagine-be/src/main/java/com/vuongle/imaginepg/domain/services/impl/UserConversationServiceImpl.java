@@ -1,7 +1,6 @@
 package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.application.commands.CreateUserConversationCommand;
-import com.vuongle.imaginepg.application.dto.ConversationDto;
 import com.vuongle.imaginepg.application.dto.UserConversationDto;
 import com.vuongle.imaginepg.application.queries.UserConversationFilter;
 import com.vuongle.imaginepg.domain.entities.Conversation;
@@ -9,7 +8,6 @@ import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.domain.entities.UserConversation;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.UserConversationService;
-import com.vuongle.imaginepg.infrastructure.specification.ConversationSpecifications;
 import com.vuongle.imaginepg.infrastructure.specification.UserConversationSpecifications;
 import com.vuongle.imaginepg.shared.utils.ObjectData;
 import org.springframework.data.domain.Page;

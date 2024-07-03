@@ -3,7 +3,6 @@ package com.vuongle.imaginepg.application.commands;
 import com.vuongle.imaginepg.domain.constants.QuestionCategory;
 import com.vuongle.imaginepg.domain.constants.QuestionLevel;
 import com.vuongle.imaginepg.domain.constants.QuestionType;
-import com.vuongle.imaginepg.domain.entities.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

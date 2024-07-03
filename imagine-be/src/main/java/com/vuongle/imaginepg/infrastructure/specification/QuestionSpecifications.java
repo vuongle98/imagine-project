@@ -1,9 +1,7 @@
 package com.vuongle.imaginepg.infrastructure.specification;
 
-import com.vuongle.imaginepg.application.queries.CommentFilter;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.domain.entities.Question;
-import com.vuongle.imaginepg.shared.utils.ObjectData;
 import com.vuongle.imaginepg.shared.utils.SqlUtil;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;

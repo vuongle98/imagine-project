@@ -1,7 +1,6 @@
 package com.vuongle.imaginepg.config.jwt;
 
 import com.vuongle.imaginepg.shared.utils.JwtUtils;
-import com.vuongle.imaginepg.shared.utils.ObjectData;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

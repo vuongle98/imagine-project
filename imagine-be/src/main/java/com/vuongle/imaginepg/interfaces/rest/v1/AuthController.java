@@ -51,8 +51,8 @@ public class AuthController {
 
     @GetMapping("/test")
     public ResponseEntity<String> test() {
-      String response = authService.test();
+        String response = authService.test();
 
-      return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response);
     }
 }
