@@ -5,6 +5,7 @@ import com.vuongle.imaginepg.application.dto.TagDto;
 import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.TagFilter;
 import com.vuongle.imaginepg.domain.entities.Tag;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.TagService;
 import com.vuongle.imaginepg.infrastructure.specification.TagSpecifications;
@@ -26,12 +27,15 @@ import java.util.UUID;
 @Transactional
 public class TagServiceImpl implements TagService {
 
+    private final BaseQueryRepository<Tag> tagQueryRepository;
     private final BaseRepository<Tag> tagRepository;
 
     public TagServiceImpl(
+            BaseQueryRepository<Tag> tagQueryRepository,
             BaseRepository<Tag> tagRepository
     ) {
         this.tagRepository = tagRepository;
+        this.tagQueryRepository = tagQueryRepository;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public <R> R getById(UUID id, Class<R> classType) {
 
-        Tag tag = tagRepository.getById(id);
+        Tag tag = tagQueryRepository.getById(id);
 
         // check permission
         if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(tag, Tag.class)) {
@@ -92,16 +96,16 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Page<TagDto> getAll(TagFilter filter, Pageable pageable) {
+    public Page<TagDto> getPageable(TagFilter filter, Pageable pageable) {
         Specification<Tag> specification = TagSpecifications.withFilter(filter);
-        Page<Tag> tagPage = tagRepository.findAll(specification, pageable);
+        Page<Tag> tagPage = tagQueryRepository.findAll(specification, pageable);
         return tagPage.map(tag -> ObjectData.mapTo(tag, TagDto.class));
     }
 
     @Override
-    public List<TagDto> getAll(TagFilter filter) {
+    public List<TagDto> getList(TagFilter filter) {
         Specification<Tag> specification = TagSpecifications.withFilter(filter);
-        List<Tag> tagList = tagRepository.findAll(specification);
+        List<Tag> tagList = tagQueryRepository.findAll(specification);
 
         return ObjectData.mapListTo(tagList, TagDto.class);
     }

@@ -33,7 +33,7 @@ public class PostController {
             PostFilter postFilter,
             Pageable pageable
     ) {
-        Page<PostDto> postPageable = postService.getAll(postFilter, pageable);
+        Page<PostDto> postPageable = postService.getPageable(postFilter, pageable);
         return ResponseEntity.ok(postPageable);
     }
 
@@ -44,7 +44,7 @@ public class PostController {
             PostFilter postFilter
     ) {
         postFilter.setFeatured(true);
-        List<PostDto> postPageable = postService.getAll(postFilter);
+        List<PostDto> postPageable = postService.getList(postFilter);
         return ResponseEntity.ok(postPageable);
     }
 

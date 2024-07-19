@@ -4,5 +4,5 @@ import com.vuongle.imaginepg.application.commands.CreateCommentCommand;
 import com.vuongle.imaginepg.application.dto.CommentDto;
 import com.vuongle.imaginepg.application.queries.CommentFilter;
 
-public interface CommentService extends BaseService<CommentDto, CreateCommentCommand, CommentFilter> {
+public interface CommentService extends BaseService<CommentDto, CreateCommentCommand>, BaseQueryService<CommentDto, CommentFilter> {
 }

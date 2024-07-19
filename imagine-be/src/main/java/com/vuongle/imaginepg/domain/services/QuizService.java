@@ -9,7 +9,7 @@ import com.vuongle.imaginepg.application.queries.QuizFilter;
 import java.util.List;
 import java.util.UUID;
 
-public interface QuizService extends BaseService<QuizDto, CreateQuizCommand, QuizFilter> {
+public interface QuizService extends BaseService<QuizDto, CreateQuizCommand>, BaseQueryService<QuizDto, QuizFilter> {
 
     AnswerQuizResult answerQuiz(UUID quizId, List<SubmitAnswer> answers);
 }

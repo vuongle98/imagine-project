@@ -34,7 +34,7 @@ public class AdminUserController {
             UserFilter userFilter,
             Pageable pageable
     ) {
-        Page<UserDto> userPage = userService.getAll(userFilter, pageable);
+        Page<UserDto> userPage = userService.getPageable(userFilter, pageable);
 
         return ResponseEntity.ok(userPage);
     }

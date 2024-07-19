@@ -5,6 +5,9 @@ import com.vuongle.imaginepg.application.exceptions.DataNotFoundException;
 import com.vuongle.imaginepg.domain.constants.FriendStatus;
 import com.vuongle.imaginepg.domain.constants.Gender;
 import com.vuongle.imaginepg.domain.constants.UserRole;
+import com.vuongle.imaginepg.domain.entities.store.Book;
+import com.vuongle.imaginepg.domain.entities.store.Discount;
+import com.vuongle.imaginepg.domain.entities.store.Order;
 import com.vuongle.imaginepg.shared.utils.Context;
 import jakarta.persistence.*;
 import lombok.*;
@@ -80,8 +83,17 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<UserConversation> userConversations = new HashSet<>();
 
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Book> publishedBooks;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders;
+
     @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     private List<Conversation> conversations;
+
+    @ManyToMany(mappedBy = "customers", fetch = FetchType.LAZY)
+    private List<Discount> discounts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ShortenUrl> urlShortens;

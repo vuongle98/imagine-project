@@ -1,4 +1,5 @@
-package com.vuongle.imaginepg.domain.entities;
+package com.vuongle.imaginepg.domain.entities.log;
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,28 +7,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.util.UUID;
 
-@Table(name = "login_log")
+@Table(name = "audit_log_value")
 @Getter
 @Setter
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
-public class LoginLog {
+public class AuditLogValue {
 
     @Id
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "audit_id", nullable = false)
+    private AuditLog auditLog;
 
-    private Instant createdAt;
+    private String fieldName;
 
-    private String clientIp;
+    private String PreviousValue;
 
-    private String userAgent;
+    private String NewValue;
 
 }

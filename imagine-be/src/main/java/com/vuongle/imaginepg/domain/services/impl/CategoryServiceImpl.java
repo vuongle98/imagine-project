@@ -8,6 +8,7 @@ import com.vuongle.imaginepg.application.queries.CategoryFilter;
 import com.vuongle.imaginepg.application.queries.PostFilter;
 import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.Post;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.repositories.PostRepository;
 import com.vuongle.imaginepg.domain.services.CategoryService;
@@ -30,17 +31,20 @@ import java.util.UUID;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
+    private final BaseQueryRepository<Category> categoryQueryRepository;
     private final BaseRepository<Category> categoryRepository;
     private final PostRepository postRepository;
 
     private final ObjectMapper objectMapper;
 
     public CategoryServiceImpl(
+            BaseQueryRepository<Category> categoryQueryRepository,
             BaseRepository<Category> categoryRepository,
             PostRepository postRepository,
             ObjectMapper objectMapper
     ) {
         this.categoryRepository = categoryRepository;
+        this.categoryQueryRepository = categoryQueryRepository;
         this.postRepository = postRepository;
         this.objectMapper = objectMapper;
     }
@@ -52,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public <R> R getById(UUID id, Class<R> classType) {
-        Category category = categoryRepository.getById(id);
+        Category category = categoryQueryRepository.getById(id);
 
         // check permission
         if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(category, Category.class)) {
@@ -118,17 +122,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<CategoryDto> getAll(CategoryFilter filter, Pageable pageable) {
+    public Page<CategoryDto> getPageable(CategoryFilter filter, Pageable pageable) {
         Specification<Category> specification = CategorySpecifications.withFilter(filter);
-        Page<Category> categoryPage = categoryRepository.findAll(specification, pageable);
+        Page<Category> categoryPage = categoryQueryRepository.findAll(specification, pageable);
 
         return categoryPage.map(category -> ObjectData.mapTo(category, CategoryDto.class));
     }
 
     @Override
-    public List<CategoryDto> getAll(CategoryFilter filter) {
+    public List<CategoryDto> getList(CategoryFilter filter) {
         Specification<Category> specification = CategorySpecifications.withFilter(filter);
-        List<Category> categoryList = categoryRepository.findAll(specification);
+        List<Category> categoryList = categoryQueryRepository.findAll(specification);
 
         return ObjectData.mapListTo(categoryList, CategoryDto.class);
     }

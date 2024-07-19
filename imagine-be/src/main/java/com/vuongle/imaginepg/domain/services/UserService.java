@@ -7,7 +7,7 @@ import com.vuongle.imaginepg.application.queries.UserFilter;
 
 import java.util.UUID;
 
-public interface UserService extends BaseService<UserDto, UpdateUserCommand, UserFilter> {
+public interface UserService extends BaseService<UserDto, UpdateUserCommand>, BaseQueryService<UserDto, UserFilter> {
 
     UserDto getByUsername(String username);
 

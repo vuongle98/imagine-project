@@ -16,7 +16,6 @@ import com.vuongle.imaginepg.shared.utils.StorageUtils;
 import com.vuongle.imaginepg.shared.utils.ValidateResource;
 import jakarta.activation.FileTypeMap;
 import jakarta.activation.MimetypesFileTypeMap;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -105,14 +104,14 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Page<FileDto> getAll(FileFilter filter, Pageable pageable) {
+    public Page<FileDto> getPageable(FileFilter filter, Pageable pageable) {
         Specification<File> specification = FileSpecifications.withFilter(filter);
         Page<File> filePage = fileRepository.findAll(specification, pageable);
         return filePage.map(file -> ObjectData.mapTo(file, FileDto.class));
     }
 
     @Override
-    public List<FileDto> getAll(FileFilter filter) {
+    public List<FileDto> getList(FileFilter filter) {
         Specification<File> specification = FileSpecifications.withFilter(filter);
         return ObjectData.mapListTo(fileRepository.findAll(specification), FileDto.class);
     }

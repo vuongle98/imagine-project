@@ -34,7 +34,7 @@ public class AdminTodoController {
             TaskFilter taskFilter,
             Pageable pageable
     ) {
-        Page<TaskDto> taskPage = todoService.getAll(taskFilter, pageable);
+        Page<TaskDto> taskPage = todoService.getPageable(taskFilter, pageable);
 
         return ResponseEntity.ok(taskPage);
     }

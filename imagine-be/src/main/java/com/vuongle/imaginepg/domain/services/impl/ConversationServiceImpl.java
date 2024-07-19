@@ -13,6 +13,7 @@ import com.vuongle.imaginepg.domain.constants.ChatType;
 import com.vuongle.imaginepg.domain.entities.Conversation;
 import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.domain.entities.UserConversation;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.ConversationService;
 import com.vuongle.imaginepg.domain.services.UserConversationService;
@@ -37,21 +38,24 @@ import java.util.UUID;
 @Slf4j
 public class ConversationServiceImpl implements ConversationService {
 
+    private final BaseQueryRepository<Conversation> conversationQueryRepository;
     private final BaseRepository<Conversation> conversationRepository;
 
     private final UserConversationService userConversationService;
-    private final BaseRepository<User> userRepository;
+    private final BaseQueryRepository<User> userQueryRepository;
 
     private final ObjectMapper objectMapper;
 
     public ConversationServiceImpl(
+            BaseQueryRepository<Conversation> conversationQueryRepository,
             BaseRepository<Conversation> conversationRepository,
-            BaseRepository<User> userRepository,
+            BaseQueryRepository<User> userQueryRepository,
             UserConversationService userConversationService,
             ObjectMapper objectMapper
     ) {
         this.conversationRepository = conversationRepository;
-        this.userRepository = userRepository;
+        this.conversationQueryRepository = conversationQueryRepository;
+        this.userQueryRepository = userQueryRepository;
         this.objectMapper = objectMapper;
         this.userConversationService = userConversationService;
     }
@@ -61,7 +65,7 @@ public class ConversationServiceImpl implements ConversationService {
     public boolean addUserToGroupChat(UUID conversationId, UUID userId) {
         Conversation existed = getById(conversationId, Conversation.class);
 
-        User participant = userRepository.getById(userId);
+        User participant = userQueryRepository.getById(userId);
 
         if (!existed.isGroupChat()) {
             if (existed.getParticipants().size() < 2) {
@@ -96,7 +100,7 @@ public class ConversationServiceImpl implements ConversationService {
     @Override
     public Conversation getByFilter(ConversationFilter filter) {
         Specification<Conversation> specification = ConversationSpecifications.withFilter(filter);
-        List<Conversation> conversations = conversationRepository.findAll(specification);
+        List<Conversation> conversations = conversationQueryRepository.findAll(specification);
 
         if (!conversations.isEmpty()) {
             return conversations.get(0);
@@ -115,7 +119,7 @@ public class ConversationServiceImpl implements ConversationService {
         ConversationFilter filter = new ConversationFilter();
         filter.setEqualParticipantIds(List.of(user.getId()));
 
-        return getAll(filter, pageable);
+        return getPageable(filter, pageable);
     }
 
     @Override
@@ -125,7 +129,7 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public <R> R getById(UUID id, Class<R> classType) {
-        Conversation conversation = conversationRepository.getById(id);
+        Conversation conversation = conversationQueryRepository.getById(id);
 
         if (Objects.isNull(conversation)) throw new DataNotFoundException("Not found conversation has id " + id);
 
@@ -240,22 +244,22 @@ public class ConversationServiceImpl implements ConversationService {
     }
 
     @Override
-    public Page<ConversationDto> getAll(ConversationFilter filter, Pageable pageable) {
+    public Page<ConversationDto> getPageable(ConversationFilter filter, Pageable pageable) {
         Specification<Conversation> specification = ConversationSpecifications.withFilter(filter);
 
-        Page<Conversation> conversationPage = conversationRepository.findAll(specification, pageable);
+        Page<Conversation> conversationPage = conversationQueryRepository.findAll(specification, pageable);
         return conversationPage.map(c -> ObjectData.mapTo(c, ConversationDto.class));
     }
 
     @Override
-    public List<ConversationDto> getAll(ConversationFilter filter) {
+    public List<ConversationDto> getList(ConversationFilter filter) {
         Specification<Conversation> specification = ConversationSpecifications.withFilter(filter);
 
-        return ObjectData.mapListTo(conversationRepository.findAll(specification), ConversationDto.class);
+        return ObjectData.mapListTo(conversationQueryRepository.findAll(specification), ConversationDto.class);
     }
 
     private List<User> findParticipants(List<UUID> participantIds) {
         Specification<User> userSpecification = UserSpecifications.inIds(participantIds);
-        return userRepository.findAll(userSpecification);
+        return userQueryRepository.findAll(userSpecification);
     }
 }

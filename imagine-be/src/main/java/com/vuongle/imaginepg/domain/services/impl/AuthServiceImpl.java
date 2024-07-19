@@ -9,7 +9,7 @@ import com.vuongle.imaginepg.application.exceptions.DataExistedException;
 import com.vuongle.imaginepg.application.exceptions.UserNotFoundException;
 import com.vuongle.imaginepg.domain.constants.UserRole;
 import com.vuongle.imaginepg.domain.entities.User;
-import com.vuongle.imaginepg.domain.mapper.UserMapper;
+import com.vuongle.imaginepg.domain.mappers.UserMapper;
 import com.vuongle.imaginepg.domain.repositories.UserRepository;
 import com.vuongle.imaginepg.domain.services.AuthService;
 import com.vuongle.imaginepg.shared.utils.Context;

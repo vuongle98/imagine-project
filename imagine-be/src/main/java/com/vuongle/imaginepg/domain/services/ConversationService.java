@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
-public interface ConversationService extends BaseService<ConversationDto, CreateConversationCommand, ConversationFilter> {
+public interface ConversationService extends BaseService<ConversationDto, CreateConversationCommand>, BaseQueryService<ConversationDto, ConversationFilter> {
 
     boolean addUserToGroupChat(UUID conversationId, UUID userId);
 

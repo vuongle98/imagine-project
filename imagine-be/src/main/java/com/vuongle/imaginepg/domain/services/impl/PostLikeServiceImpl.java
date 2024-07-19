@@ -73,12 +73,12 @@ public class PostLikeServiceImpl implements PostLikeService {
     }
 
     @Override
-    public Page<PostLikeDto> getAll(PostLikeFilter filter, Pageable pageable) {
+    public Page<PostLikeDto> getPageable(PostLikeFilter filter, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<PostLikeDto> getAll(PostLikeFilter filter) {
+    public List<PostLikeDto> getList(PostLikeFilter filter) {
         return null;
     }
 

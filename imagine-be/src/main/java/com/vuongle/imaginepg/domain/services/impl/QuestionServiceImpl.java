@@ -8,8 +8,8 @@ import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.application.queries.QuestionFilter;
 import com.vuongle.imaginepg.domain.constants.QuestionType;
 import com.vuongle.imaginepg.domain.entities.Answer;
-import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.Question;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.QuestionService;
 import com.vuongle.imaginepg.infrastructure.specification.AnswerSpecifications;
@@ -31,15 +31,18 @@ import java.util.UUID;
 @Transactional
 public class QuestionServiceImpl implements QuestionService {
 
+    private final BaseQueryRepository<Question> questionQueryRepository;
     private final BaseRepository<Question> questionRepository;
 
-    private final BaseRepository<Answer> answerRepository;
+    private final BaseQueryRepository<Answer> answerRepository;
 
 
     public QuestionServiceImpl(
+            BaseQueryRepository<Question> questionQueryRepository,
             BaseRepository<Question> questionRepository,
-            BaseRepository<Answer> answerRepository
+            BaseQueryRepository<Answer> answerRepository
     ) {
+        this.questionQueryRepository = questionQueryRepository;
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
     }
@@ -52,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public <R> R getById(UUID id, Class<R> classType) {
 
-        Question question = questionRepository.getById(id);
+        Question question = questionQueryRepository.getById(id);
 
         // check permission
         if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(question, Question.class)) {
@@ -121,16 +124,16 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Page<QuestionDto> getAll(QuestionFilter filter, Pageable pageable) {
+    public Page<QuestionDto> getPageable(QuestionFilter filter, Pageable pageable) {
         Specification<Question> specification = QuestionSpecifications.withFilter(filter);
-        Page<Question> questionPage = questionRepository.findAll(specification, pageable);
+        Page<Question> questionPage = questionQueryRepository.findAll(specification, pageable);
         return questionPage.map(q -> ObjectData.mapTo(q, QuestionDto.class));
     }
 
     @Override
-    public List<QuestionDto> getAll(QuestionFilter filter) {
+    public List<QuestionDto> getList(QuestionFilter filter) {
         Specification<Question> specification = QuestionSpecifications.withFilter(filter);
-        return ObjectData.mapListTo(questionRepository.findAll(specification), QuestionDto.class);
+        return ObjectData.mapListTo(questionQueryRepository.findAll(specification), QuestionDto.class);
     }
 
     private List<Answer> getAnswers(List<UUID> ids) {

@@ -32,7 +32,7 @@ public class AdminConversationController {
             ConversationFilter filter,
             Pageable pageable
     ) {
-        Page<ConversationDto> quizPage = conversationService.getAll(filter, pageable);
+        Page<ConversationDto> quizPage = conversationService.getPageable(filter, pageable);
 
         return ResponseEntity.ok(quizPage);
     }

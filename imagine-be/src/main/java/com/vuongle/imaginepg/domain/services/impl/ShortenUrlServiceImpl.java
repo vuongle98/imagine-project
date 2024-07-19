@@ -2,6 +2,7 @@ package com.vuongle.imaginepg.domain.services.impl;
 
 import com.vuongle.imaginepg.domain.entities.ShortenUrl;
 import com.vuongle.imaginepg.domain.entities.User;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.ShortenUrlService;
 import com.vuongle.imaginepg.shared.utils.Context;
@@ -13,10 +14,15 @@ import java.util.UUID;
 public class ShortenUrlServiceImpl implements ShortenUrlService {
 
 
+    private final BaseQueryRepository<ShortenUrl> shortenUrlQueryRepository;
     private final BaseRepository<ShortenUrl> shortenUrlRepository;
 
-    public ShortenUrlServiceImpl(BaseRepository<ShortenUrl> shortenUrlRepository) {
+    public ShortenUrlServiceImpl(
+            BaseQueryRepository<ShortenUrl> shortenUrlQueryRepository,
+            BaseRepository<ShortenUrl> shortenUrlRepository
+    ) {
         this.shortenUrlRepository = shortenUrlRepository;
+        this.shortenUrlQueryRepository = shortenUrlQueryRepository;
     }
 
     @Override

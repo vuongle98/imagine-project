@@ -3,7 +3,7 @@ package com.vuongle.imaginepg.domain.sockets;
 import com.vuongle.imaginepg.application.dto.ChatMessageDto;
 import com.vuongle.imaginepg.application.dto.UserDto;
 import com.vuongle.imaginepg.domain.entities.User;
-import com.vuongle.imaginepg.domain.mapper.UserMapper;
+import com.vuongle.imaginepg.domain.mappers.UserMapper;
 import com.vuongle.imaginepg.domain.repositories.ConversationRepository;
 import com.vuongle.imaginepg.domain.services.ChatMessageService;
 import com.vuongle.imaginepg.domain.services.UserService;

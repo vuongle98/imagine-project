@@ -11,7 +11,7 @@ import com.vuongle.imaginepg.application.queries.UserFilter;
 import com.vuongle.imaginepg.domain.constants.FriendStatus;
 import com.vuongle.imaginepg.domain.constants.UserRole;
 import com.vuongle.imaginepg.domain.entities.User;
-import com.vuongle.imaginepg.domain.mapper.UserMapper;
+import com.vuongle.imaginepg.domain.mappers.UserMapper;
 import com.vuongle.imaginepg.domain.repositories.UserRepository;
 import com.vuongle.imaginepg.domain.services.UserService;
 import com.vuongle.imaginepg.infrastructure.specification.UserSpecifications;
@@ -145,14 +145,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDto> getAll(UserFilter filter, Pageable pageable) {
+    public Page<UserDto> getPageable(UserFilter filter, Pageable pageable) {
         Specification<User> userSpecification = UserSpecifications.withFilter(filter);
         Page<User> userPage = userRepository.findAll(userSpecification, pageable);
         return userPage.map(UserMapper::mapToDto);
     }
 
     @Override
-    public List<UserDto> getAll(UserFilter filter) {
+    public List<UserDto> getList(UserFilter filter) {
         Specification<User> userSpecification = UserSpecifications.withFilter(filter);
         List<User> users = userRepository.findAll(userSpecification);
 

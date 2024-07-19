@@ -1,4 +1,4 @@
-package com.vuongle.imaginepg.domain.mapper;
+package com.vuongle.imaginepg.domain.mappers;
 
 import com.vuongle.imaginepg.application.dto.FriendshipDto;
 import com.vuongle.imaginepg.application.dto.UserDto;

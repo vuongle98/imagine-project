@@ -34,7 +34,7 @@ public class TodoController {
             TaskFilter taskFilter,
             Pageable pageable
     ) {
-        Page<TaskDto> taskPage = todoService.getAll(taskFilter, pageable);
+        Page<TaskDto> taskPage = todoService.getPageable(taskFilter, pageable);
 
         return ResponseEntity.ok(taskPage);
     }
@@ -50,7 +50,7 @@ public class TodoController {
         if (Context.getUser() == null) throw new UserNotFoundException("Not found current user");
 
         taskFilter.setUserId(Context.getUser().getId());
-        Page<TaskDto> taskPage = todoService.getAll(taskFilter, pageable);
+        Page<TaskDto> taskPage = todoService.getPageable(taskFilter, pageable);
 
         return ResponseEntity.ok(taskPage);
     }

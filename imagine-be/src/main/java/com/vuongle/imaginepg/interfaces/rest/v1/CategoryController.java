@@ -34,7 +34,7 @@ public class CategoryController {
             CategoryFilter filter,
             Pageable pageable
     ) {
-        Page<CategoryDto> categoryPageable = categoryService.getAll(filter, pageable);
+        Page<CategoryDto> categoryPageable = categoryService.getPageable(filter, pageable);
 
         return ResponseEntity.ok(categoryPageable);
     }

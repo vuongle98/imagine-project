@@ -34,7 +34,7 @@ public class AdminAnswerController {
             AnswerFilter answerFilter,
             Pageable pageable
     ) {
-        Page<AnswerDto> quizPage = answerService.getAll(answerFilter, pageable);
+        Page<AnswerDto> quizPage = answerService.getPageable(answerFilter, pageable);
 
         return ResponseEntity.ok(quizPage);
     }

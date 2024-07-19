@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.UUID;
 
-public interface FileService extends BaseService<FileDto, FileUploadCommand, FileFilter> {
+public interface FileService extends BaseService<FileDto, FileUploadCommand>, BaseQueryService<FileDto, FileFilter> {
 
     FileDto uploadFile(MultipartFile file) throws IOException;
 

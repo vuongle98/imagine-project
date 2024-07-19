@@ -34,7 +34,7 @@ public class AdminPostController {
             PostFilter postFilter,
             Pageable pageable
     ) {
-        Page<PostDto> postPageable = postService.getAll(postFilter, pageable);
+        Page<PostDto> postPageable = postService.getPageable(postFilter, pageable);
         return ResponseEntity.ok(postPageable);
     }
 

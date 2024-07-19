@@ -7,7 +7,7 @@ import com.vuongle.imaginepg.domain.entities.Conversation;
 import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.domain.entities.UserConversation;
 
-public interface UserConversationService extends BaseService<UserConversationDto, CreateUserConversationCommand, UserConversationFilter> {
+public interface UserConversationService extends BaseService<UserConversationDto, CreateUserConversationCommand>, BaseQueryService<UserConversationDto, UserConversationFilter> {
 
     UserConversation create(User user, Conversation conversation);
 

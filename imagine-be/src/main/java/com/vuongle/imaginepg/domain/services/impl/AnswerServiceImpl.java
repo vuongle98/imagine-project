@@ -5,6 +5,7 @@ import com.vuongle.imaginepg.application.dto.AnswerDto;
 import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.AnswerFilter;
 import com.vuongle.imaginepg.domain.entities.Answer;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.AnswerService;
 import com.vuongle.imaginepg.infrastructure.specification.AnswerSpecifications;
@@ -25,12 +26,15 @@ import java.util.UUID;
 @Transactional
 public class AnswerServiceImpl implements AnswerService {
 
+    private final BaseQueryRepository<Answer> answerQueryRepository;
     private final BaseRepository<Answer> answerRepository;
 
     public AnswerServiceImpl(
+            BaseQueryRepository<Answer> answerQueryRepository,
             BaseRepository<Answer> answerRepository
     ) {
         this.answerRepository = answerRepository;
+        this.answerQueryRepository = answerQueryRepository;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public <R> R getById(UUID id, Class<R> classType) {
-        Answer answer = answerRepository.getById(id);
+        Answer answer = answerQueryRepository.getById(id);
 
         // check permission
         if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(answer, Answer.class)) {
@@ -90,17 +94,17 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Page<AnswerDto> getAll(AnswerFilter filter, Pageable pageable) {
+    public Page<AnswerDto> getPageable(AnswerFilter filter, Pageable pageable) {
         Specification<Answer> answerSpecification = AnswerSpecifications.withFilter(filter);
 
-        Page<Answer> answerPage = answerRepository.findAll(answerSpecification, pageable);
+        Page<Answer> answerPage = answerQueryRepository.findAll(answerSpecification, pageable);
         return answerPage.map(a -> ObjectData.mapTo(a, AnswerDto.class));
     }
 
     @Override
-    public List<AnswerDto> getAll(AnswerFilter filter) {
+    public List<AnswerDto> getList(AnswerFilter filter) {
         Specification<Answer> answerSpecification = AnswerSpecifications.withFilter(filter);
 
-        return ObjectData.mapListTo(answerRepository.findAll(answerSpecification), AnswerDto.class);
+        return ObjectData.mapListTo(answerQueryRepository.findAll(answerSpecification), AnswerDto.class);
     }
 }

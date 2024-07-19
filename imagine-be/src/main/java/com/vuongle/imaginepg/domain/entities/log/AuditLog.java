@@ -1,6 +1,7 @@
-package com.vuongle.imaginepg.domain.entities;
+package com.vuongle.imaginepg.domain.entities.log;
 
 import com.vuongle.imaginepg.domain.constants.EventType;
+import com.vuongle.imaginepg.domain.entities.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

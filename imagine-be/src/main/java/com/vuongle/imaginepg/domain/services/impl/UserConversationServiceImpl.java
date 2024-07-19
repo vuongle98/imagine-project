@@ -6,6 +6,7 @@ import com.vuongle.imaginepg.application.queries.UserConversationFilter;
 import com.vuongle.imaginepg.domain.entities.Conversation;
 import com.vuongle.imaginepg.domain.entities.User;
 import com.vuongle.imaginepg.domain.entities.UserConversation;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.UserConversationService;
 import com.vuongle.imaginepg.infrastructure.specification.UserConversationSpecifications;
@@ -23,12 +24,15 @@ import java.util.UUID;
 @Transactional
 public class UserConversationServiceImpl implements UserConversationService {
 
+    private final BaseQueryRepository<UserConversation> userConversationQueryRepository;
     private final BaseRepository<UserConversation> userConversationRepository;
 
     public UserConversationServiceImpl(
+            BaseQueryRepository<UserConversation> userConversationQueryRepository,
             BaseRepository<UserConversation> userConversationRepository
     ) {
         this.userConversationRepository = userConversationRepository;
+        this.userConversationQueryRepository  = userConversationQueryRepository;
     }
 
     @Override
@@ -58,12 +62,12 @@ public class UserConversationServiceImpl implements UserConversationService {
     }
 
     @Override
-    public Page<UserConversationDto> getAll(UserConversationFilter filter, Pageable pageable) {
+    public Page<UserConversationDto> getPageable(UserConversationFilter filter, Pageable pageable) {
         return null;
     }
 
     @Override
-    public List<UserConversationDto> getAll(UserConversationFilter filter) {
+    public List<UserConversationDto> getList(UserConversationFilter filter) {
         return null;
     }
 
@@ -86,7 +90,7 @@ public class UserConversationServiceImpl implements UserConversationService {
     @Override
     public <T> T getByFilter(UserConversationFilter filter, Class<T> classType) {
         Specification<UserConversation> specification = UserConversationSpecifications.withFilter(filter);
-        List<UserConversation> conversations = userConversationRepository.findAll(specification);
+        List<UserConversation> conversations = userConversationQueryRepository.findAll(specification);
 
         if (!conversations.isEmpty()) {
             return ObjectData.mapTo(conversations.get(0), classType);

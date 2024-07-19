@@ -6,20 +6,13 @@ import com.vuongle.imaginepg.application.dto.CategoryDto;
 import com.vuongle.imaginepg.application.queries.CategoryFilter;
 import com.vuongle.imaginepg.config.jwt.AuthTokenFilter;
 import com.vuongle.imaginepg.domain.constants.CategoryType;
-import com.vuongle.imaginepg.domain.entities.Category;
-import com.vuongle.imaginepg.domain.repositories.BaseRepository;
-import com.vuongle.imaginepg.domain.repositories.CategoryRepository;
-import com.vuongle.imaginepg.domain.repositories.PostRepository;
 import com.vuongle.imaginepg.domain.services.CategoryService;
-import com.vuongle.imaginepg.domain.services.impl.CategoryServiceImpl;
 import com.vuongle.imaginepg.interfaces.rest.v1.CategoryController;
-import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,7 +22,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -68,7 +60,7 @@ public class CategoryControllerTest {
 
     Pageable pageable = PageRequest.of(0, 5);
 
-    Mockito.when(categoryService.getAll(filter, pageable)).thenReturn(categories);
+    Mockito.when(categoryService.getPageable(filter, pageable)).thenReturn(categories);
 
     mockMvc.perform(MockMvcRequestBuilders
         .get("/api/category")

@@ -6,6 +6,7 @@ import com.vuongle.imaginepg.application.exceptions.NoPermissionException;
 import com.vuongle.imaginepg.application.queries.ChatMessageFilter;
 import com.vuongle.imaginepg.domain.entities.ChatMessage;
 import com.vuongle.imaginepg.domain.entities.Conversation;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.ChatMessageService;
 import com.vuongle.imaginepg.infrastructure.specification.ChatMessageSpecifications;
@@ -29,15 +30,18 @@ import java.util.stream.Collectors;
 @Transactional
 public class ChatMessageServiceImpl implements ChatMessageService {
 
+    private final BaseQueryRepository<ChatMessage> messageQueryRepository;
     private final BaseRepository<ChatMessage> messageRepository;
 
-    private final BaseRepository<Conversation> conversationRepository;
+    private final BaseQueryRepository<Conversation> conversationRepository;
 
     public ChatMessageServiceImpl(
+            BaseQueryRepository<ChatMessage> messageQueryRepository,
             BaseRepository<ChatMessage> messageRepository,
-            BaseRepository<Conversation> conversationRepository
+            BaseQueryRepository<Conversation> conversationRepository
     ) {
         this.messageRepository = messageRepository;
+        this.messageQueryRepository = messageQueryRepository;
         this.conversationRepository = conversationRepository;
     }
 
@@ -48,7 +52,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     @Override
     public <R> R getById(UUID id, Class<R> classType) {
-        ChatMessage chatMessage = messageRepository.getById(id);
+        ChatMessage chatMessage = messageQueryRepository.getById(id);
 
         // check permission
         if (!Context.hasModifyPermission() && !ValidateResource.isOwnResource(chatMessage, ChatMessage.class)) {
@@ -98,24 +102,27 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
-    public Page<ChatMessageDto> getAll(ChatMessageFilter filter, Pageable pageable) {
+    public Page<ChatMessageDto> getPageable(ChatMessageFilter filter, Pageable pageable) {
         Specification<ChatMessage> specification = ChatMessageSpecifications.withFilter(filter);
 
-        Page<ChatMessage> chatMessagePage = messageRepository.findAll(specification, pageable);
+        Page<ChatMessage> chatMessagePage = messageQueryRepository.findAll(specification, pageable);
         return chatMessagePage.map(c -> ObjectData.mapTo(c, ChatMessageDto.class));
     }
 
     @Override
-    public List<ChatMessageDto> getAll(ChatMessageFilter filter) {
+    public List<ChatMessageDto> getList(ChatMessageFilter filter) {
         Specification<ChatMessage> specification = ChatMessageSpecifications.withFilter(filter);
 
-        return ObjectData.mapListTo(messageRepository.findAll(specification), ChatMessageDto.class);
+        return ObjectData.mapListTo(messageQueryRepository.findAll(specification), ChatMessageDto.class);
     }
 
     @Override
     public Page<ChatMessageDto> findLatestMessage(ChatMessageFilter filter, Pageable pageable) {
-        Page<ChatMessageDto> messagePage = getAll(filter, pageable);
-        List<ChatMessageDto> messages = messagePage.getContent().stream().sorted(Comparator.comparing(ChatMessageDto::getCreatedAt)).collect(Collectors.toList());
+        Page<ChatMessageDto> messagePage = getPageable(filter, pageable);
+        List<ChatMessageDto> messages = messagePage
+                .getContent().stream().sorted(
+                        Comparator.comparing(ChatMessageDto::getCreatedAt))
+                .collect(Collectors.toList());
 
         return new PageImpl<>(messages, pageable, messagePage.getTotalElements());
 

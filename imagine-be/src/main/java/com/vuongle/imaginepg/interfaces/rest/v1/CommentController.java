@@ -32,7 +32,7 @@ public class CommentController {
             CommentFilter filter,
             Pageable pageable
     ) {
-        Page<CommentDto> commentPage = commentService.getAll(filter, pageable);
+        Page<CommentDto> commentPage = commentService.getPageable(filter, pageable);
 
         return ResponseEntity.ok(commentPage);
     }

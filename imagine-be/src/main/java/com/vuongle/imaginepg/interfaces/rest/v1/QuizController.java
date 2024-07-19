@@ -35,7 +35,7 @@ public class QuizController {
             QuizFilter quizFilter,
             Pageable pageable
     ) {
-        Page<QuizDto> quizPage = quizService.getAll(quizFilter, pageable);
+        Page<QuizDto> quizPage = quizService.getPageable(quizFilter, pageable);
 
         return ResponseEntity.ok(quizPage);
     }

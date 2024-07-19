@@ -32,7 +32,7 @@ public class ChatMessageController {
             ChatMessageFilter chatMessageFilter,
             Pageable pageable
     ) {
-        Page<ChatMessageDto> quizPage = chatMessageService.getAll(chatMessageFilter, pageable);
+        Page<ChatMessageDto> quizPage = chatMessageService.getPageable(chatMessageFilter, pageable);
 
         return ResponseEntity.ok(quizPage);
     }

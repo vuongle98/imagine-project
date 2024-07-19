@@ -37,7 +37,7 @@ public class FileController {
             FileFilter filter,
             Pageable pageable
     ) {
-        Page<FileDto> filePage = fileService.getAll(filter, pageable);
+        Page<FileDto> filePage = fileService.getPageable(filter, pageable);
 
         return ResponseEntity.ok(filePage);
     }

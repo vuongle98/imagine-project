@@ -102,14 +102,14 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Page<TaskDto> getAll(TaskFilter filter, Pageable pageable) {
+    public Page<TaskDto> getPageable(TaskFilter filter, Pageable pageable) {
         Specification<Task> specification = TaskSpecifications.withFilter(filter);
         Page<Task> taskPage = taskRepository.findAll(specification, pageable);
         return taskPage.map(task -> ObjectData.mapTo(task, TaskDto.class));
     }
 
     @Override
-    public List<TaskDto> getAll(TaskFilter filter) {
+    public List<TaskDto> getList(TaskFilter filter) {
         Specification<Task> specification = TaskSpecifications.withFilter(filter);
         return ObjectData.mapListTo(taskRepository.findAll(specification), TaskDto.class);
     }

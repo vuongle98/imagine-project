@@ -108,7 +108,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<CommentDto> getAll(CommentFilter filter, Pageable pageable) {
+    public Page<CommentDto> getPageable(CommentFilter filter, Pageable pageable) {
         Specification<Comment> specification = CommentSpecifications.withFilter(filter);
         Page<Comment> commentPage = commentRepository.findAll(specification, pageable);
 
@@ -116,7 +116,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> getAll(CommentFilter filter) {
+    public List<CommentDto> getList(CommentFilter filter) {
         Specification<Comment> specification = CommentSpecifications.withFilter(filter);
         return ObjectData.mapListTo(commentRepository.findAll(specification), CommentDto.class);
     }

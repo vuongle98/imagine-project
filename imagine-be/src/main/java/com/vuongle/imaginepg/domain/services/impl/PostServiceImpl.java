@@ -7,7 +7,7 @@ import com.vuongle.imaginepg.application.queries.PostFilter;
 import com.vuongle.imaginepg.domain.entities.Category;
 import com.vuongle.imaginepg.domain.entities.File;
 import com.vuongle.imaginepg.domain.entities.Post;
-import com.vuongle.imaginepg.domain.repositories.BaseRepository;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.PostRepository;
 import com.vuongle.imaginepg.domain.services.FileService;
 import com.vuongle.imaginepg.domain.services.PostService;
@@ -35,11 +35,11 @@ public class PostServiceImpl implements PostService {
 
     private final FileService fileService;
 
-    private final BaseRepository<Category> categoryRepository;
+    private final BaseQueryRepository<Category> categoryRepository;
 
     public PostServiceImpl(
             PostRepository postRepository, FileService fileService,
-            BaseRepository<Category> categoryRepository
+            BaseQueryRepository<Category> categoryRepository
     ) {
         this.postRepository = postRepository;
         this.fileService = fileService;
@@ -136,7 +136,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostDto> getAll(PostFilter filter, Pageable pageable) {
+    public Page<PostDto> getPageable(PostFilter filter, Pageable pageable) {
         Specification<Post> specification = PostSpecifications.withFilter(filter);
         Page<Post> postPage = postRepository.findAll(specification, pageable);
 //        return postPage.map(post -> {
@@ -150,7 +150,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAll(PostFilter filter) {
+    public List<PostDto> getList(PostFilter filter) {
         Specification<Post> specification = PostSpecifications.withFilter(filter);
         return ObjectData.mapListTo(postRepository.findAll(specification), PostDto.class);
     }

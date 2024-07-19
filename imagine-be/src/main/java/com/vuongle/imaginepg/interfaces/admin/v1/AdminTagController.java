@@ -34,7 +34,7 @@ public class AdminTagController {
             TagFilter tagFilter,
             Pageable pageable
     ) {
-        Page<TagDto> tagPage = tagService.getAll(tagFilter, pageable);
+        Page<TagDto> tagPage = tagService.getPageable(tagFilter, pageable);
 
         return ResponseEntity.ok(tagPage);
     }

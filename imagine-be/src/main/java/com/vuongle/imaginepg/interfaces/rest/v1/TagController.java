@@ -31,7 +31,7 @@ public class TagController {
             TagFilter tagFilter,
             Pageable pageable
     ) {
-        Page<TagDto> quizPage = tagService.getAll(tagFilter, pageable);
+        Page<TagDto> quizPage = tagService.getPageable(tagFilter, pageable);
 
         return ResponseEntity.ok(quizPage);
     }

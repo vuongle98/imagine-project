@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequestMapping("/api/answer")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(
-        name = "Auth",
+        name = "Answer",
         description = "CRUD REST APIs for Answer"
 )
 public class AnswerController {
@@ -40,7 +40,7 @@ public class AnswerController {
             AnswerFilter answerFilter,
             Pageable pageable
     ) {
-        Page<AnswerDto> quizPage = answerService.getAll(answerFilter, pageable);
+        Page<AnswerDto> quizPage = answerService.getPageable(answerFilter, pageable);
 
         return ResponseEntity.ok(quizPage);
     }

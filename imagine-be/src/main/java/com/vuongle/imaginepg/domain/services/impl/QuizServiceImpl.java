@@ -13,6 +13,7 @@ import com.vuongle.imaginepg.domain.entities.Answer;
 import com.vuongle.imaginepg.domain.entities.File;
 import com.vuongle.imaginepg.domain.entities.Question;
 import com.vuongle.imaginepg.domain.entities.Quiz;
+import com.vuongle.imaginepg.domain.repositories.BaseQueryRepository;
 import com.vuongle.imaginepg.domain.repositories.BaseRepository;
 import com.vuongle.imaginepg.domain.services.FileService;
 import com.vuongle.imaginepg.domain.services.QuizService;
@@ -35,19 +36,22 @@ import java.util.stream.Collectors;
 @Transactional
 public class QuizServiceImpl implements QuizService {
 
+    private final BaseQueryRepository<Quiz> quizQueryRepository;
     private final BaseRepository<Quiz> quizRepository;
 
-    private final BaseRepository<Question> questionRepository;
+    private final BaseQueryRepository<Question> questionQueryRepository;
 
     private final FileService fileService;
 
     public QuizServiceImpl(
+            BaseQueryRepository<Quiz> quizQueryRepository,
             BaseRepository<Quiz> quizRepository,
-            BaseRepository<Question> questionRepository,
+            BaseQueryRepository<Question> questionQueryRepository,
             FileService fileService
     ) {
         this.quizRepository = quizRepository;
-        this.questionRepository = questionRepository;
+        this.quizQueryRepository = quizQueryRepository;
+        this.questionQueryRepository = questionQueryRepository;
         this.fileService = fileService;
     }
 
@@ -59,7 +63,7 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public <R> R getById(UUID id, Class<R> classType) {
 
-        Quiz quiz = quizRepository.getById(id);
+        Quiz quiz = quizQueryRepository.getById(id);
 
         // check permission
         if (Objects.isNull(quiz.getPublishedAt()) && !Context.hasModifyPermission() && !ValidateResource.isOwnResource(quiz, Quiz.class)) {
@@ -147,19 +151,19 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
-    public Page<QuizDto> getAll(QuizFilter filter, Pageable pageable) {
+    public Page<QuizDto> getPageable(QuizFilter filter, Pageable pageable) {
         Specification<Quiz> specification = QuizSpecifications.withFilter(filter);
 
-        Page<Quiz> quizPage = quizRepository.findAll(specification, pageable);
+        Page<Quiz> quizPage = quizQueryRepository.findAll(specification, pageable);
         return quizPage.map(q -> ObjectData.mapTo(q, QuizDto.class));
     }
 
     @Override
-    public List<QuizDto> getAll(QuizFilter filter) {
+    public List<QuizDto> getList(QuizFilter filter) {
 
         Specification<Quiz> specification = QuizSpecifications.withFilter(filter);
 
-        return ObjectData.mapListTo(quizRepository.findAll(specification), QuizDto.class);
+        return ObjectData.mapListTo(quizQueryRepository.findAll(specification), QuizDto.class);
     }
 
     @Override
@@ -196,6 +200,6 @@ public class QuizServiceImpl implements QuizService {
 
         Specification<Question> specification = QuestionSpecifications.withFilter(questionFilter);
 
-        return questionRepository.findAll(specification);
+        return questionQueryRepository.findAll(specification);
     }
 }

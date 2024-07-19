@@ -32,7 +32,7 @@ public class QuestionController {
             QuestionFilter questionFilter,
             Pageable pageable
     ) {
-        Page<QuestionDto> quizPage = questionService.getAll(questionFilter, pageable);
+        Page<QuestionDto> quizPage = questionService.getPageable(questionFilter, pageable);
 
         return ResponseEntity.ok(quizPage);
     }
